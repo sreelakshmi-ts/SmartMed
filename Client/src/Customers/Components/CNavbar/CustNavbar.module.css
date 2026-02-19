@@ -1,0 +1,267 @@
+
+.custnavbar {
+  height: 72px;
+  width: 100%;
+  background: linear-gradient(90deg, #f0fdfa, #e0f2fe);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  animation: slideDown 0.6s ease-out;
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  animation: fadeInLeft 0.8s ease;
+}
+
+.brand {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.tagline {
+  font-size: 11px;
+  color: #475569;
+}
+
+/* Logo animation */
+@keyframes fadeInLeft {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Nav links */
+.navlinks {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+}
+
+.navlinks .li {
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #334155;
+  cursor: pointer;
+  position: relative;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+/* Stagger animation for nav items */
+.navlinks .li:nth-child(1) { animation-delay: 0.2s; }
+.navlinks .li:nth-child(2) { animation-delay: 0.3s; }
+.navlinks .li:nth-child(3) { animation-delay: 0.4s; }
+.navlinks .li:nth-child(4) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Hover underline animation */
+.navlinks .li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.navlinks .li:hover::after {
+  width: 100%;
+}
+
+/* Auth buttons */
+.authbuttons {
+  display: flex;
+  gap: 14px;
+  animation: fadeInRight 0.8s ease;
+}
+
+@keyframes fadeInRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Login button */
+.loginbtn {
+  padding: 7px 16px;
+  border: 1.5px solid #2563eb;
+  border-radius: 6px;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.loginbtn:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+/* Signup button */
+.signupbtn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signupbtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+/* Profile wrapper */
+.profileWrapper {
+  position: relative;
+}
+
+/* Profile button */
+.profileBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.profileBtn:hover {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+/* Avatar */
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Username */
+.username {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Dropdown menu */
+.profileMenu {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  width: 180px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  z-index: 200;
+}
+
+/* Show dropdown on hover */
+.profileWrapper:hover .profileMenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Dropdown links */
+.profileMenu a {
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #334155;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.profileMenu a:hover {
+  background: #f1f5f9;
+}
+
+/* Divider */
+.profileMenu hr {
+  border: none;
+  height: 1px;
+  background: #e2e8f0;
+  margin: 6px 0;
+}
+
+/* Logout special color */
+.logout {
+  color: #dc2626 !important;
+  font-weight: 600;
+}
+
+
+/* Responsive */
+@media (max-width: 900px) {
+  .navlinks {
+    display: none;
+  }
+}

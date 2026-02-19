@@ -1,0 +1,311 @@
+
+/* Page container */
+.mainbrand {
+  margin-top: 30px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;           
+  padding-top: 50px;             
+  min-height: 100px;
+  background: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Form card */
+.brandform {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 34px;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.brandform h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+/* Subtitle */
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 26px;
+}
+
+/* Field */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.field input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+/* Buttons */
+.submit {
+  flex: 1;
+  padding: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit:hover {
+  background: #1d4ed8;
+}
+
+.cancel {
+  flex: 1;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel:hover {
+  background: #e2e8f0;
+}
+
+
+
+
+/* .mainbrand{
+    background-color: white;
+    min-height: 100px;
+    align-items: flex-start;
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.mainbrand h1{
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.brandform{
+    background: white;
+    padding: 25px 20px;
+    width: 420px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px black;
+}
+
+.brandform div{
+    margin-bottom: 12px;
+}
+
+.brandform label{
+    display: inline-block;
+    width: 120px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.brandform input{
+   
+    font-size: 14px;
+    border: 2px solid #7fa5de;
+    border-radius: 3px;
+}
+.brandform input:focus{
+    border: none;
+    box-shadow: 0 4px 12px rgb(89, 86, 86) ;
+}
+
+
+.insubmit{
+    text-align: center;
+    
+}
+
+.insubmit button{
+     width: 65%;
+    padding: 6px 16px;
+   border: 2px solid #377fea;
+    color:#2e548f;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.insubmit button:hover{
+    
+    border: 2px solid #2e548f;
+    color: #2e548f;
+    box-shadow: 0 4px 12px rgb(102, 100, 100) ;
+}     */
+
+.viewbrand{
+  margin: 50px auto 40px; /* distance from form */
+  width: 80%;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Heading */
+.viewbrand h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Header */
+.table thead {
+  background: #f1f5f9;
+}
+
+.table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  color: #1e293b;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+/* Rows */
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #334155;
+}
+
+.table tr:hover {
+  background: #f8fafc;
+}
+
+/* Action cell */
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.actions a {
+  text-decoration: none;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 
+  background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
+}
+
+/* Click effect */
+.actions a:active {
+  transform: scale(0.95);
+}
+
+/* Edit button */
+.edit {
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.edit:hover {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+/* Delete button */
+.delete {
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.delete:hover {
+  background: #dc2626;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.35);
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mainbrand {
+    margin-left: 0;
+    padding: 80px 16px;
+  }
+
+  .brandform {
+    padding: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .viewbrand {
+    width: 95%;
+  }
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .actions span {
+    width: fit-content;
+  }
+}
+}

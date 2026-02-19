@@ -1,0 +1,114 @@
+.page {
+  min-height: 100vh;
+  padding: 30px;
+  background: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 25px;
+}
+
+/* Medicine info */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.stock {
+  grid-column: span 3;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+}
+
+input:disabled {
+  background: #f1f5f9;
+  color: #475569;
+  cursor: not-allowed;
+}
+
+input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* Action button */
+.actions {
+  margin-top: 35px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.updateBtn {
+  padding: 12px 26px;
+  font-size: 14px;
+  width: 130px;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.updateBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.35);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .infoGrid,
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stock {
+    grid-column: span 1;
+  }
+}

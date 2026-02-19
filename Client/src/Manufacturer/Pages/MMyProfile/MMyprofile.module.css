@@ -1,0 +1,121 @@
+.profileContainer {
+  margin-left: 180px;
+  padding: 100px 40px 40px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.profileCard {
+  background: #ffffff;
+  max-width: 850px;
+  margin: auto;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  padding: 32px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+/* Avatar */
+.avatar {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #4c1d95, #6d28d9);
+  border-radius: 50%;
+  color: white;
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Header text */
+.headerText h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.headerText span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Edit button */
+.editBtn {
+  margin-left: auto;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #6d28d9;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.editBtn:hover {
+  background: #5b21b6;
+}
+
+/* Details */
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 40px;
+}
+
+.row label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.row p {
+  font-size: 15px;
+  color: #0f172a;
+  margin-top: 6px;
+}
+
+/* Status */
+.active {
+  margin-top: 6px;
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #15803d;
+  background: #dcfce7;
+  border-radius: 999px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .profileContainer {
+    margin-left: 0;
+    padding: 80px 20px;
+  }
+
+  .details {
+    grid-template-columns: 1fr;
+  }
+
+  .editBtn {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,103 @@
+/* Navbar container */
+.repnavbar {
+  height: 70px;
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Left */
+.left .title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Right */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Welcome text */
+.welcome {
+  font-size: 14px;
+  color: #475569;
+}
+
+/* Profile */
+.profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* Avatar */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #22c55e; /* green for rep role */
+}
+
+/* Name */
+.name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: #ffffff;
+  width: 170px;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 200;
+}
+
+/* Dropdown buttons */
+.dropdown button {
+  padding: 10px 14px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  color: #334155;
+}
+
+/* Hover */
+.dropdown button:hover {
+  background-color: #f1f5f9;
+}
+
+/* Logout */
+.logout {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.logout:hover {
+  background-color: #fee2e2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .welcome {
+    display: none;
+  }
+}

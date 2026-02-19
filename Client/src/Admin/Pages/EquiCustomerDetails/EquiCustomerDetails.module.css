@@ -1,0 +1,228 @@
+.page {
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Card container */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.card h2 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 18px;
+}
+
+/* Table wrapper (important for responsiveness) */
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  min-width: 1100px; /* forces horizontal scroll on small screens */
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+/* Sticky header */
+.table thead {
+  background: #f1f5f9;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  text-align: left;
+  vertical-align: top !important;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.table th {
+  font-weight: 700;
+  color: #334155;
+}
+
+.table tr {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Hover row */
+.table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Image inside table */
+.table img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #e5e7eb;
+}
+
+/* Centered cells */
+.empty {
+  text-align: center;
+  color: #475569;
+}
+
+
+/* Actions cell */
+.actions {
+  display: flex;
+  padding-top: 8px;
+  text-align: center;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-start;   
+  padding-top: 4px;          
+}
+
+.actionWrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-start;   
+}
+
+
+
+/* Common button style */
+.actionBtn {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+
+/* Click animation */
+.actionBtn:active {
+  transform: scale(0.95);
+}
+
+/* Accept button */
+.accept {
+  color: #16a34a;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+}
+
+.accept:hover {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+/* Reject button */
+.reject {
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.reject:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+
+
+
+.tableWrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: #cbd5f5;
+  border-radius: 10px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.accepted {
+  color: #16a34a;
+  font-weight: 700;
+  background: #dcfce7;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.rejected {
+  color: #dc2626;
+  font-weight: 700;
+  background: #fee2e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+
+/* ------------------ Responsive ------------------ */
+
+
+@media (max-width: 1024px) {
+  .card {
+    padding: 18px;
+  }
+
+  .card h2 {
+    font-size: 22px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .page {
+    padding: 14px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .table {
+    min-width: 900px;
+  }
+
+  .table th,
+  .table td {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .table img {
+    max-width: 80px;
+  }
+}

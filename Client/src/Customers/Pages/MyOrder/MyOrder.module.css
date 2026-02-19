@@ -1,0 +1,86 @@
+.MyOrdersPage {
+  background:#f1f3f6;
+  min-height:100vh;
+  padding:30px;
+  font-family:Segoe UI;
+}
+
+.PageTitle {
+  max-width:1000px;
+  margin:0 auto 20px;
+}
+
+/* ORDER CARD */
+
+.OrderCard {
+  max-width:1000px;
+  margin:0 auto 16px;
+  background:white;
+  display:flex;
+  gap:20px;
+  padding:20px;
+  border-radius:4px;
+  box-shadow:0 1px 3px rgba(0,0,0,.1);
+  cursor:pointer;
+  transition:.2s;
+}
+
+.OrderCard:hover {
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+/* IMAGE */
+
+.ImageBox img {
+  width:120px;
+  height:120px;
+  object-fit:contain;
+}
+
+/* DETAILS */
+
+.OrderDetails {
+  flex:1;
+}
+
+.OrderDetails h4 {
+  margin-bottom:6px;
+}
+
+.Brand {
+  color:#64748b;
+  font-size:13px;
+}
+
+.Price {
+  font-weight:700;
+  margin-top:8px;
+}
+
+/* STATUS */
+
+.StatusBox {
+  width:160px;
+  text-align:right;
+}
+
+.Delivered {
+  color:#16a34a;
+  font-weight:700;
+}
+
+.StatusBox p {
+  font-size:13px;
+  color:#64748b;
+}
+
+@media(max-width:768px){
+
+  .OrderCard {
+    flex-direction:column;
+  }
+
+  .StatusBox {
+    text-align:left;
+  }
+}

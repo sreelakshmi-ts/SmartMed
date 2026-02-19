@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* MAIN CONTAINER */
+.logincontainer {
+  min-height: 600px;          
+  display: flex;
+  justify-content: center;
+  margin-left: 20px;
+  flex-direction: row;
+  /* align-items: stretch; */
+}
+
+/* LEFT LOGIN FORM */
+.loginleft {
+  width: 800px;
+  padding: 60px 80px;
+}
+
+.loginleft h2 {
+  color: #0ea5a4;
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+.loginleft p {
+  color: #64748b;
+  margin-bottom: 40px;
+}
+
+.loginform input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+/* REMEMBER + FORGOT */
+.formoptions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.formoptions a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+/* LOGIN BUTTON */
+.loginform .button {
+  width: 100%;
+  padding: 14px;
+  background-color: #0ea5a4;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* RIGHT BRAND SECTION */
+.loginright {
+  width: 40%;
+  background-color: #e6fffa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+

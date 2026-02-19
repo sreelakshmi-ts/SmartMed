@@ -1,0 +1,52 @@
+/* Dashboard wrapper (inside AdminRouter area) */
+.dashcontainer {
+  flex: 1;
+  width: 100%;
+  min-height: 100%;
+  background: #f8fafc;
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Dashboard header card */
+.dash1 {
+  width: 100%;
+  max-width: 1000px;
+  background-color: #ffffff;
+  padding: 36px 40px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+
+/* Dashboard heading */
+.dash1 h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+/* Optional subtitle */
+.subtitle {
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dashcontainer {
+    padding: 20px;
+  }
+
+  .dash1 {
+    padding: 28px;
+  }
+
+  .dash1 h1 {
+    font-size: 24px;
+  }
+}

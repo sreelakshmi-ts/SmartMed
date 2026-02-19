@@ -1,0 +1,327 @@
+
+
+/* .maindist{
+    background-color: white;
+    min-height: 100px;
+    align-items: flex-start;
+    padding-top: 40px;
+    display: flex;
+   justify-content: center;
+   margin-top: 30px;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.maindist h1{
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.distform{
+    background: white;
+    padding: 25px 20px;
+    width: 420px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px black;
+}
+
+.distform div{
+    margin-bottom: 12px;
+}
+
+.distform label{
+    display: inline-block;
+    width: 120px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.distform input{
+   
+    font-size: 14px;
+    border: 2px solid #7fa5de;
+    border-radius: 3px;
+}
+.distform input:focus{
+    border: none;
+    box-shadow: 0 4px 12px rgb(89, 86, 86) ;
+}
+
+
+.insubmit{
+    text-align: center;
+    
+}
+
+.insubmit button{
+     width: 65%;
+    padding: 6px 16px;
+   border: 2px solid #377fea;
+    color:#2e548f;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.insubmit button:hover{
+    
+    border: 2px solid #2e548f;
+    color: #2e548f;
+    box-shadow: 0 4px 12px rgb(102, 100, 100) ;
+}     */
+
+
+.districtPage {
+  padding: 40px;
+  background: #f8fafc;
+  min-height: 100px;
+    align-items: flex-start;
+    padding-top: 40px;
+    display: flex;
+   justify-content: center;
+   margin-top: 30px;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* Add District Form */
+.districtForm {
+  background: #ffffff;
+  width: 420px;
+  padding: 30px 34px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
+
+.districtForm h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 22px;
+}
+
+/* Field */
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.field input {
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* Actions */
+.actions {
+  margin-top: 26px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.submit {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: #1e40af;
+}
+
+.cancel {
+  background: #f1f5f9;
+  color: #334155;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel:hover {
+  background: #e2e8f0;
+}
+
+.viewdistrict {
+  margin: 50px auto 40px; /* distance from form */
+  width: 80%;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Heading */
+.viewdistrict h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Header */
+.table thead {
+  background: #f1f5f9;
+}
+
+.table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  color: #1e293b;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+/* Rows */
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #334155;
+}
+
+.table tr:hover {
+  background: #f8fafc;
+}
+
+/* Action cell */
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.actions a {
+  text-decoration: none;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 
+  background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
+}
+
+/* Click effect */
+.actions a:active {
+  transform: scale(0.95);
+}
+
+/* Edit button */
+.edit {
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.edit:hover {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+/* Delete button */
+.delete {
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.delete:hover {
+  background: #dc2626;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.35);
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+   .districtPage {
+    padding: 30px 16px;
+  }
+
+  .districtForm{
+    padding: 26px 24px;
+  }
+
+  .districtForm h2{
+    font-size: 22px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .districtPage {
+    padding: 24px 12px;
+  }
+
+  .districtForm {
+    padding: 22px 18px;
+    border-radius: 12px;
+  }
+
+  .districtForm h2 {
+    font-size: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .viewdistrict {
+    width: 95%;
+  }
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .actions span {
+    width: fit-content;
+  }
+}
+
+
+
+
+
+  
+}
+
+

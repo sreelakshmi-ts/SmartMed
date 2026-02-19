@@ -1,0 +1,58 @@
+
+.navbar {
+  height: 70px;
+  width: 100%;          /* ✅ FIX */
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+/* Left */
+.left h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Right */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* Profile wrapper */
+.profileWrapper {
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .dsidbar {
+    width: 200px;
+  }
+
+  .dhomeitem {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+  }
+}
+
+@media (max-width: 768px) {
+  .dsidbar {
+    position: relative;
+    width: 100%;
+  }
+
+  .dhomeitem {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .dnavbar {
+    position: relative;
+  }
+}

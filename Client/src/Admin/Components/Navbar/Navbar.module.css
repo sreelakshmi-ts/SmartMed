@@ -1,0 +1,70 @@
+/* Admin Navbar */
+.adminnavbar {
+  height: 64px;
+  width: calc(100% - 240px); /* sidebar width */
+  background-color: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  z-index: 90;
+}
+
+/* Left section */
+.navleft {
+  display: flex;
+  align-items: center;
+}
+
+.pagetitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Right section */
+.navright {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Admin info */
+.admininfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Admin name */
+.adminname {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Avatar */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .adminnavbar {
+    width: calc(100% - 200px);
+    left: 200px;
+  }
+}

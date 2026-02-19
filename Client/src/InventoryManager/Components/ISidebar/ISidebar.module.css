@@ -1,0 +1,67 @@
+/* Sidebar container */
+.sidecontainer {
+  width: 240px;
+  height: 100vh; 
+  background: linear-gradient(180deg, #0f172a, #020617);
+  color: #ffffff;
+   position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 4px 0 14px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;           /* Enable vertical scroll */
+  overflow-x: hidden;
+}
+
+/* Brand */
+.brand {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+  top: 0;
+  padding: 10px 0;
+  z-index: 2;
+}
+
+/* Role label */
+.role {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Menu */
+.sidemenu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+ 
+}
+
+/* Menu item */
+.item {
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #cbd5f5;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.item:hover {
+  background-color: rgba(37, 99, 235, 0.2);
+  color: #ffffff;
+}
+
+/* Active item (optional) */
+.active {
+  background-color: #2563eb;
+  color: #ffffff;
+}

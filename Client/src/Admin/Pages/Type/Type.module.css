@@ -1,0 +1,336 @@
+/* Page container */
+.maintype {
+  background-color: #ffffff;
+  min-height: 100px;
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Form card */
+.typeform {
+  background: #ffffff;
+  width: 420px;
+  padding: 25px 22px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading */
+.typeform h2 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Subtitle */
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 26px;
+}
+
+/* Field */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.field input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 14px;
+}
+
+/* Buttons */
+.submit {
+  flex: 1;
+  padding: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: #1d4ed8;
+}
+
+.cancel {
+  flex: 1;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel:hover {
+  background: #e2e8f0;
+}
+
+
+
+
+
+/* .maintype{
+    background-color: white;
+    min-height: 100px;
+    align-items: flex-start;
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.maintype h1{
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.typeform{
+    background: white;
+    padding: 25px 20px;
+    width: 420px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px black;
+}
+
+.typeform div{
+    margin-bottom: 12px;
+}
+
+.typeform label{
+    display: inline-block;
+    width: 120px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.typeform input{
+   
+    font-size: 14px;
+    border: 2px solid #7fa5de;
+    border-radius: 3px;
+}
+.typeform input:focus{
+    border: none;
+    box-shadow: 0 4px 12px rgb(89, 86, 86) ;
+}
+
+
+.insubmit{
+    text-align: center;
+    
+}
+
+.insubmit button{
+     width: 65%;
+    padding: 6px 16px;
+   border: 2px solid #377fea;
+    color:#2e548f;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.insubmit button:hover{
+    
+    border: 2px solid #2e548f;
+    color: #2e548f;
+    box-shadow: 0 4px 12px rgb(102, 100, 100) ;
+}     */
+
+.viewtype{
+  margin: 50px auto 40px; /* distance from form */
+  width: 80%;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Heading */
+.viewtype h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Header */
+.table thead {
+  background: #f1f5f9;
+}
+
+.table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  color: #1e293b;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+/* Rows */
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #334155;
+}
+
+.table tr:hover {
+  background: #f8fafc;
+}
+
+/* Action cell */
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.actions a {
+  text-decoration: none;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 
+  background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
+}
+
+/* Click effect */
+.actions a:active {
+  transform: scale(0.95);
+}
+
+/* Edit button */
+.edit {
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.edit:hover {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+/* Delete button */
+.delete {
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.delete:hover {
+  background: #dc2626;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.35);
+}
+
+
+/* Tablet */
+@media (max-width: 900px) {
+  .typeform {
+    width: 90%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .maintype {
+    padding-top: 20px;
+    margin-top: 15px;
+  }
+
+  .typeform {
+    width: 95%;
+    padding: 20px 16px;
+  }
+
+  .typeform h2 {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .field input {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .submit,
+  .cancel {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .viewtype {
+    width: 95%;
+  }
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .actions span {
+    width: fit-content;
+  }
+}
+}

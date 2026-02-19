@@ -1,0 +1,112 @@
+/* Page wrapper */
+.profilePage {
+  padding: 40px;
+  min-height: 100%;
+  background: #f8fafc;
+  display: flex;
+  justify-content: center;
+}
+
+/* Profile card */
+.profileCard {
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px 36px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 22px;
+}
+
+/* Avatar */
+.avatar {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  border: 3px solid #22c55e; /* Green for representatives */
+  object-fit: cover;
+}
+
+/* Header info */
+.headerInfo h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.role {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Edit button */
+.editBtn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #22c55e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.editBtn:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
+}
+
+/* Details grid */
+.details {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px 40px;
+}
+
+/* Labels */
+.details span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Values */
+.details p {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-top: 4px;
+}
+
+/* Status */
+.active {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .details {
+    grid-template-columns: 1fr;
+  }
+
+  .profilePage {
+    padding: 20px;
+  }
+
+  .profileCard {
+    padding: 24px;
+  }
+}

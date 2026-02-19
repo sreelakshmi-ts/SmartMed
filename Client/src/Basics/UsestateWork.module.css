@@ -1,0 +1,11 @@
+.mainuse{
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 40px;
+    margin-top: 10%;
+   
+}
+.useinput div{
+    margin-bottom: 10px;
+    padding-right:3px;
+}
