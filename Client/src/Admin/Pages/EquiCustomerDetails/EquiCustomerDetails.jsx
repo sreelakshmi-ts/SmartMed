@@ -15,7 +15,7 @@ const EquiCustomerDetails = () => {
         },[])
     
       const handleAccept = (id) => {
-      axios.put(`http://localhost:5000/EquipmentCustomer/${id}`, {
+      axios.put(`http://localhost:5000/EquipmentCustomerStatus/${id}`, {
         customerStatus: "Accepted"
         })
       .then((res) => {
@@ -26,7 +26,7 @@ const EquiCustomerDetails = () => {
     };
     
     const handleReject = (id) => {
-      axios.put(`http://localhost:5000/EquipmentCustomer/${id}`, {
+      axios.put(`http://localhost:5000/EquipmentCustomerStatus/${id}`, {
         customerStatus: "Rejected"
       })
       .then((res) => {
@@ -109,19 +109,19 @@ const EquiCustomerDetails = () => {
 
                         {(!data.customerStatus || data.customerStatus === "Pending") && (
                             <div className={style.actionWrapper}>
-                            <Link
-                                className={`${style.actionBtn} ${style.accept}`}
-                                onClick={() => handleAccept(data._id)}
+                            <button
+                              className={`${style.actionBtn} ${style.accept}`}
+                              onClick={() => handleAccept(data._id)}
                             >
-                                Accept
-                            </Link>
+                              Accept
+                            </button>
 
-                            <Link
-                                className={`${style.actionBtn} ${style.reject}`}
-                                onClick={() => handleReject(data._id)}
+                            <button
+                              className={`${style.actionBtn} ${style.reject}`}
+                              onClick={() => handleReject(data._id)}
                             >
-                                Reject
-                            </Link>
+                              Reject
+                            </button>
                             </div>
                         )}
                         </td>

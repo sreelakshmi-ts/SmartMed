@@ -146,7 +146,7 @@ app.get("/District", async (req, res) => {
     }
 });
 
-// District Delete
+// -------------------------------District Delete------------------------------------------
 app.delete("/District/:id", async (req, res) => {
     try {
         const districtId = req.params.id;
@@ -162,6 +162,7 @@ app.delete("/District/:id", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+//-------------------Edit District-------------------------------------------
 app.put("/District/:id", async (req, res) => {
     try {
         const districtId = req.params.id;
@@ -197,7 +198,7 @@ const placeSchemaStructure = new mongoose.Schema({
 });
 
 const Place = mongoose.model("placeCollection", placeSchemaStructure);
-//POST Place
+//----------------------------POST Place----------------------------------
 
 app.post("/Place", async (req, res) => {
     try {
@@ -223,7 +224,7 @@ app.post("/Place", async (req, res) => {
     }
 });
 
-//place get
+//-----------------------place get-------------------------------------------
 app.get("/Place", async (req, res) => {
     try {
         const place = await Place.find().populate("districtId");
@@ -238,9 +239,52 @@ app.get("/Place", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+//-------------------------------Delete Place----------------------------------
+app.delete("/Place/:id", async (req, res) => {
+
+    try {
+        const placeId = req.params.id;
+        const deletedPlace = await Place.findByIdAndDelete(placeId);
+
+        if (!deletedPlace) {
+            return res.json({ message: "Place not found" });
+        } else {
+            res.json({ message: "Place deleted successfully", deletedPlace });
+        }
+    }
+    catch (err) {
+        console.error("Error deleting place:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+
+});
+
+//-------------------------Edit Place----------------------------------------------
+app.put("/Place/:id", async (req, res) => {
+  try {
+    const placeId = req.params.id;
+    const { placeName, districtId } = req.body;
+
+    const updatedPlace = await Place.findByIdAndUpdate(
+      placeId,
+      { placeName, districtId },
+      { new: true }
+    );
+
+    if (!updatedPlace) {
+      return res.json({ message: "Place not found" });
+    }
+
+    res.json({ message: "Place updated successfully", place: updatedPlace });
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
 
 
-///category
+//---------------------------category-----------------------------------------------
 
 const categorySchemaStructure = new mongoose.Schema({
     categoryName: {
@@ -267,7 +311,7 @@ app.post("/Category", async (req, res) => {
 
 });
 
-//Get Category
+//----------------------------------Get Category-------------------------------------------
 
 app.get("/Category", async (req, res) => {
     try {
@@ -286,7 +330,7 @@ app.get("/Category", async (req, res) => {
 
 });
 
-//Delete Category
+//------------------------------------Delete Category------------------------------------------
 
 app.delete("/Category/:id", async (req, res) => {
 
@@ -307,7 +351,7 @@ app.delete("/Category/:id", async (req, res) => {
 
 });
 
-//Edit category(put)
+//-------------------------------Edit category(put)--------------------------------------------
 app.put("/Category/:id", async (req, res) => {
     try {
         const categoryId = req.params.id;
@@ -354,7 +398,7 @@ app.post("/Equipmentcate", async (req, res) => {
     }
 });
 
-//GET Equipment
+//------------------------GET Equipment----------------------------------------------
 app.get("/Equipmentcate", async (req, res) => {
     try {
         const equcategory = await Equipmentcate.find();
@@ -372,7 +416,7 @@ app.get("/Equipmentcate", async (req, res) => {
 
 });
 
-//DELETE Equipment Category
+//-------------------------------------------DELETE Equipment Category--------------------------------------------
 
 app.delete("/Equipmentcate/:id", async (req, res) => {
 
@@ -393,7 +437,7 @@ app.delete("/Equipmentcate/:id", async (req, res) => {
 
 });
 
-//PUT Equipment
+//--------------------------------------PUT Equipment-----------------------------------------
 app.put("/Equipmentcate/:id", async (req, res) => {
     try {
         const equicategoryId = req.params.id;
@@ -422,7 +466,7 @@ const brandSchemaStructure = new mongoose.Schema({
     }
 });
 const Brand = mongoose.model("brandCollection", brandSchemaStructure);
-//Post Brand
+//-----------------------------------Post Brand-------------------------------
 
 app.post("/Brand", async (req, res) => {
 
@@ -442,7 +486,7 @@ app.post("/Brand", async (req, res) => {
 
 });
 
-//Get Brand
+//------------------------------Get Brand-----------------------------------------
 
 app.get("/Brand", async (req, res) => {
     try {
@@ -462,7 +506,7 @@ app.get("/Brand", async (req, res) => {
 
 });
 
-//Delete Brand
+//--------------------------------Delete Brand------------------------------------
 
 app.delete("/Brand/:id", async (req, res) => {
 
@@ -482,7 +526,7 @@ app.delete("/Brand/:id", async (req, res) => {
     }
 
 });
-//Edit Brand(PUT)
+//-----------------------Edit Brand(PUT)---------------------
 
 app.put("/Brand/:id", async (req, res) => {
     try {
@@ -511,7 +555,7 @@ const typeSchemaStructure = new mongoose.Schema({
     }
 });
 const Type = mongoose.model("typeCollection", typeSchemaStructure);
-//post Type
+//--------------------------post Type------------------------------------------
 app.post("/Type", async (req, res) => {
 
     try {
@@ -531,7 +575,7 @@ app.post("/Type", async (req, res) => {
 });
 
 
-//Get Type
+//----------------------------------Get Type-------------------------------------
 app.get("/Type", async (req, res) => {
     try {
         const type = await Type.find();
@@ -549,7 +593,7 @@ app.get("/Type", async (req, res) => {
     }
 
 });
-//Delete Type 
+//--------------------Delete Type ---------------------------------------------
 app.delete("/Type/:id", async (req, res) => {
 
     try {
@@ -570,7 +614,7 @@ app.delete("/Type/:id", async (req, res) => {
 });
 
 
-//Edit Type(PUT)
+//-----------------------------------Edit Type(PUT)-------------------------------------
 app.put("/Type/:id", async (req, res) => {
     try {
         const typeId = req.params.id;
@@ -678,28 +722,46 @@ app.post("/Customer", upload.single("DrugLicence"), async (req, res) => {
 
 });
 //GET Customer
+// app.get("/Customer", async (req, res) => {
+//     try {
+
+//         const customer = await Customer.find().populate({
+//             path: "placeId",
+//             populate: { path: "districtId" }
+//         })
+//             ;
+//         if (customer.length === 0) {
+//             return res.send({ message: "Customer not found", customer: [] });
+//         } else {
+//             res.send({ customer }).status(200);
+//         }
+
+//     } catch (err) {
+//         console.error("Error finiding Customer:", err);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+
+// })
 app.get("/Customer", async (req, res) => {
-    try {
+  try {
 
-        const customer = await Customer.find().populate({
-            path: "placeId",
-            populate: { path: "districtId" }
-        })
-            ;
-        if (customer.length === 0) {
-            return res.send({ message: "Customer not found", customer: [] });
-        } else {
-            res.send({ customer }).status(200);
+    const customer = await Customer.find()
+      .populate({
+        path: "placeId",
+        populate: {
+          path: "districtId"
         }
+      });
 
-    } catch (err) {
-        console.error("Error finiding Customer:", err);
-        res.status(500).json({ message: "Internal server error" });
-    }
+    res.json({ customer });
 
-})
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
-//Get Customer (Profile)
+//----------------------------Get Customer (Profile)-------------------------------------
 
 app.get("/Customer/:id", async (req, res) => {
     try {
@@ -771,25 +833,59 @@ app.get("/Customer/:id", async (req, res) => {
     }
 });
 
-//Put status
+//-----------------------------Update Profile----------------------------------------------
+
 app.put("/Customer/:id", async (req, res) => {
-    try {
-        const { customerStatus } = req.body;
+        const {ownerName,customerEmail,customerContact,customerAddress} =req.body;
+            await Customer.findByIdAndUpdate(req.params.id, { ownerName, customerEmail, customerContact, customerAddress});
+            res.json({ message: "Updated Equipment Profile Succesfully" });
+});
 
-        const updatedCustomer = await Customer.findByIdAndUpdate(
-            req.params.id,
-            { customerStatus },
-            { new: true }
-        );
+//--------------------Put status-------------------------------------
+// app.put("/Customer/:id", async (req, res) => {
+//     try {
+//         const { customerStatus } = req.body;
 
-        if (!updatedCustomer) {
-            return res.status(404).json({ message: "Customer not found" });
-        }
+//         const updatedCustomer = await Customer.findByIdAndUpdate(
+//             req.params.id,
+//             { customerStatus },
+//             { new: true }
+//         );
 
-        res.json({ message: `Customer ${customerStatus} successfully` });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+//         if (!updatedCustomer) {
+//             return res.status(404).json({ message: "Customer not found" });
+//         }
+
+//         res.json({ message: `Customer ${customerStatus} successfully` });
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
+// });
+
+app.put("/CustomerStatus/:id", async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { customerStatus } = req.body;
+
+    const updatedCustomer = await Customer.findByIdAndUpdate(
+      customerId,
+      { $set: { customerStatus } },
+      { new: true }
+    );
+
+    if (!updatedCustomer) {
+      return res.status(404).json({ message: "Customer not found" });
     }
+
+    res.status(200).json({
+      message: `Customer ${customerStatus} successfully`,
+      customer: updatedCustomer
+    });
+
+  } catch (err) {
+    console.error("Update error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 
@@ -861,7 +957,7 @@ const EquipmentCustomerSchemaStructure = new mongoose.Schema({
 })
 const EquipmentCustomer = mongoose.model("EquipmentcustomerCollection", EquipmentCustomerSchemaStructure);
 
-//POST Equipment Customer
+//-----------------------------------POST Equipment Customer--------------------------------------------
 app.post("/EquipmentCustomer", upload.single("SalesLicense"), async (req, res) => {
     try {
 
@@ -882,7 +978,7 @@ app.post("/EquipmentCustomer", upload.single("SalesLicense"), async (req, res) =
 });
 
 
-//GET Equipment Customer
+//------------------------GET Equipment Customer--------------------------------
 
 app.get("/EquipmentCustomer", async (req, res) => {
     try {
@@ -905,7 +1001,7 @@ app.get("/EquipmentCustomer", async (req, res) => {
 
 });
 
-//Get Profile Equipment Customer
+//------------------------------------Get Profile Equipment Customer-------------------------------
 app.get("/EquipmentCustomer/:id", async (req, res) => {
     try {
 
@@ -975,9 +1071,17 @@ app.get("/EquipmentCustomer/:id", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+//-----------------------------UpdateProfile----------------------------------------------
 
-//Put status
 app.put("/EquipmentCustomer/:id", async (req, res) => {
+        const {ownerName,customerEmail,customerContact,customerAddress} =req.body;
+            await EquipmentCustomer.findByIdAndUpdate(req.params.id, { ownerName, customerEmail, customerContact, customerAddress});
+            res.json({ message: "Updated Equipment Profile Succesfully" });
+});
+
+
+//--------------------------------Put status----------------------------------------
+app.put("/EquipmentCustomerStatus/:id", async (req, res) => {
     try {
         const { customerStatus } = req.body;
 
@@ -1103,13 +1207,14 @@ const InventoryManagerSchemaStructure = new mongoose.Schema({
     },
     InManagerStatus: {
         type: String,
-
+        enum: ["Active", "Inactive"],
+        default: "Active"
     }
 
 });
 const InManager = mongoose.model("inManagerCollection", InventoryManagerSchemaStructure);
 
-//InventoryPost
+//------------------------InventoryPost---------------------------------------------
 app.post("/InvetoryManager", upload.single("inManagerPhoto"), async (req, res) => {
     try {
         const { inManagerName, inMangerEmpId, inManagerContact, ManagerWarehouseName, placeId,
@@ -1125,7 +1230,7 @@ app.post("/InvetoryManager", upload.single("inManagerPhoto"), async (req, res) =
 
 });
 
-//Get
+//----------------------Get Profile---------------------------
 
 app.get("/InvetoryManager/:id", async (req, res) => {
     try {
@@ -1194,9 +1299,45 @@ app.get("/InvetoryManager/:id", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+//--------------------Get Profile to Admin-------------------------------
 
+app.get("/inventoryManagersAdmin", async (req, res) => {
+  try {
 
-//Medical Rep
+    const managers = await InManager.find()
+      .populate({
+        path: "placeId",
+        populate: { path: "districtId" }
+      })
+      
+
+    res.json({ success: true, data: managers });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+//--------------------------------------Update To------------
+app.put("/inventoryManagerStatus/:id", async (req, res) => {
+  try {
+
+    const { status } = req.body;
+
+    await InManager.findByIdAndUpdate(
+      req.params.id,
+      { InManagerStatus: status }
+    );
+
+    res.json({ success: true, message: "Status Updated" });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+}); 
+
+//------------------------Medical Rep-------------------------------
 
 const RepresentativeSchemaStructure = new mongoose.Schema({
     repName: {
@@ -1240,9 +1381,10 @@ const RepresentativeSchemaStructure = new mongoose.Schema({
         required: true,
     },
     repStatus: {
-        type: String,
-
-    },
+    type: String,
+    enum: ["Active", "Inactive"],
+    default: "Active"
+    }
 
 })
 const Representative = mongoose.model("representativeCollection", RepresentativeSchemaStructure);
@@ -1298,12 +1440,117 @@ app.post(
 );
 
 
+//----------------------------------------------Rep Get Profile--------------------------------------------------
+
+app.get("/Representative/:id", async (req, res) => {
+    try {
+
+        const data = await Representative.aggregate([
+            {
+                $match: { _id: new mongoose.Types.ObjectId(req.params.id) }
+            },
+
+            {
+                $lookup: {
+                    from: "placecollections",
+                    localField: "placeId",
+                    foreignField: "_id",
+                    as: "place"
+                }
+            },
+
+            {
+                $unwind: "$place",
 
 
+            },
+            {
+                $lookup: {
+                    from: "districtcollections",
+                    localField: "place.districtId",
+                    foreignField: "_id",
+                    as: "district"
+
+                }
+            },
+            {
+                $unwind: "$district",
+
+            },
+            {
+                $project: {
+                    repId: "$_id",
+                    repName: 1,
+                    repEmpId: 1,
+                    repContact: 1,
+                    ownerName: 1,
+                    placeId: "$place._id",
+                    placeName: "$place.placeName",
+                    districtId: "$district._id",
+                    districtName: "$district.districtName",
+                    repAddress: 1,
+                    repEmail: 1,
+                    repAddress: 1,
+                    repPhoto: 1,
+                    repPassword:1,
+                    createdAt: 1,
+                    updatedAt: 1,
+                    _id: 0
+                }
+            },
 
 
+        ]);
+        if (!data.length) {
+            return res.status(404).json({ message: "Representative not found" });
+        }
+        res.json({ data: data[0] });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
-//Deliver Team
+//-------------------Rep List to Admin------------------------
+app.get("/representativesAdmin", async (req, res) => {
+  try {
+
+    const reps = await Representative.find()
+      .populate({
+        path: "placeId",
+        populate: { path: "districtId" }
+      })
+
+    res.json({ success: true, data: reps });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+//--------------------Rep Status Update------------------------
+app.put("/representativeStatus/:id", async (req, res) => {
+  try {
+
+    const { status } = req.body;
+
+    await Representative.findByIdAndUpdate(
+      req.params.id,
+      { repStatus: status }
+    );
+
+    res.json({
+      success: true,
+      message: "Representative status updated"
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+
+//--------------------Deliver Team------------------------------
 const DeliveryteamSchemaStructure = new mongoose.Schema({
     deliverName: {
         type: String,
@@ -1324,24 +1571,29 @@ const DeliveryteamSchemaStructure = new mongoose.Schema({
         required: true,
 
     },
+    deliverContact:{
+        type:String,
+        required:true,
+    },
 
     deliverPassword: {
         type: String,
         required: true,
     },
     deliverStatus: {
-        type: String,
-
-    },
+    type: String,
+    enum: ["Active", "Inactive"],
+    default: "Active"
+    }
 
 });
 const Delivery = mongoose.model("deliveryCollection", DeliveryteamSchemaStructure);
 
-//Deliver Post
+//-------------------------------------Deliver Post------------------------------------------
 
 app.post("/Delivery", async (req, res) => {
     try {
-        const { deliverName, deliverVehicleNo, placeId, deliverEmail, deliverPassword } = req.body;
+        const { deliverName, deliverVehicleNo, placeId, deliverEmail,deliverContact, deliverPassword } = req.body;
 
         let delivery = await Delivery.findOne({ deliverName, deliverVehicleNo, placeId, deliverEmail, deliverPassword });
         delivery = new Delivery({
@@ -1349,6 +1601,7 @@ app.post("/Delivery", async (req, res) => {
             deliverVehicleNo,
             placeId,
             deliverEmail,
+            deliverContact,
             deliverPassword
         });
 
@@ -1363,11 +1616,118 @@ app.post("/Delivery", async (req, res) => {
     }
 })
 
+//-----------------------Delivery Team GET Profile----------------------------------
+app.get("/Delivery/:id", async (req, res) => {
+    try {
+
+        const data = await Delivery.aggregate([
+            {
+                $match: { _id: new mongoose.Types.ObjectId(req.params.id) }
+            },
+
+            {
+                $lookup: {
+                    from: "placecollections",
+                    localField: "placeId",
+                    foreignField: "_id",
+                    as: "place"
+                }
+            },
+
+            {
+                $unwind: "$place",
 
 
+            },
+            {
+                $lookup: {
+                    from: "districtcollections",
+                    localField: "place.districtId",
+                    foreignField: "_id",
+                    as: "district"
+
+                }
+            },
+            {
+                $unwind: "$district",
+
+            },
+            {
+                $project: {
+                    deliveryId: "$_id",
+                    deliverName: 1,
+                    deliverVehicleNo: 1,
+                    deliverEmail: 1,
+                    deliverContact:1,
+                    placeId: "$place._id",
+                    placeName: "$place.placeName",
+                    districtId: "$district._id",
+                    districtName: "$district.districtName",
+                    deliverPassword:1,
+                    createdAt: 1,
+                    updatedAt: 1,
+                    _id: 0
+                }
+            },
 
 
-//Stock
+        ]);
+        if (!data.length) {
+            return res.status(404).json({ message: "Delivery Team not found" });
+        }
+        res.json({ data: data[0] });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+//-----------Get Delivery Team List for Admin--------------------------------------------
+app.get("/deliveryTeamsAdmin", async (req, res) => {
+  try {
+
+    const delivery = await Delivery.find()
+      .populate({
+        path: "placeId",
+        populate: { path: "districtId" }
+      })
+      
+
+    res.json({
+      success: true,
+      data: delivery
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+
+//-------------------------Update Status of Delivery team-------------------------------
+app.put("/deliveryStatus/:id", async (req, res) => {
+  try {
+
+    const { status } = req.body;
+
+    await Delivery.findByIdAndUpdate(
+      req.params.id,
+      { deliverStatus: status }
+    );
+
+    res.json({
+      success: true,
+      message: "Delivery status updated"
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+
+
+//-------------------------Stock-------------------------------------------------------
 const StockSchemaStructure = new mongoose.Schema({
     medicineId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -1665,7 +2025,45 @@ app.post("/Admin", async (req, res) => {
 
     }
 });
+//-------------------Customers Complaint Schema----------------------
+const ComplaintSchemaStructure = new mongoose.Schema({
+    customerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "customerCollection",
+    },
+    equipmentCustomerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "EquipmentcustomerCollection",
+    },
+    complaintTitle: {
+        type: String,
+        required: true,
+    },
+    complaintContent: {
+        type: String,
+        required: true,
+    },
+    complaintDate: {
+        type: Date,
+        default: Date.now
+    },
+    complaintReply: {
+        type: String,
+    },
+    complaintStatus: {
+        type: String,
+        enum: ["Pending", "Resolved"],
+        default: "Pending"
+    }
+});
+const Complaint = mongoose.model("ComplaintCollection", ComplaintSchemaStructure);
 
+
+
+
+
+
+//--------------------------------Login--------------------------------
 
 
 app.post("/login", async (req, res) => {
@@ -2045,7 +2443,7 @@ app.get("/Cart/:bookId", async (req, res) => {
     catch (err) {
         res.status(500).json({ error: err.message });
     }
-})
+});
 
 
 //----------------Booking update Representative----------------
@@ -2114,10 +2512,12 @@ app.get('/booking-details/:cid', async (req, res) => {
     const bookings = await Booking.aggregate([
 
       //  Match customer
-        {
-            $match: {
-            customerId: new mongoose.Types.ObjectId(cid)
-        }},
+      {
+        $match: {
+          customerId: new mongoose.Types.ObjectId(cid),
+          bookStatus: { $in: [2, 3, 4, 5] }
+        }
+      },
 
 
       //  Cart lookup
@@ -2131,8 +2531,6 @@ app.get('/booking-details/:cid', async (req, res) => {
       },
 
       { $unwind: "$cartItems" },
-      { $match:{bookStatus:2}},
-
       //  Medicine lookup
       {
         $lookup: {
@@ -2214,16 +2612,14 @@ app.get('/booking-details/:cid', async (req, res) => {
 
 //----------------------Get All Orders To Inventory manager------------------------
 app.get("/AllOrders", async (req, res) => {
-try {
+  try {
 
     const bookings = await Booking.aggregate([
 
-    
       {
         $match: { bookStatus: { $in: [2, 3, 4, 5] } }
       },
 
-     
       {
         $lookup: {
           from: "customercollections",
@@ -2233,7 +2629,12 @@ try {
         }
       },
 
-      { $unwind: "$customer" },
+      {
+        $unwind: {
+          path: "$customer",
+          preserveNullAndEmptyArrays: false
+        }
+      },
 
       {
         $lookup: {
@@ -2244,9 +2645,20 @@ try {
         }
       },
 
-      { $unwind: "$cartItems" },
+      {
+        $unwind: {
+          path: "$cartItems",
+          preserveNullAndEmptyArrays: false
+        }
+      },
 
-     
+      // ✅ IMPORTANT: filter only medicine carts
+      {
+        $match: {
+          "cartItems.medicineId": { $ne: null }
+        }
+      },
+
       {
         $lookup: {
           from: "medicinecollections",
@@ -2256,37 +2668,38 @@ try {
         }
       },
 
-      { $unwind: "$medicine" },
+      {
+        $unwind: {
+          path: "$medicine",
+          preserveNullAndEmptyArrays: false
+        }
+      },
 
-     
       {
         $group: {
           _id: "$_id",
 
           bookingDate: { $first: "$bookDate" },
-           bookStatus: { $first: "$bookStatus" },
+          bookStatus: { $first: "$bookStatus" },
           customerStoreName: { $first: "$customer.customerStoreName" },
-         
 
           medicines: {
             $push: {
               medicineName: "$medicine.medicineName",
-                medicinePhoto: "$medicine.medicinePhoto",
+              medicinePhoto: "$medicine.medicinePhoto",
               quantity: "$cartItems.cartQuantity"
             }
           }
         }
       },
 
-      
       {
         $project: {
           _id: 1,
           bookingDate: 1,
           customerStoreName: 1,
           medicines: 1,
-          bookStatus: 1,
-
+          bookStatus: 1
         }
       }
 
@@ -2677,5 +3090,1186 @@ app.get("/EquipmentDetails/:id", async (req, res) => {
     } catch (err) {
         console.error("Error finiding Equipment:", err);
         res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+//-----------------------------Equipment Add to Cart for Equipment Customer--------------------------------------------------------
+app.post("/EquipmentCart", async (req, res) => {
+    try {
+        let { equipmentCustomerId, equipmentId, quantity} = req.body;
+        let booking = await Booking.findOne({ equipmentCustomerId, bookStatus: 0 });
+        if (!booking) {
+            booking = await Booking.create({
+                equipmentCustomerId,
+                bookStatus: 0,
+                bookAmount: 0
+            });
+        }
+        //  Create cart item
+       await Cart.create({
+            equipmentCustomerId,
+            equipmentId,
+            cartQuantity:Number(quantity),
+            bookingId: booking._id
+        });
+        // Recalculate total
+        const carts = await Cart.find({ bookingId: booking._id })
+            .populate("equipmentId");
+        let total = 0;
+
+        carts.forEach(item => {
+            total += item.cartQuantity * Number(item.equipmentId.equipmentPrice);
+        });
+
+        //  Update booking
+        await Booking.findByIdAndUpdate(booking._id, {
+            bookAmount: total
+        });
+
+        res.json({
+            success: true,
+            bookingId: booking._id
+        });
+
+    } catch (err) {
+        console.error("Error adding Equipment to cart:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+//-----------------------------Booking of Equipment with Cart for Equipment Customer--------------------------------------------------------
+app.get("/EquipmentBookingWithCart/:userId", async (req, res) => {
+
+
+    try{
+        const userId = req.params.userId;
+        console.log("USER ID:", userId);
+
+        //     const booking = await Booking.find({
+        //     equipmentCustomerId: userId,
+        //     bookStatus: 0
+        // });
+
+        // console.log("BOOKING FOUND:", booking);
+
+        // const carts = await Cart.find().populate("equipmentId");
+
+        // console.log("CARTS FOUND:", carts);
+        const result = await Booking.aggregate([
+
+            // 1️⃣ Match active booking
+            {
+                $match: {
+                    equipmentCustomerId: new mongoose.Types.ObjectId(userId),
+                    bookStatus: 0
+                }
+            },
+            // 2️⃣ Cart items
+            {
+                $lookup: {
+                    from: "cartcollections",
+                    localField: "_id",
+                    foreignField: "bookingId",
+                    as: "cartItems"
+                }
+            },
+            {
+            $unwind: {
+                path: "$cartItems",
+                
+            }
+            },
+            // 3️⃣ Equipment
+            {
+                $lookup: {
+                    from: "equipmentcollections",
+                    localField: "cartItems.equipmentId",
+                    foreignField: "_id",
+                    as: "equipment"
+                }
+            },
+            {
+            $unwind: {
+                path: "$equipment",
+                preserveNullAndEmptyArrays: true
+            }
+            },
+            // 4️⃣ Brand
+            {
+                $lookup: {
+                    from: "brandcollections",
+                    localField: "equipment.brandId",
+                    foreignField: "_id",
+                    as: "brand"
+                }
+            },
+            
+            // 5️⃣ Category
+            {
+                $lookup: {
+                    from: "equipmentcategorycollections",
+                    localField: "equipment.equcategoryId",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            //Stock
+            {
+                $lookup: {
+                    from: "stockcollections",
+                    localField: "equipment._id",
+                    foreignField: "equipmentId",
+                    as: "stock"
+                }
+            },
+            {
+            $unwind: {
+                path: "$stock",
+                preserveNullAndEmptyArrays: true
+            }
+            },
+            // 6️⃣ Group final output
+            {
+                $group: {
+                    _id: "$_id",
+                    bookAmount: { $first: "$bookAmount" },
+                    bookDate: { $first: "$bookDate" },
+                    cartItems: {
+                        $push: {
+                            cartId: "$cartItems._id",
+                            quantity: "$cartItems.cartQuantity",
+                            equipmentName: "$equipment.equipmentName",
+                            price: "$equipment.equipmentPrice",
+                            description: "$equipment.equipmentDistription",
+                            photo: "$equipment.equipmentPhoto",
+                            brand: { $arrayElemAt: ["$brand.brandName", 0] },
+                            category: { $arrayElemAt: ["$category.equcategoryName", 0] },
+                            stockQty: "$stock.stockQuantity"
+                        }
+                    }
+                }
+            }
+        ]);
+        // console.log("RESULT:", result);
+        if (!result.length) {
+            return res.json({ success: false, message: "Cart empty" });
+        }
+        res.json({ success: true, data: result[0] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+        
+});
+
+//-----------------------------Equipment Cart Delete--------------------------------------------------------
+app.delete("/EquipmentCart/:id", async (req, res) => {
+    try {
+        const deletedCart = await Cart.findByIdAndDelete(req.params.id);
+        if (!deletedCart) {
+            return res.status(404).json({ message: "Cart not found" });
+        }
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+//-----------------------------Equipment Cart Update Quantity--------------------------------------------------------
+app.put("/EquipmentCart/:id", async (req, res) => {
+
+    try {
+        const { cartQuantity } = req.body;
+        const updatedItem = await Cart.findByIdAndUpdate(
+            req.params.id,
+            { cartQuantity },
+            { new: true }
+        ).populate("equipmentId");
+        if (!updatedItem) {
+            return res.status(404).json({ success: false });
+        }
+        res.json({ success: true, data: updatedItem });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
+    }  
+});
+
+//-----------------------------Equipment Booking Update Staus with Amount--------------------------------------------------------
+
+app.put("/EquipmentBookingPutCheck/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+        const { bookAmount, bookStatus } = req.body
+        console.log(req.body);
+
+        const updatedBooking = await Booking.findByIdAndUpdate(
+            id,
+            {
+                bookAmount,
+                bookStatus,
+            },
+            { new: true }
+        );
+        console.log(updatedBooking);
+        res.json({ updatedBooking });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("server error");
+    }
+});
+
+//-----------------------------Get Equipment cart details for Booking--------------------------------------------------------
+app.get("/EquipmentCartDetails/:bookId", async (req, res) => {
+    try {
+        const bookId = req.params.bookId;
+        const data = await Cart.aggregate([
+            {
+                $match: {
+                    bookingId: new mongoose.Types.ObjectId(bookId)
+                }
+            },
+            {
+                $lookup: {
+                    from: "bookingcollections",
+                    localField: "bookingId",
+                    foreignField: "_id",
+                    as: "bookItems"
+                }
+            },
+            { $unwind: "$bookItems" },
+            {
+                $lookup: {
+                    from: "equipmentcollections",
+                    localField: "equipmentId",
+                    foreignField: "_id",
+                    as: "equipment"
+                }
+            },
+            { $unwind: "$equipment" },
+            {
+                $project: {
+                    _id: 1,
+                    cartQuantity: 1,
+                    bookingId: "$bookItems._id",
+                    bookAmount: "$bookItems.bookAmount",
+                    equipmentId: "$equipment._id",
+                    equipmentName: "$equipment.equipmentName",
+                    equipmentPrice: "$equipment.equipmentPrice",
+                    equipmentPhoto: "$equipment.equipmentPhoto"
+                }
+            }
+        ]);
+        if (!data.length) {
+            return res.status(404).json({ message: "Booking Details not found" });
+        }
+        res.json({ data });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+//-----------------------------Equipment Payment--------------------------------------------------------
+app.put("/EquipmentPaymentcomplete/:id", async (req, res) => {
+    try {
+        const bookingId = req.params.id;
+        const updatedBooking = await Booking.findByIdAndUpdate(
+            bookingId,
+            {
+                bookStatus: 2,
+                bookDate: new Date()
+            },
+            { new: true }
+        );
+        if (!updatedBooking) {
+            return res.status(404).json({ message: "Booking not found" });
+        }
+        res.json({
+            success: true,
+            data: updatedBooking
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
+//-----------------------------Get My Equipment Orders--------------------------------------------------------
+app.get('/equipment-booking-details/:ecid', async (req, res) => {
+    try {
+        const { ecid } = req.params;
+
+        const bookings = await Booking.aggregate([
+            {
+                $match: {
+                equipmentCustomerId: new mongoose.Types.ObjectId(ecid),
+                bookStatus: { $in: [2, 3, 4, 5] }
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "cartcollections",
+                    localField: "_id",
+                    foreignField: "bookingId",
+                    as: "cartItems"
+                }
+            },
+
+            { $unwind: "$cartItems" },
+           
+
+            {
+                $lookup: {
+                    from: "equipmentcollections",
+                    localField: "cartItems.equipmentId",
+                    foreignField: "_id",
+                    as: "equipment"
+                }
+            },
+            { $unwind: "$equipment" },
+            {
+                $addFields: {
+                    itemAmount: {
+                        $multiply: [
+                            "$cartItems.cartQuantity",
+                            { $toDouble: "$equipment.equipmentPrice" }
+                        ]
+                    }
+                }
+
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    bookDate: { $first: "$bookDate" },
+                    bookAmount: { $first: "$bookAmount" },
+                    bookStatus: { $first: "$bookStatus" },
+                    repId: { $first: "$repId" },
+                    cartItems: {
+                        $push: {
+                            cartId: "$cartItems._id",
+                            cartQuantity: "$cartItems.cartQuantity",
+
+                            equipmentId: "$equipment._id",
+                            equipmentName: "$equipment.equipmentName",
+                            equipmentPhoto: "$equipment.equipmentPhoto",
+                            equipmentPrice: "$equipment.equipmentPrice",
+                            itemAmount: "$itemAmount"
+                        }
+                    },
+                    totalBookingAmount: { $sum: "$itemAmount" }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    bookDate: 1,
+                    bookAmount: 1,
+                    bookStatus: 1,
+                    repId: 1,
+                    cartItems: "$cartItems",
+                    equipment: "$equipment",
+                    totalBookingAmount: 1
+                }
+            }
+        ]);
+        res.json({ success: true, bookings });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+//----------------------Get All Equipment Orders To Inventory manager------------------------
+app.get("/AllEquipmentOrders", async (req, res) => {
+    try {
+        const bookings = await Booking.aggregate([
+            {
+                $match: {
+                    bookStatus: { $gte: 2 }
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "equipmentcustomercollections",
+                    localField: "equipmentCustomerId",
+                    foreignField: "_id",
+                    as: "customer"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$customer",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $lookup: {
+                    from: "cartcollections",
+                    localField: "_id",
+                    foreignField: "bookingId",
+                    as: "cartItems"
+
+                }
+            },
+            {
+            $unwind: {
+                path: "$cartItems",
+                preserveNullAndEmptyArrays: false
+            }
+            },
+            {
+            $match: {
+                "cartItems.equipmentId": { $ne: null }
+            }
+            },
+            {
+                $lookup: {
+                    from: "equipmentcollections",
+                    localField: "cartItems.equipmentId",
+                    foreignField: "_id",
+                    as: "equipment"
+                }
+            },
+            {
+                $unwind: {
+                path: "$equipment",
+                preserveNullAndEmptyArrays: true
+                }
+            },
+            {   
+                $group: {
+                    _id: "$_id",
+                    bookingDate: { $first: "$bookDate" },
+                    bookStatus: { $first: "$bookStatus" },
+                    customerStoreName: { $first: "$customer.customerStoreName" },
+                    equipment: {
+                        $push: {
+                            equipmentName: "$equipment.equipmentName",
+                            equipmentPhoto: "$equipment.equipmentPhoto",
+                            quantity: "$cartItems.cartQuantity"
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    bookingDate: 1,
+                    customerStoreName: 1,
+                    equipment: 1,
+                    bookStatus: 1
+                }
+            }
+        ]);
+        // console.log("ALL EQUIPMENT ORDERS:", bookings);
+        res.status(200).json({ success: true, bookings });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
+    }
+});
+
+
+//----------------------Get All Equipment Orders details To Inventory manager------------------------
+app.get("/AllEquipmentOrdersDetails/:id", async (req, res) => {
+    try {
+        const bookingId = req.params.id;
+
+        const bookingDetails = await Booking.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(bookingId)
+                }
+            },
+            {
+                $lookup: {
+                    from: "equipmentcustomercollections",
+                    localField: "equipmentCustomerId",
+                    foreignField: "_id",
+                    as: "customer"
+                }
+                },
+                { $unwind: "$customer" },
+                {
+                    $lookup: {
+                        from: "cartcollections",
+                        localField: "_id",
+                        foreignField: "bookingId",
+                        as: "cartItems"
+                    }
+                },
+                { $unwind: "$cartItems" },
+                {
+                    $lookup: {
+                        from: "equipmentcollections",
+                        localField: "cartItems.equipmentId",
+                        foreignField: "_id",    
+                        as: "equipment"
+                    }
+                },
+                { $unwind: { path: "$equipment", preserveNullAndEmptyArrays: true } },
+                {
+                    $project: {
+                        _id: 1,
+                        bookingDate: "$bookDate",
+                        bookAmount: "$bookAmount",
+                        bookStatus: "$bookStatus",
+                        customerStoreName: "$customer.customerStoreName",
+                        customerAddress: "$customer.customerAddress",
+                        customerPhone: "$customer.customerContact",
+                        equipmentName: "$equipment.equipmentName",
+                        equipmentPhoto: "$equipment.equipmentPhoto",
+                        quantity: "$cartItems.cartQuantity",
+                        itemAmount: { $multiply: ["$cartItems.cartQuantity", { $toDouble: "$equipment.equipmentPrice" }] }
+                    }
+                }
+        ]);
+        res.status(200).json({ success: true, bookingDetails });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
+    }
+});
+
+//----------------------Assigned Equipment order To Delivery Team ------------------------
+app.get("/AssignedEquipmentOrder/:deliveryId", async (req, res) => {
+    try {
+        const deliveryId = req.params.deliveryId;
+        const assignedOrders = await Booking.aggregate([
+            {
+                $match: {
+                    deliveryteamId: new mongoose.Types.ObjectId(deliveryId),   
+                   bookStatus: { $in: [3, 4] }
+                }
+            },
+            {
+                $lookup: {
+                    from: "equipmentcustomercollections",
+                    localField: "equipmentCustomerId",
+                    foreignField: "_id",
+                    as: "customer"
+                }
+            },
+            { $unwind: "$customer" },
+            {
+                $lookup: {
+                    from: "cartcollections",
+                    localField: "_id",
+                    foreignField: "bookingId",
+                    as: "cartItems"
+                }
+            },
+            { $unwind: "$cartItems" },
+            {
+                $lookup: {
+                    from: "equipmentcollections",
+                    localField: "cartItems.equipmentId",
+                    foreignField: "_id",
+                    as: "equipment"
+                }
+            },
+            { $unwind: "$equipment" },
+            {
+                $project: {
+                    bookingId: "$_id",
+                    cartId: "$cartItems._id",
+                    bookingDate: "$bookDate",
+                    bookStatus: "$bookStatus",
+                    bookAmount: "$bookAmount",
+                    customerStoreName: "$customer.customerStoreName",
+                    customerAddress: "$customer.customerAddress",
+                    customerPhone: "$customer.customerContact",
+                    equipmentName: "$equipment.equipmentName",
+                    equipmentPhoto: "$equipment.equipmentPhoto",
+                    quantity: "$cartItems.cartQuantity",
+                    itemAmount: { $multiply: ["$cartItems.cartQuantity", { $toDouble: "$equipment.equipmentPrice" }] }
+                }
+            }
+        ]);
+        res.status(200).json({ success: true, assignedOrders });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+      }
+});
+
+
+//----------------------Get Completed Medicine Orders details To Delivery team------------------------
+app.get("/CompletedMedicineOrders/:deliveryId", async (req, res) => {
+  try {
+
+    const deliveryId = req.params.deliveryId;
+
+    const completedOrders = await Booking.aggregate([
+
+      {
+        $match: {
+          deliveryteamId: new mongoose.Types.ObjectId(deliveryId),
+          bookStatus: 5
+        }
+      },
+
+      {
+        $lookup: {
+          from: "customercollections",
+          localField: "customerId",
+          foreignField: "_id",
+          as: "customer"
+        }
+      },
+      {
+        $unwind: {
+          path: "$customer",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+
+      {
+        $lookup: {
+          from: "cartcollections",
+          localField: "_id",
+          foreignField: "bookingId",
+          as: "cartItems"
+        }
+      },
+      {
+        $unwind: "$cartItems"
+      },
+
+      // only medicine
+      {
+        $match: {
+          "cartItems.medicineId": { $ne: null }
+        }
+      },
+
+      {
+        $lookup: {
+          from: "medicinecollections",
+          localField: "cartItems.medicineId",
+          foreignField: "_id",
+          as: "medicine"
+        }
+      },
+      {
+        $unwind: "$medicine"
+      },
+
+      // ✅ GROUP HERE
+      {
+        $group: {
+
+          _id: "$_id",
+
+          bookingDate: { $first: "$bookDate" },
+
+          customerStoreName: { $first: "$customer.customerStoreName" },
+
+          customerAddress: { $first: "$customer.customerAddress" },
+
+          customerPhone: { $first: "$customer.customerContact" },
+
+          medicines: {
+            $push: {
+
+              cartId: "$cartItems._id",
+
+              medicineName: "$medicine.medicineName",
+
+              medicinePhoto: "$medicine.medicinePhoto",
+
+              quantity: "$cartItems.cartQuantity",
+
+              itemAmount: {
+                $multiply: [
+                  "$cartItems.cartQuantity",
+                  { $toDouble: "$medicine.medicinePrice" }
+                ]
+              }
+
+            }
+          }
+
+        }
+      }
+
+    ]);
+
+    res.json({
+      success: true,
+      completedOrders
+    });
+
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
+});
+
+//----------------------Get Delivered Equipment Ordetrs To Delivery team------------------------
+app.get("/CompletedEquipmentOrders/:deliveryId", async (req, res) => {
+    try {
+        const deliveryId = req.params.deliveryId;
+        const completedOrders = await Booking.aggregate([
+            {
+                $match: {
+                    deliveryteamId: new mongoose.Types.ObjectId(deliveryId),
+                    bookStatus: 5
+                }
+            },
+            {
+                $lookup: {
+                    from: "equipmentcustomercollections",
+                    localField: "equipmentCustomerId",
+                    foreignField: "_id",
+                    as: "customer"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$customer",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $lookup: {
+                    from: "cartcollections",
+                    localField: "_id",
+                    foreignField: "bookingId",
+                    as: "cartItems"
+                }
+            },
+            {
+                $unwind: "$cartItems"
+            },
+            {
+                $match: {
+                    "cartItems.equipmentId": { $ne: null }
+                }
+            },  
+            {
+                $lookup: {
+                    from: "equipmentcollections",
+                    localField: "cartItems.equipmentId",
+                    foreignField: "_id",
+                    as: "equipment"
+                }
+            },
+            {  
+                $unwind: {
+                    path: "$equipment",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+
+            {
+                $group: {
+
+                    _id: "$_id",
+                    bookingDate: { $first: "$bookDate" },
+                    customerStoreName: { $first: "$customer.customerStoreName" },
+                    customerAddress: { $first: "$customer.customerAddress" },
+                    customerPhone: { $first: "$customer.customerContact" },
+                    equipments: {
+                        $push: {
+                            cartId: "$cartItems._id",
+                            equipmentName: "$equipment.equipmentName",
+                            equipmentPhoto: "$equipment.equipmentPhoto",
+                            quantity: "$cartItems.cartQuantity",
+                            itemAmount: {
+                                $multiply: [
+                                    "$cartItems.cartQuantity",
+                                    { $toDouble: "$equipment.equipmentPrice" }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        ]);
+        res.json({
+            success: true,
+            completedOrders
+        });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
+    }
+});
+//----------------------Get Delivered Equipment Ordetrs To Delivery team------------------------
+
+app.get("/CompletedEquipmentOrders/:deliveryId", async (req, res) => {
+    try {
+        const deliveryId = req.params.deliveryId;
+        const completedOrders = await Booking.aggregate([
+            {
+                $match: {
+                    deliveryteamId: new mongoose.Types.ObjectId(deliveryId),
+                    bookStatus: 5
+                }
+            },
+            {
+                $lookup: {
+                    from: "equipmentcustomercollections",
+                    localField: "equipmentCustomerId",
+                    foreignField: "_id",
+                    as: "customer"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$customer",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $lookup: {
+                    from: "cartcollections",
+                    localField: "_id",
+                    foreignField: "bookingId",
+                    as: "cartItems"
+                }
+            },
+            {
+                $unwind: "$cartItems"
+            },
+            {
+                $match: {
+                    "cartItems.equipmentId": { $ne: null }
+                }
+            },
+            {
+                $lookup: {
+                    from: "equipmentcollections",
+                    localField: "cartItems.equipmentId",
+                    foreignField: "_id",
+                    as: "equipment"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$equipment",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {  
+                $group: {
+
+                    _id: "$_id",
+                    bookingDate: { $first: "$bookDate" },
+                    customerStoreName: { $first: "$customer.customerStoreName" },
+                    customerAddress: { $first: "$customer.customerAddress" },
+                    customerPhone: { $first: "$customer.customerContact" },
+                    equipments: {
+                        $push: {
+                            cartId: "$cartItems._id",
+                            equipmentName: "$equipment.equipmentName",
+                            equipmentPhoto: "$equipment.equipmentPhoto",
+                            quantity: "$cartItems.cartQuantity",
+                            itemAmount: {
+                                $multiply: [
+                                    "$cartItems.cartQuantity",
+                                    { $toDouble: "$equipment.equipmentPrice" }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        ]);
+        res.json({
+            success: true,
+            completedOrders
+        });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
+    }
+});
+
+//-----------------------Medicine Customer Complaints------------------------
+app.post("/MedicineCustomerComplaint", async (req, res) => {
+    try {
+        const { customerId, complaintTitle, complaintContent } = req.body;
+        const complaint = await Complaint.create({
+            customerId,
+            complaintTitle,
+            complaintContent
+        });
+        res.json({ success: true, complaint });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+//------------------------Get Compaints of Medicind Customer------------------------
+app.get("/MedicineCustomerComplaints/:customerId", async (req, res) => {
+    try {
+        const customerId = req.params.customerId;
+        const complaints = await Complaint.find({ customerId }).sort({ complaintDate: -1 });
+        res.json({ success: true, complaints });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+//------------------------Eqipment Customer Complaints------------------------
+app.post("/EquipmentCustomerComplaint", async (req, res) => {
+    try {
+        const { equipmentCustomerId, complaintTitle, complaintContent } = req.body;
+        const complaint = await Complaint.create({
+            equipmentCustomerId,
+            complaintTitle,
+            complaintContent
+        });
+        res.json({ success: true, complaint });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+//------------------------Get Compaints of Equipment Customer------------------------
+app.get("/EquipmentCustomerComplaints/:equipmentCustomerId", async (req, res) => {
+    try {
+        const equipmentCustomerId = req.params.equipmentCustomerId;
+        const complaints = await Complaint
+            .find({ equipmentCustomerId })
+            .sort({ complaintDate: -1 });
+        res.json({ success: true, complaints });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+//-----------------------Get all Medicine Complaints To Admin------------------------
+app.get("/AllMedicineComplaints", async (req, res) => {
+    try {
+        const complaints = await Complaint.aggregate([
+            {
+                $match: {
+                    customerId: { $ne: null },
+                    complaintStatus: { $in: ["Pending", "Resolved"] }
+                }
+            },
+            {
+                $lookup: {
+                    from: "customercollections",
+                    localField: "customerId",
+                    foreignField: "_id",
+                    as: "customer"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$customer",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    complaintTitle: 1,
+                    complaintContent: 1,
+                    complaintDate: 1,
+                    complaintStatus: 1,
+                    customerStoreName: "$customer.customerStoreName",
+                    customerEmail: "$customer.customerEmail"
+                }
+            }
+        ]);
+        // console.log("ALL MEDICINE COMPLAINTS:", complaints);
+        res.json({ success: true, complaints });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+//------------------------Get Specific Medicine Compalint for Replay------------------------
+app.get("/MedicineComplaintDetails/:id", async (req, res) => {
+    try {
+        const complaintId = req.params.id;
+        const complaintDetails = await Complaint.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(complaintId),
+                    customerId: { $ne: null }
+                }
+            },
+            {
+                $lookup: {
+                    from: "customercollections",
+                    localField: "customerId",
+                    foreignField: "_id",
+                    as: "customer"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$customer",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {  
+                $project: {
+                    _id: 1,
+                    complaintTitle: 1,
+                    complaintContent: 1,
+                    complaintDate: 1,
+                    complaintStatus: 1,
+                    customerStoreName: "$customer.customerStoreName",
+                    customerEmail: "$customer.customerEmail"
+                }
+            }
+        ]);
+        // console.log("MEDICINE COMPLAINT DETAILS:", complaintDetails);
+        res.json({ success: true, complaintDetails: complaintDetails[0] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+//-----------------------Update Medicine Complaint  Replay & status------------------------
+app.put("/MedicineComplaintReply/:id", async (req, res) => {
+    try {
+        const complaintId = req.params.id;
+        const { complaintReply, complaintStatus } = req.body;
+        const updatedComplaint = await Complaint.findByIdAndUpdate(
+            complaintId,
+            { complaintReply, complaintStatus },
+            { new: true }
+        );
+        if (!updatedComplaint) {
+            return res.status(404).json({ success: false, message: "Complaint not found" });
+        }
+        // console.log("UPDATED COMPLAINT:", updatedComplaint);
+        res.json({ success: true, updatedComplaint });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+
+//------------------------------Get all Equipment Complaints To Admin------------------------
+app.get("/AllEquipmentComplaints", async (req, res) => {
+    try {
+        const complaints = await Complaint.aggregate([
+            {
+                $match: {
+                    equipmentCustomerId: { $ne: null },
+                    complaintStatus: { $in: ["Pending", "Resolved"] }
+                }
+            },
+            {
+                $lookup: {
+                    from: "equipmentcustomercollections",
+                    localField: "equipmentCustomerId",
+                    foreignField: "_id",
+                    as: "equipmentCustomer"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$equipmentCustomer",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    complaintTitle: 1,
+                    complaintContent: 1,
+                    complaintDate: 1,
+                    complaintStatus: 1,
+                    customerStoreName: "$equipmentCustomer.customerStoreName",
+                   
+                }
+            }
+        ]);
+        // console.log("ALL EQUIPMENT COMPLAINTS:", complaints);
+        res.json({ success: true, complaints });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+//-----------------------Get Specific Equipment Customer Complaint for Replay-------------------------------------
+
+app.get('/EquipmentComplaintDetail/:id',async (req,res) => {
+    try{
+   const complaintId = req.params.id;
+        const complaintDetails = await Complaint.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(complaintId),
+                    equipmentCustomerId: { $ne: null }
+                }
+            },
+            {
+                $lookup: {
+                    from: "equipmentcustomercollections",
+                    localField: "equipmentCustomerId",
+                    foreignField: "_id",
+                    as: "customer"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$customer",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {  
+                $project: {
+                    _id: 1,
+                    complaintTitle: 1,
+                    complaintContent: 1,
+                    complaintDate: 1,
+                    complaintStatus: 1,
+                    customerStoreName: "$customer.customerStoreName",
+                    customerEmail: "$customer.customerEmail"
+                }
+            }
+        ]);
+        // console.log("EQUIPMENT COMPLAINT DETAILS:", complaintDetails);
+        res.json({ success: true, complaintDetails: complaintDetails[0] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+//-------------------Update Equipment Complaint Replay and Status---------------------------------------------
+
+app.put("/EquipmentComplaintReply/:id", async (req, res) => {
+    try {
+        const complaintId = req.params.id;
+        const { complaintReply, complaintStatus } = req.body;
+        const updatedComplaint = await Complaint.findByIdAndUpdate(
+            complaintId,
+            { complaintReply, complaintStatus },
+            { new: true }
+        );
+        if (!updatedComplaint) {
+            return res.status(404).json({ success: false, message: "Complaint not found" });
+        }
+        // console.log("UPDATED COMPLAINT:", updatedComplaint);
+        res.json({ success: true, updatedComplaint });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
     }
 });

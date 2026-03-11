@@ -40,6 +40,8 @@ const District = () => {
   const getDistrict = () => {
     axios.get("http://localhost:5000/District").then((res) => {
       setDistrictData(res.data.district)
+      alert(res.data.message);
+      getDistrict();
 
     });
   }

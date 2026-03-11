@@ -139,6 +139,24 @@
   background: #4f46e5;
 }
 
+.pending {
+  background: #facc15;
+  color: #78350f;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.resolved {
+  background: #16a34a;
+  color: white;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .table {

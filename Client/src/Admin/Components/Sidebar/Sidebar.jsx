@@ -1,37 +1,58 @@
-import React from 'react'
-import style from  './Sidebar.module.css'
+import React, { useState } from 'react'
+import style from './Sidebar.module.css'
 import { Link } from 'react-router'
-import { AdminPanelSettings, Apartment, Assignment, AssignmentLateSharp, BrandingWatermark, CategoryRounded, ExpandLess, ExpandMore, GroupAdd, HomeFilled, Layers, List, LocalShippingOutlined, LocationOn, Masks, MedicalServices, MedicalServicesRounded, Medication, MedicationLiquid, Person, PersonPin, PlaceOutlined } from '@mui/icons-material'
-import { useState } from 'react'
-
+import {
+  AdminPanelSettings,
+  Apartment,
+  AssignmentLateSharp,
+  BrandingWatermark,
+  CategoryRounded,
+  ExpandLess,
+  ExpandMore,
+  GroupAdd,
+  HomeFilled,
+  Layers,
+  List,
+  LocalShippingOutlined,
+  LocationOn,
+  Masks,
+  MedicalServicesRounded,
+  Medication,
+  MedicationLiquid,
+  Person,
+  PersonPin,
+  PlaceOutlined,
+  ShoppingCart
+} from '@mui/icons-material'
 
 const Sidebar = () => {
+
   const [locationOpen, setLocationOpen] = useState(false);
-  const [regOpen, setRegOpen] = useState(false);
-  const[regdetails,setRegDetails]=useState(false);
   const [catOpen, setCatOpen] = useState(false);
- const [productOpen, setProductOpen] = useState(false);
+  const [productOpen, setProductOpen] = useState(false);
+  const [orderOpen, setOrderOpen] = useState(false);
+  const [regOpen, setRegOpen] = useState(false);
+  const [regdetails, setRegDetails] = useState(false);
 
   return (
-        <div className={style.sidecontainer}>
-      <h3 className={style.side}>SmartMed</h3>
+    <div className={style.sidecontainer}>
 
-      {/* Dashboard */}
+      <h3 className={style.side}>SmartMed Admin</h3>
+
+      {/* DASHBOARD */}
       <div className={style.itm1}>
         <Link className={style.itmlink} to="/admin/">
-          <HomeFilled className={style.homeic} />
-          Dashboard
+          <HomeFilled /> Dashboard
         </Link>
       </div>
 
-      {/* LOCATION DROPDOWN */}
+      {/* LOCATION MANAGEMENT */}
       <div className={style.dropdown}>
         <div
           className={style.dropdownHeader}
           onClick={() => setLocationOpen(!locationOpen)}
         >
-          <LocationOn />
-          Location
+          <LocationOn /> Location
           {locationOpen ? <ExpandLess /> : <ExpandMore />}
         </div>
 
@@ -48,30 +69,26 @@ const Sidebar = () => {
       </div>
 
       {/* MASTER DATA */}
-      {/* ADD CATEGORY DROPDOWN */}
       <div className={style.dropdown}>
         <div
           className={style.dropdownHeader}
           onClick={() => setCatOpen(!catOpen)}
         >
-          <CategoryRounded />
-          Add Category
+          <CategoryRounded /> Categories
           {catOpen ? <ExpandLess /> : <ExpandMore />}
         </div>
 
         {catOpen && (
           <div className={style.dropdownMenu}>
             <Link to="/admin/category" className={style.subLink}>
-              <Medication/> Medicine Category
+              <Medication /> Medicine Category
             </Link>
-
             <Link to="/admin/equiCategory" className={style.subLink}>
-              <Masks/> Equipment Category
+              <Masks /> Equipment Category
             </Link>
           </div>
         )}
       </div>
-
 
       <div className={style.itm2}>
         <Link className={style.itmlink} to="/admin/brand">
@@ -85,39 +102,59 @@ const Sidebar = () => {
         </Link>
       </div>
 
-      {/* ADD PRODUCTS DROPDOWN */}
+      {/* PRODUCT MANAGEMENT */}
       <div className={style.dropdown}>
         <div
           className={style.dropdownHeader}
           onClick={() => setProductOpen(!productOpen)}
         >
-          <MedicalServicesRounded />
-          Add Products
+          <MedicalServicesRounded /> Products
           {productOpen ? <ExpandLess /> : <ExpandMore />}
         </div>
 
         {productOpen && (
           <div className={style.dropdownMenu}>
             <Link to="/admin/addmedicine" className={style.subLink}>
-              <MedicationLiquid/> Medicine
+              <MedicationLiquid /> Add Medicine
             </Link>
 
             <Link to="/admin/addEquipment" className={style.subLink}>
-              <Masks/> Add Equipment
+              <Masks /> Add Equipment
             </Link>
           </div>
         )}
       </div>
 
+      {/* ORDER MANAGEMENT */}
+      <div className={style.dropdown}>
+        <div
+          className={style.dropdownHeader}
+          onClick={() => setOrderOpen(!orderOpen)}
+        >
+          <ShoppingCart /> Orders
+          {orderOpen ? <ExpandLess /> : <ExpandMore />}
+        </div>
 
-      {/* REGISTRATION DROPDOWN */}
+        {orderOpen && (
+          <div className={style.dropdownMenu}>
+            <Link to="/admin/medicineOrders" className={style.subLink}>
+              <Medication /> Medicine Orders
+            </Link>
+
+            <Link to="/admin/equipmentOrders" className={style.subLink}>
+              <Masks /> Equipment Orders
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {/* USER REGISTRATION */}
       <div className={style.dropdown}>
         <div
           className={style.dropdownHeader}
           onClick={() => setRegOpen(!regOpen)}
         >
-          <GroupAdd />
-          Registration
+          <GroupAdd /> Registration
           {regOpen ? <ExpandLess /> : <ExpandMore />}
         </div>
 
@@ -126,12 +163,15 @@ const Sidebar = () => {
             <Link to="/admin/adminreg" className={style.subLink}>
               <AdminPanelSettings /> Admin
             </Link>
+
             <Link to="/admin/inmanagerReg" className={style.subLink}>
-              <PersonPin /> Manager
+              <PersonPin /> Inventory Manager
             </Link>
+
             <Link to="/admin/deliveryReg" className={style.subLink}>
-              <LocalShippingOutlined /> Delivery
+              <LocalShippingOutlined /> Delivery Team
             </Link>
+
             <Link to="/admin/representativeReg" className={style.subLink}>
               <Person /> Representative
             </Link>
@@ -139,45 +179,55 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* Details Dropdown */}
+      {/* USER DETAILS */}
       <div className={style.dropdown}>
         <div
           className={style.dropdownHeader}
           onClick={() => setRegDetails(!regdetails)}
         >
-          <GroupAdd />
-          Registration Details
+          <List /> Registration Details
           {regdetails ? <ExpandLess /> : <ExpandMore />}
         </div>
 
         {regdetails && (
           <div className={style.dropdownMenu}>
             <Link to="/admin/custdetails" className={style.subLink}>
-              <AdminPanelSettings /> Customer Details
+              Customer Details
             </Link>
+
             <Link to="/admin/EquiCustdetais" className={style.subLink}>
-              <List/> Equipment Customer
+              Equipment Customers
+            </Link>
+
+            <Link to="/admin/inManagerlist" className={style.subLink}>
+              Inventory Managers
+            </Link>
+
+            <Link to="/admin/replist" className={style.subLink}>
+              Representatives
+            </Link>
+
+            <Link to="/admin/deliveryTeamList" className={style.subLink}>
+              Delivery Team
             </Link>
           </div>
         )}
       </div>
 
-
-      {/* Complaints */}
+      {/* COMPLAINTS */}
       <div className={style.itm2}>
         <Link className={style.itmlink} to="/admin/complaintview">
-          <AssignmentLateSharp /> Complaint View
+          <AssignmentLateSharp /> Medicine Complaints
         </Link>
       </div>
 
       <div className={style.itm2}>
-        <Link className={style.itmlink} to="/admin/complaintreplay">
-          <Assignment /> Complaint Replay
+        <Link className={style.itmlink} to="/admin/equiComplaintView">
+          <AssignmentLateSharp /> Equipment Complaints
         </Link>
       </div>
+
     </div>
-
-
   )
 }
 

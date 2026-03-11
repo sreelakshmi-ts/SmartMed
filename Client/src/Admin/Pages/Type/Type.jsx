@@ -7,16 +7,29 @@ import { Link } from 'react-router'
 
 const Type = () => {
   const [type,setType]=useState('')
-  const [typeData,setTypeData]=useState([])
+  const [typeData,setTypeData]=useState([]);
+  const[typeEditId,setTypeEditId]=useState(null);
   const handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     const data = {
       typeName:type
     }
+    if(typeEditId===null){
     axios.post("http://localhost:5000/Type", data).then((res) => {
       setType("");
       alert(res.data.message);
+      getType();
     });
+  }
+  else{
+        axios.put(`http://localhost:5000/Type/${typeEditId}`, data)
+          .then((res) => {
+          setType("");
+          setTypeEditId(null);
+          alert(res.data.message);
+          getType();  
+        });    
+      }
   }
 
   const getType =()=>{
@@ -32,11 +45,24 @@ const Type = () => {
 
     }, []);
 
-      const handleDelete =(id) =>{
+    const handleDelete =(id) =>{
     axios.delete(`http://localhost:5000/Type/${id}`).then((res) => {
     getType();
     });
-  }
+    }
+
+    const handleEdit=(id) =>{
+    
+    const result=typeData.find((data) => data._id === id);
+    if(result){
+    setTypeEditId(result._id);
+    setType(result.typeName);
+     setTimeout(() => {
+      document.getElementById("typeInput")?.focus();
+    }, 0);
+      }
+    };  
+
 
 
   return (
@@ -52,13 +78,14 @@ const Type = () => {
         type="text"
         placeholder="Enter type"
         value={type}
+        id='typeInput'
         onChange={(e) => setType(e.target.value)}
         required
       />
     </div>
 
     <div className={style.actions}>
-      <button type="submit" className={style.submit}>Submit</button>
+      <button type="submit" className={style.submit}> {typeEditId ? "Update Type" : "Add Type"}</button>
       <button type="reset" className={style.cancel}>Cancel</button>
     </div>
   </form>
@@ -84,7 +111,7 @@ const Type = () => {
             <td>{key + 1}</td>
             <td>{data.typeName}</td>
             <td className={style.actions}>
-            <Link className={style.edit}>Edit</Link>
+            <Link className={style.edit} onClick={()=> handleEdit(data._id)}>Edit</Link>
             <Link className={style.delete} onClick={()=> handleDelete(data._id)}>Delete</Link>
             
             </td>

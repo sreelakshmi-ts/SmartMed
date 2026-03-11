@@ -16,6 +16,7 @@ const BookingConfirm = () => {
     const[booking,setBooking]=useState([]);
     const [putrep, setPutRep] = useState('');
     const { id } = useParams();
+    const [repSearch, setRepSearch] = useState("");
 
    
 
@@ -36,54 +37,57 @@ const BookingConfirm = () => {
 
     
 
-    useEffect(() => {
-            const cid = sessionStorage.getItem('cid');
-            if (!cid) return;
-            axios.get(`http://localhost:5000/Customer/${cid}`)
-            
-                .then(res => setCustomer(res.data.data)
-            
-                )
-                .catch(console.error);
-        }, []);
+  useEffect(() => {
+          const cid = sessionStorage.getItem('cid');
+          if (!cid) return;
+          axios.get(`http://localhost:5000/Customer/${cid}`)
+          
+              .then(res => setCustomer(res.data.data)
+          
+              )
+              .catch(console.error);
+      }, []);
 
-          const fetchbooking = async () => {
+    const fetchbooking = async () => {
 
-            try {
+      try {
 
-              const res = await axios.get(`http://localhost:5000/Cart/${id}/`);
+        const res = await axios.get(`http://localhost:5000/Cart/${id}/`);
 
-              setBooking(res.data.data);   
+        setBooking(res.data.data);   
 
-            } catch (err) {
-              console.log(err);
-            }
+      } catch (err) {
+        console.log(err);
+      }
 
-          };
-
-
-                const handelPayment = async () => {
-
-                  if(!putrep){
-                    alert("Please select representative");
-                    return;
-                  }
-
-                  try {
-
-                    await axios.put(`http://localhost:5000/BookingPutRep/${id}`, {
-                      repId: putrep
-                    });
-
-                    
-                    navigate(`/customer/payment/${id}`);
-
-                  } catch(err){
-                    console.log(err);
-                  }
-                };
+    };
 
 
+      const handelPayment = async () => {
+
+        if(!putrep){
+          alert("Please select representative");
+          return;
+        }
+
+        try {
+
+          await axios.put(`http://localhost:5000/BookingPutRep/${id}`, {
+            repId: putrep
+          });
+
+          
+          navigate(`/customer/payment/${id}`);
+
+        } catch(err){
+          console.log(err);
+        }
+      };
+
+      const filteredRep = rep.filter((item) =>
+        item.placeId?.placeName.toLowerCase().includes(repSearch.toLowerCase()) ||
+        item.repName.toLowerCase().includes(repSearch.toLowerCase())
+      );
 
 
 
@@ -111,25 +115,41 @@ const BookingConfirm = () => {
       </div>
 
       {/* REPRESENTATIVE */}
-      <div className={style.Card}>
-        <h3>Select Representative</h3>
-        {rep.map((data) =>(
-        <label className={style.Rep} key={data._id}>
-          <input
-            type="radio"
-            name="rep"
-            value={data._id}
-            onChange={(e) => setPutRep(e.target.value)}
-          />
+     <div className={style.Card}>
+  <h3>Select Representative</h3>
 
-          <div>
-            <strong>{data.repName},</strong>
-            <span>{data.placeId ?.placeName || "Unknown"},{data.placeId?.districtId?.districtName || "Unknown" }</span>
-          </div>
-        </label>
-        ))}
+  {/* Search Input */}
+  <input
+    type="text"
+    placeholder="Search by place..."
+    className={style.RepSearch}
+    value={repSearch}
+    onChange={(e) => setRepSearch(e.target.value)}
+  />
 
-      </div>
+  {filteredRep.length > 0 ? (
+    filteredRep.map((data) => (
+      <label className={style.Rep} key={data._id}>
+        <input
+          type="radio"
+          name="rep"
+          value={data._id}
+          onChange={(e) => setPutRep(e.target.value)}
+        />
+
+        <div>
+          <strong>{data.repName}, </strong>
+          <span>
+            {data.placeId?.placeName || "Unknown"},
+            {data.placeId?.districtId?.districtName || "Unknown"}
+          </span>
+        </div>
+      </label>
+    ))
+  ) : (
+    <p>No representatives found</p>
+  )}
+</div>
 
     </div>
 

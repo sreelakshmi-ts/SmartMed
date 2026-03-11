@@ -1,0 +1,163 @@
+/* PAGE */
+
+.CompletedPage {
+  min-height: 100vh;
+  max-width: 912px;
+  margin: auto;
+  padding: 30px;
+  font-family: "Segoe UI", sans-serif;
+  background: #f8fafc;
+}
+
+/* TITLE */
+
+.PageTitle {
+  margin-bottom: 25px;
+  color: #0f172a;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* LIST */
+
+.DeliveryList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CARD */
+
+.DeliveryCard {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column; /* ✅ vertical layout */
+  gap: 18px;
+}
+
+/* BOOKING HEADER */
+
+.BookingHeader {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 12px;
+}
+
+.BookingHeader p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* ITEM ROW */
+
+.ItemRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ItemRow:last-child {
+  border-bottom: none;
+}
+
+/* IMAGE */
+
+.ProductImg {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border: 1px solid #e5e7eb;
+  padding: 6px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* INFO */
+
+.InfoSection {
+  flex: 1;
+}
+
+.InfoSection h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #0f172a;
+}
+
+.InfoSection p {
+  font-size: 14px;
+  color: #475569;
+  margin: 2px 0;
+}
+
+/* FOOTER */
+
+.Footer {
+  display: flex;
+  justify-content: space-between; /* ✅ pushes button right */
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 2px solid #f1f5f9;
+}
+
+/* TOTAL */
+
+.TotalAmount {
+  font-size: 18px;
+  font-weight: 700;
+  color: #15803d;
+}
+
+/* BUTTON */
+
+.DeliveredBtn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.DeliveredBtn:hover {
+  background: #15803d;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .CompletedPage {
+    padding: 15px;
+  }
+
+  .ItemRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ProductImg {
+    width: 100%;
+    height: auto;
+  }
+
+  .Footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .DeliveredBtn {
+    width: 100%;
+  }
+}

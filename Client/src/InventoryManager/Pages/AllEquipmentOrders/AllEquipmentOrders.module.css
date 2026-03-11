@@ -1,0 +1,173 @@
+.OrdersPage {
+  min-height:100vh;
+  background:#f1f3f6;
+  padding:40px;
+  font-family:Segoe UI;
+}
+
+.PageTitle {
+  max-width:1100px;
+  margin:auto auto 20px;
+  font-weight:700;
+  color:#0f172a;
+}
+.FilterSection{
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.DateFilter{
+  padding:6px 10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+/* LIST */
+
+.OrderList {
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* CARD */
+
+.OrderCard {
+  position:relative;
+  background:white;
+  display:flex;
+  align-items:center;
+  gap:22px;
+  padding:18px 20px;
+  border-radius:8px;
+  box-shadow:0 3px 8px rgba(0,0,0,.08);
+}
+
+/* STATUS BADGE */
+
+.Status {
+  position:absolute;
+  top:12px;
+  right:12px;
+  padding:4px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+}
+
+/* STATUS COLORS */
+
+.Pending {
+  background:#fde68a;
+  color:#92400e;
+}
+
+.Shipped {
+  background:#bfdbfe;
+  color:#1e40af;
+}
+.Assigned {
+  background:#bae6fd;
+  color:#075985;
+}
+
+.Delivered {
+  background:#bbf7d0;
+  color:#14532d;
+}
+
+/* IMAGE */
+
+.ProductImg {
+  width:100px;
+  height:100px;
+  object-fit:contain;
+  border:1px solid #e5e7eb;
+  border-radius:6px;
+  padding:6px;
+  background:#f8fafc;
+}
+
+/* INFO */
+
+.OrderInfo {
+  flex:1;
+}
+
+.OrderInfo h4 {
+  margin-bottom:6px;
+  color:#0f172a;
+  font-size:16px;
+}
+
+.OrderInfo p {
+  font-size:14px;
+  color:#475569;
+  margin:2px 0;
+}
+
+/* BUTTON */
+
+.ViewBtn {
+  background:#2563eb;
+  color:white;
+  padding:10px 20px;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  transition:.2s;
+}
+
+.ViewBtn:hover {
+  background:#1e40af;
+}
+
+
+.MedicineList {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  flex:1;
+}
+
+.MedicineRow {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  background:#f8fafc;
+  padding:8px;
+  border-radius:6px;
+}
+
+.BookingInfo {
+  font-size:14px;
+  color:#475569;
+  margin-right:10px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .OrderCard{
+    flex-direction:column;
+    text-align:center;
+    padding-top:28px;
+  }
+
+  .Status{
+    top:8px;
+    right:50%;
+    transform:translateX(50%);
+  }
+
+  .ViewBtn{
+    width:100%;
+    text-align:center;
+  }
+}

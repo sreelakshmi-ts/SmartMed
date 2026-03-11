@@ -1,15 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './RMyprofile.module.css'
 import { EditOutlined } from '@mui/icons-material'
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const RMyProfile = () => {
+  const[profile,setProfile]=useState([]);
+
+    useEffect(() => {
+    const repId = sessionStorage.getItem('rid');
+    if (!repId) return;
+    axios.get(`http://localhost:5000/Representative/${repId}`)
+    .then(res => setProfile(res.data.data))
+    .catch(console.error);
+}, []);
+if (!profile) return <div>Loading...</div>;
   return (
     <div className={style.profilePage}>
       <div className={style.profileCard}>
         {/* Header */}
         <div className={style.header}>
           <img
-            src="/profile.png"
+            src={`http://localhost:5000${profile.repPhoto}`}
             alt="Representative"
             className={style.avatar}
           />
@@ -29,33 +41,33 @@ const RMyProfile = () => {
         <div className={style.details}>
           <div>
             <span>Full Name</span>
-            <p>Anjali Menon</p>
+            <p>{profile.repName}</p>
           </div>
 
           <div>
             <span>Email</span>
-            <p>rep@smartmed.com</p>
+            <p>{profile.repEmail}</p>
           </div>
 
           <div>
             <span>Phone</span>
-            <p>9876543210</p>
+            <p>{profile.repContact}</p>
           </div>
 
           <div>
-            <span>Assigned Area</span>
-            <p>Ernakulam District</p>
+            <span>Location</span>
+            <p>{profile.placeName ||"Unknown"},{profile.districtName || "Unknown"}</p>
           </div>
 
           <div>
             <span>Employee ID</span>
-            <p>REP-3051</p>
+            <p>{profile.repEmpId}</p>
           </div>
 
-          <div>
+          {/* <div>
             <span>Account Status</span>
             <p className={style.active}>Active</p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

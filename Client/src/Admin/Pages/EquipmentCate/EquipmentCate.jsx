@@ -7,18 +7,31 @@ import { Link } from 'react-router';
 
 const EquipmentCate = () => {
     const[equiCategory,setEquiCategory]=useState('');
-     const[equicategoryData,setEquiCategoryData]=useState([])
+    const[equicategoryData,setEquiCategoryData]=useState([]);
+    const[equipmentcateEditId,setEquipmentcateEditId]=useState(null);
+
 
         const handleSubmit = (e) => {
           e.preventDefault();
             const data = {
                 equcategoryName :equiCategory
             }
+            if(equipmentcateEditId===null){
             axios.post("http://localhost:5000/Equipmentcate", data).then((res) => {
             setEquiCategory("");
             alert(res.data.message);
             getEquiCategory();
             });
+          }
+          else{
+            axios.put(`http://localhost:5000/Equipmentcate/${equipmentcateEditId}`, data)
+              .then((res) => {
+              setEquiCategory("");
+              setEquipmentcateEditId(null);
+              alert(res.data.message);
+              getEquiCategory();  
+          });            
+          }
         }
 
         const getEquiCategory =()=>{
@@ -40,6 +53,18 @@ const EquipmentCate = () => {
         });
     }
 
+    const handleEdit=(id) =>{
+    
+    const result=equicategoryData.find((data) => data._id === id);
+    if(result){
+    setEquipmentcateEditId(result._id);
+    setEquiCategory(result.equcategoryName);
+     setTimeout(() => {
+      document.getElementById("EquicategoryInput")?.focus();
+    }, 0);
+      }
+    };  
+
 
   return (
    <div>
@@ -57,6 +82,7 @@ const EquipmentCate = () => {
               type="text"
               placeholder="Enter Equipment category name"
               value={equiCategory}
+              id='EquicategoryInput'
               onChange={(e) => setEquiCategory(e.target.value)}
               required
             />
@@ -64,7 +90,7 @@ const EquipmentCate = () => {
 
           <div className={style.actions}>
             <button type="submit" className={style.submit}>
-              Add Category
+              {equipmentcateEditId ? "Update Category" : "Add Category"}
             </button>
             <button
               type="reset"
@@ -99,7 +125,7 @@ const EquipmentCate = () => {
             <td>{key + 1}</td>
             <td>{data.equcategoryName}</td>
             <td className={style.actions}>
-            <Link className={style.edit}>Edit</Link>
+            <Link className={style.edit} onClick={()=> handleEdit(data._id)}>Edit</Link>
             <Link className={style.delete} onClick={()=> handleDelete(data._id)}>Delete</Link>
             
             </td>

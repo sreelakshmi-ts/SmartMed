@@ -24,7 +24,7 @@ const AddStock = () => {
     const handleSubmit=(e) =>{
     e.preventDefault();
     const data ={
-        medicineId: medicine._id,
+      medicineId: medicine._id,
        medicineManufactureDate:mnfdate,
        medicineExpireDate:expdate,
        stockQuantity:stock,

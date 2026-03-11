@@ -7,22 +7,32 @@ const AssignedDelivery = () => {
   const deliveryId = sessionStorage.getItem("did");
 
 
-
+const fetchAssignedOrders = () => {
+ axios.get(`http://localhost:5000/AssignedOrders/${deliveryId}`)
+    .then((res) => {
+    setDelivery(res.data.assignedOrders);       
+    })
+    .catch((err) => console.log(err));
+};
   useEffect(() => {
-    axios.get(`http://localhost:5000/AssignedOrders/${deliveryId}`).then((res) => {
-      setDelivery(res.data.assignedOrders);
-    }).catch((err) => console.log(err));
+    fetchAssignedOrders();
   }, []);
 
 const handleAccept = (bookingId) => {
   axios.put(`http://localhost:5000/UpdateDeliveryStatus/${bookingId}`)
-  .then(() => alert("Delivery accepted successfully!"))
+  .then(() => {
+    alert("Delivery accepted successfully!");
+    fetchAssignedOrders(); 
+  })
   .catch(console.error);
 };
 
 const handleDelivered = (bookingId) => {
   axios.put(`http://localhost:5000/CompleteDelivery/${bookingId}`)
-  .then(() => alert("Marked as delivered!"))
+  .then(() => {
+    alert("Marked as delivered!");
+    fetchAssignedOrders(); 
+  })
   .catch(console.error);
 }
 

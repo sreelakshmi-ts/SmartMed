@@ -7,20 +7,33 @@ import { Link } from 'react-router'
 
 const Category = () => {
     const [category,setCategory]=useState('')
-    const[categoryData,setCategoryData]=useState([])
+    const[categoryData,setCategoryData]=useState([]);
+    const[categoryEditId,setCategoryEditId]=useState(null);
+
         const handleSubmit = (e) => {
           e.preventDefault();
             const data = {
                 categoryName:category
             }
+            if(categoryEditId===null){
             axios.post("http://localhost:5000/Category", data).then((res) => {
             setCategory("");
             alert(res.data.message);
             getCategory();
             });
+          }
+          else{
+            axios.put(`http://localhost:5000/Category/${categoryEditId}`, data)
+              .then((res) => {
+              setCategory("");
+              setCategoryEditId(null);
+              alert(res.data.message);
+              getCategory();  
+          });
+          }
         }
 
-        //get
+//------------------------------get----------------------------
         const getCategory =()=>{
 
             axios.get("http://localhost:5000/Category").then((res) => {
@@ -33,6 +46,20 @@ const Category = () => {
         getCategory();
 
     }, []);
+
+//-----------------Edit -------------------------
+  const handleEdit=(id) =>{
+    
+    const result=categoryData.find((data) => data._id === id);
+    if(result){
+    setCategoryEditId(result._id);
+    setCategory(result.categoryName);
+     setTimeout(() => {
+      document.getElementById("categoryInput")?.focus();
+    }, 0);
+      }
+    };
+
 
 
     const handleDelete =(id) =>{
@@ -57,14 +84,15 @@ const Category = () => {
               type="text"
               placeholder="Enter category name"
               value={category}
+              id='categoryInput'
               onChange={(e) => setCategory(e.target.value)}
               required
             />
           </div>
 
           <div className={style.actions}>
-            <button type="submit" className={style.submit}>
-              Add Category
+            <button type="submit" className={style.submit} >
+             {categoryEditId ? "Update Category" : "Add Category"}
             </button>
             <button
               type="reset"
@@ -99,7 +127,7 @@ const Category = () => {
             <td>{key + 1}</td>
             <td>{data.categoryName}</td>
             <td className={style.actions}>
-            <Link className={style.edit}>Edit</Link>
+            <Link className={style.edit} onClick={()=> handleEdit(data._id)}>Edit</Link>
             <Link className={style.delete} onClick={()=> handleDelete(data._id)}>Delete</Link>
             
             </td>

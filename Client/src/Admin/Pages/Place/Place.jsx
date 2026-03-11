@@ -8,6 +8,7 @@ const Place = () => {
   const[place,setPlace]=useState('');
   const[distId,setDistId]=useState('');
   const[getPlaceData,setPlaceData]=useState([]);
+  const[placeEditId,setPlaceEditId]=useState(null);
 
   const handleSubmit=(e) =>{
      e.preventDefault();
@@ -15,14 +16,26 @@ const Place = () => {
       placeName:place,
       districtId:distId
     }
+    if(placeEditId===null){
     axios.post("http://localhost:5000/Place", data).then((res) => {
      
       setPlace("");
       setDistId("");
       alert(res.data.message);
       getPlace();
-
     });
+  }
+  else{
+          axios.put(`http://localhost:5000/Place/${placeEditId}`, data)
+          .then((res) => {
+          setPlace("");
+          setDistId("");
+          setPlaceEditId(null);
+          alert(res.data.message);
+          getPlace();  
+          
+        });    
+  }
   }
 
   const getDistrict =()=>{
@@ -42,6 +55,25 @@ const Place = () => {
   });
 }
 
+
+    const handleDelete =(id) =>{
+    axios.delete(`http://localhost:5000/Place/${id}`).then((res) => {
+    getPlace();
+    });
+    }
+    const handleEdit = (id) => {
+      const result = getPlaceData.find((data) => data._id === id);
+
+      if (result) {
+        setPlaceEditId(result._id);
+        setPlace(result.placeName);
+        setDistId(result.districtId?._id);  
+
+        setTimeout(() => {
+          document.getElementById("placeInput")?.focus();
+        }, 0);
+      }
+    };
 
 
   return (
@@ -70,13 +102,14 @@ const Place = () => {
         placeholder="Enter place name"
         required
         value={place}
+        id='placeInput'
         onChange={(e) => setPlace(e.target.value)}
       />
     </div>
 
     <div className={style.actions}>
       <button type="submit" className={style.submit} onClick={handleSubmit}>
-        Add Place
+        {placeEditId ? "Update Place" : "Add Place"}
       </button>
       <button type="reset" className={style.cancel}>
         Cancel
@@ -106,8 +139,8 @@ const Place = () => {
             <td>{data.placeName}</td>
             <td>{data.districtId ? data.districtId.districtName : 'Unknown'}</td>
             <td className={style.actions}>
-            <Link className={style.edit}>Edit</Link>
-            <Link className={style.delete} >Delete</Link>
+            <Link className={style.edit} onClick={()=> handleEdit(data._id)}>Edit</Link>
+            <Link className={style.delete} onClick={()=> handleDelete(data._id)} >Delete</Link>
             </td>
 
           </tr>

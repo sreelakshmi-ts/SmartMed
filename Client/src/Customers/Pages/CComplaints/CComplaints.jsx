@@ -1,13 +1,44 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './Ccomplaintes.module.css'
+import axios from 'axios';
 
 const CComplaints = () => {
-    const [title, setTitle] = useState("");
-  const [message, setMessage] = useState("");
-   const handleSubmit = (e) => {
+  const [title, setTitle] = useState("");
+  const [complaint, setComplaint] = useState("");
+  const customerId = sessionStorage.getItem("cid");
+  const[complaints,setComplaints]=useState([]);
+
+//-------------- Handle Complaint Submission -------------------
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // API call later
+    const complaintData = {
+      customerId: customerId,
+      complaintTitle: title,
+      complaintContent: complaint,
+    };
+   axios.post('http://localhost:5000/MedicineCustomerComplaint', complaintData)
+    .then(res => {
+      alert("Complaint submitted successfully!");
+      setTitle("");
+      setComplaint("");
+      getComplaints(); 
+    })
+    .catch(err => {
+      alert("Error submitting complaint.");
+      console.error(err);
+    });
   };
+
+  //-----------------Get Complaints List -------------------
+const getComplaints = () => {
+  axios.get(`http://localhost:5000/MedicineCustomerComplaints/${customerId}`)
+    .then(res => setComplaints(res.data.complaints || []))
+    .catch(err => console.error(err));
+};
+  useEffect(() => {
+    getComplaints();
+  }, [customerId]);
+
   return (
     <div className={style.complaintPage}>
       {/* Complaint Form */}
@@ -34,14 +65,14 @@ const CComplaints = () => {
             <textarea
               rows="4"
               placeholder="Describe your issue..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={complaint}
+              onChange={(e) => setComplaint(e.target.value)}
               required
             />
           </div>
 
           <div className={style.actions}>
-            <button type="submit" className={style.submit}>
+            <button type="submit" className={style.submit} onClick={handleSubmit}>
               Submit
             </button>
             <button
@@ -49,7 +80,7 @@ const CComplaints = () => {
               className={style.cancel}
               onClick={() => {
                 setTitle("");
-                setMessage("");
+                setComplaint("");
               }}
             >
               Cancel
@@ -72,14 +103,26 @@ const CComplaints = () => {
               <th>Action</th>
             </tr>
           </thead>
-
           <tbody>
-            {/* Data will be mapped here later */}
-            <tr>
-              <td colSpan="5" className={style.empty}>
-                No complaints submitted yet
-              </td>
-            </tr>
+            {complaints.map((comp, index) => (
+              <tr key={comp._id}>
+                <td>{index + 1}</td>
+                <td>{comp.complaintTitle}</td>
+                <td>{comp.complaintContent}</td>
+                <td>{comp.complaintReply || "Not replied yet"}</td>
+                <td>
+                  <span
+                    className={
+                      comp.complaintStatus === "Resolved"
+                        ? style.resolved
+                        : style.pending
+                    }
+                  >
+                    {comp.complaintStatus}
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

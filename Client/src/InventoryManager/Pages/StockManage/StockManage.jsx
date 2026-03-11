@@ -26,8 +26,8 @@ const StockManage = () => {
          {medicine.map((data)=>(<div className={styles.card} key={data._id}>
           <div className={styles.imageContainer}>
             <img
-              src={`http://localhost:5000${data.equipmentPhoto}`}
-              alt="Equipment"
+              src={`http://localhost:5000${data.medicinePhoto}`}
+              alt="Medicine"
               className={styles.image}
             />
           </div>

@@ -1,9 +1,14 @@
 import React from 'react'
 import { useState } from 'react';
 import style from './RNavbar.module.css'
+import { useNavigate } from 'react-router';
 
 const RNavbar = () => {
     const [open, setOpen] = useState(false);
+    const navigate=useNavigate();
+    const myprofile=async () =>{
+      navigate('/reps/repmyprofile')
+    }
   return (
     <div><nav className={style.repnavbar}>
       <div className={style.left}>
@@ -26,7 +31,7 @@ const RNavbar = () => {
 
           {open && (
             <div className={style.dropdown}>
-              <button>My Profile</button>
+              <button onClick={myprofile}>My Profile</button>
               <button>Edit Profile</button>
               <button className={style.logout}>Logout</button>
             </div>

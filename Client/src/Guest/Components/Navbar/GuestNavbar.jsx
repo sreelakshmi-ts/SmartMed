@@ -26,7 +26,6 @@ const GuestNavbar = () => {
     <div className={sty.signupMenu}>
       <Link to="/guest/regs">Medicine Customer</Link>
       <Link to="/guest/EquipmentShopreg">Equipment Customer</Link>
-      <Link to="/guest/manufacturer-reg">Manufacturer</Link>
     </div>
   </div>
 </div>

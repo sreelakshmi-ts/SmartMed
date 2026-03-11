@@ -16,7 +16,7 @@ const EquicustNavbar = () => {
     <Link className={sty.li} to='/equipmentCustomer/viewEquipments'>Products</Link>
     <Link className={sty.li} to='#'>Suppliers</Link>
     <Link className={sty.li} to='#'>Orders</Link>
-    <Link className={sty.li} to='/equipmentCustomer/ccomplaints'>Support</Link>
+    <Link className={sty.li} to='/equipmentCustomer/ecomplaints'>Support</Link>
   </ul>
 
   {/* Profile Section */}
@@ -27,9 +27,9 @@ const EquicustNavbar = () => {
     </div>
 
     <div className={sty.profileMenu}>
-      <Link to='#'>My Profile</Link>
-      <Link >Edit Profile</Link>
-      <Link >Settings</Link>
+      <Link to='/equipmentCustomer/eMyprofile'>My Profile</Link>
+      <Link to='/equipmentCustomer/myCart'>My Cart</Link>
+      <Link to='/equipmentCustomer/myorders'>My Orders</Link>
       <hr />
       <Link to="/guest/login" className={sty.logout}>Logout</Link>
     </div>

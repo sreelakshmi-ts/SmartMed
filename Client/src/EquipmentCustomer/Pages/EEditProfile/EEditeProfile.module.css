@@ -1,0 +1,158 @@
+/* PAGE */
+
+.ProfilePage {
+  min-height: 100vh;
+  background: #f1f3f6;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* CARD */
+
+.ProfileCard {
+  width: 100%;
+  max-width: 900px;
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+
+.Header h2 {
+  margin-bottom: 5px;
+  color: #0f172a;
+}
+
+.Header p {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+/* IMAGE SECTION */
+
+.ImageSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.ProfileImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e5e7eb;
+}
+
+.UploadBtn {
+  margin-top: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.UploadBtn:hover {
+  background: #1e40af;
+}
+
+/* FORM GRID */
+
+.FormGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+/* FORM GROUP */
+
+.FormGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.FormGroup label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #334155;
+  font-weight: 600;
+}
+
+.FormGroup input,
+.FormGroup textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.FormGroup input:focus,
+.FormGroup textarea:focus {
+  border-color: #2563eb;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* FULL WIDTH FIELD */
+
+.FullWidth {
+  grid-column: span 2;
+}
+
+/* BUTTONS */
+
+.Actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.CancelBtn {
+  background: #e2e8f0;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.SaveBtn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.SaveBtn:hover {
+  background: #15803d;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .FormGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .FullWidth {
+    grid-column: span 1;
+  }
+
+}

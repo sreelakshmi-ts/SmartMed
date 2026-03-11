@@ -11,6 +11,7 @@ const DeliveryReg = () => {
   const[password,setPassword]=useState('');
   const[district,setDistrict]=useState([]);
   const[districtId,setDistrictId]=useState('');
+  const[contact,setContact]=useState('');
 
       const handelSubmit =(e) =>{
         e.preventDefault(); 
@@ -20,6 +21,7 @@ const DeliveryReg = () => {
            placeId:placeId,
            deliverEmail:email ,
            deliverPassword:password,
+           deliverContact:contact,
 
         }
         axios.post('http://localhost:5000/Delivery',data).then((res) => {
@@ -27,7 +29,9 @@ const DeliveryReg = () => {
             setVechicleNo();
             setPlaceId("");
             setEmail("");
+            setContact("");
             setPassword("");
+
             alert(res.data.message)
             console.log(res.data.message);
         });
@@ -119,10 +123,10 @@ const DeliveryReg = () => {
         <input type="email" required value={email} onChange={e=>setEmail(e.target.value)}/>
       </div>
 
-      {/* <div className={style.field}>
-        <label>Username</label>
-        <input type="text" required />
-      </div> */}
+      <div className={style.field}>
+        <label>Contact Number</label>
+        <input type="Number" required value={contact} onChange={e=>setContact(e.target.value)} />
+      </div>
 
       <div className={style.field}>
         <label>Password</label>

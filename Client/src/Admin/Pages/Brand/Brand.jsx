@@ -7,23 +7,38 @@ import { Link } from 'react-router'
 
 
 const Brand = () => {
-  const [brand,setBrand]=useState('')
-  const[brandData,setBrandData]=useState([])
+  const [brand,setBrand]=useState('');
+  const[brandData,setBrandData]=useState([]);
+  const[brandEditId,setBrandEditId]=useState(null);
+
   const handleSubmit = (e) => {
-        // e.preventDefault();
+    e.preventDefault();
     const data = {
       brandName:brand
     }
+    if(brandEditId===null){
     axios.post("http://localhost:5000/Brand", data).then((res) => {
       setBrand("");
       alert(res.data.message);
+      getBrand();
     });
+  }
+  else{
+    axios.put(`http://localhost:5000/Brand/${brandEditId}`,data)
+          .then((res) => {
+          setBrand("");
+          setBrandEditId(null);
+          alert(res.data.message);
+          getBrand();  
+  });
+  }
   }
 
   const getBrand =()=>{
 
             axios.get("http://localhost:5000/Brand").then((res) => {
             setBrandData(res.data.brand);
+            
             
             });
         }
@@ -32,6 +47,20 @@ const Brand = () => {
         getBrand();
 
     }, []);
+
+
+
+  const handleEdit=(id) =>{
+    
+    const result=brandData.find((data) => data._id === id);
+    if(result){
+    setBrandEditId(result._id);
+    setBrand(result.brandName);
+     setTimeout(() => {
+      document.getElementById("brandInput")?.focus();
+    }, 0);
+      }
+    };
 
     const handleDelete =(id) =>{
     axios.delete(`http://localhost:5000/Brand/${id}`).then((res) => {
@@ -55,6 +84,7 @@ const Brand = () => {
         type="text"
         placeholder="Enter brand name"
         value={brand}
+        id='brandInput'
         onChange={(e) => setBrand(e.target.value)}
         required
       />
@@ -62,7 +92,8 @@ const Brand = () => {
 
     <div className={style.actions}>
       <button type="submit" className={style.submit}>
-        Add Brand
+
+        {brandEditId ? "Update Brand" : "Add Brand"}
       </button>
       <button
         type="reset"
@@ -94,7 +125,7 @@ const Brand = () => {
             <td>{key + 1}</td>
             <td>{data.brandName}</td>
             <td className={style.actions}>
-            <Link className={style.edit}>Edit</Link>
+            <Link className={style.edit} onClick={()=> handleEdit(data._id)}>Edit</Link>
             <Link className={style.delete} onClick={()=> handleDelete(data._id)}>Delete</Link>
             
             </td>

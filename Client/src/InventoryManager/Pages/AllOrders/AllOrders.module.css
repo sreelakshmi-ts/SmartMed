@@ -11,6 +11,18 @@
   font-weight:700;
   color:#0f172a;
 }
+.FilterSection{
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.DateFilter{
+  padding:6px 10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
 
 /* LIST */
 

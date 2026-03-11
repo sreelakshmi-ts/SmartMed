@@ -16,7 +16,28 @@ const EquipmentDetailView = () => {
         getEquipment();
     },[id]);
     if (!equipment) return <p>Loading...</p>;
-       
+
+    const addtoCart = () => {
+
+      const equipmentCustomerId = sessionStorage.getItem("ecid");
+      if (!equipmentCustomerId) {
+        alert("Please login first");
+        return;
+      }
+      axios.post("http://localhost:5000/EquipmentCart", {
+         equipmentCustomerId: equipmentCustomerId,
+        equipmentId: equipment._id,
+        quantity: 1
+      })
+      .then(res => {
+        alert("Equipment added to cart!");
+      })
+      .catch(err => {
+        console.error("Error adding to cart:", err);
+        alert("Failed to add equipment to cart.");
+      });
+    };
+
   return (
     <div className={style.ProductDetailPage}>
      <div className={style.ProductCard}>
@@ -43,7 +64,7 @@ const EquipmentDetailView = () => {
           {equipment.equipmentPrice} <span>/ piece</span>
          </div>
          <p className={style.Description}>
-               {equipment.equipmentDescription}
+               {equipment.equipmentDistription}
          </p>
                    {/* <div className={style.QuantityBox}>
              <button onClick={decreaseQty}>−</button>
@@ -58,7 +79,7 @@ const EquipmentDetailView = () => {
    </div> */}
    
            <div className={style.Actions}>
-           <button className={style.AddToCart} >Add to Cart</button>
+           <button className={style.AddToCart} onClick={addtoCart} >Add to Cart</button>
            <button className={style.BuyNow}>Buy Now</button>
          </div>
        </div>

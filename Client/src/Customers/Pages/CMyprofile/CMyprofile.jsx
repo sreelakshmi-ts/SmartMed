@@ -2,22 +2,27 @@ import React, { useEffect, useState } from 'react'
 import style from './CMyprofile.module.css'
 import { EditOutlined } from '@mui/icons-material'
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 const CMyprofile = () => {
   const[profile,setProfile]=useState(null);
+  const navigate=useNavigate();
 
    useEffect(() => {
         const cid = sessionStorage.getItem('cid');
         if (!cid) return;
         axios.get(`http://localhost:5000/Customer/${cid}`)
         
-             .then(res => setProfile(res.data.data)
+          .then(res => setProfile(res.data.data)
            
             )
              .catch(console.error);
     }, []);
 
      if (!profile) return <div>Loading...</div>;
+    const profileEdit = async () =>{
+    navigate('/customer/cEditprofile')
+   }
 
   return (
     <div className={style.profilePage}>
@@ -33,7 +38,7 @@ const CMyprofile = () => {
             <p>Registered Customer</p>
           </div>
 
-          <button className={style.editBtn}>
+          <button className={style.editBtn} onClick={profileEdit}>
             <EditOutlined  fontSize="small" />
             Edit Profile
           </button>

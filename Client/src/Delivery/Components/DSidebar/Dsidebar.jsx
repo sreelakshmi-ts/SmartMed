@@ -16,14 +16,21 @@ const Dsidebar = () => {
         </Link>
 
         <Link to="/deliveryteam/assigneddeliveries" className={style.link}>
-          <LocalShippingOutlined /> Assigned Orders
+          <LocalShippingOutlined /> Assigned Medicine Orders
+        </Link>
+        <Link to="/deliveryteam/assignedequipmentorders" className={style.link}>
+          <LocalShippingOutlined /> Assigned Equipment Orders
         </Link>
 
-        <Link to="/deliveryteam/completed" className={style.link}>
-          <AssignmentTurnedInOutlined /> Completed Deliveries
+
+        <Link to="/deliveryteam/completedMedicineDelivery" className={style.link}>
+          <AssignmentTurnedInOutlined /> Completed Medicine Deliveries
+        </Link>
+        <Link to="/deliveryteam/completedEquipmentDelivery" className={style.link}>
+          <AssignmentTurnedInOutlined /> Completed Equipment Deliveries
         </Link>
 
-        <Link to="/delivery/profile" className={style.link}>
+        <Link to="/deliveryteam/dmyprofile" className={style.link}>
           <PersonOutlineOutlined /> My Profile
         </Link>
       </nav>

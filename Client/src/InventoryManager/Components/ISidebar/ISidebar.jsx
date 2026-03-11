@@ -29,6 +29,9 @@ const ISidebar = () => {
     <Link className={style.item} to="/inventory/allorders">
       Orders
     </Link>
+    <Link className={style.item} to="/inventory/equipmentAllorders">
+      Equipment AllOrders
+    </Link>
 
     <Link className={style.item} to="/inventory/suppliers">
       Suppliers

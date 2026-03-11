@@ -9,6 +9,8 @@ import AllOrders from '../InventoryManager/Pages/AllOrders/AllOrders'
 import DeliveryTeamAssign from '../InventoryManager/Pages/DeliveryTeamAssign/DeliveryTeamAssign'
 import EquipmentStockManage from '../InventoryManager/Pages/EquipmentStockManage/EquipmentStockManage'
 import AddEquiStock from '../InventoryManager/Pages/AddEquipmentStock/AddEquiStock'
+import AllEquipmemntOrders from '../InventoryManager/Pages/AllEquipmentOrders/AllEquipmemntOrders'
+import EquipmentOrderDetail from '../InventoryManager/Pages/EquipmentOrdersDetail/EquipmentOrderDetail'
 
 const InventoryRouter = () => {
   return (
@@ -23,6 +25,8 @@ const InventoryRouter = () => {
           <Route path='deliveryteamAssign/:bookid' element={<DeliveryTeamAssign/>}/>
           <Route path='equipmentstockmanage' element={<EquipmentStockManage/>}/>
           <Route path='addequipmentstock/:id' element={<AddEquiStock/>}/>
+          <Route path='equipmentAllorders' element={<AllEquipmemntOrders/>}/>
+          <Route path='equipmentorderdetail/:id' element={<EquipmentOrderDetail/>}/>
 
 
 

@@ -17,6 +17,11 @@ import CustomerDetails from '../Admin/Pages/CustomerDetails/CustomerDetails'
 import EquipmentCate from '../Admin/Pages/EquipmentCate/EquipmentCate'
 import EquiCustomerDetails from '../Admin/Pages/EquiCustomerDetails/EquiCustomerDetails'
 import AddEquipments from '../Admin/Pages/Equipments/AddEquipments'
+import EquipmentComplaintView from '../Admin/Pages/EquipmentComplaintView/EquipmentComplaintView'
+import EquiComplaintReplay from '../Admin/Pages/EquiComplaintReplay/EquiComplaintReplay'
+import InventoryManagerList from '../Admin/Pages/InventoryManagerList/InventoryManagerList'
+import RepresentativeList from '../Admin/Pages/RepresentativeList/RepresentativeList'
+import DeliveryTeamList from '../Admin/Pages/DeliveryTeamList/DeliveryTeamList'
 
 
 const AdminRouter = () => {
@@ -33,6 +38,9 @@ const AdminRouter = () => {
             <Route path='type' element={<Type/>}/>
             <Route path='addmedicine' element={<Medicine/>} />
             <Route path='addEquipment' element={<AddEquipments/>} />
+            <Route path='inManagerlist' element={<InventoryManagerList/>}/>
+            <Route path='replist' element={<RepresentativeList/>}/>
+            <Route path='deliveryTeamList' element={<DeliveryTeamList/>}/>
 
             <Route path='inmanagerReg' element={<InManagerReg/>}/>
             <Route path='representativeReg' element={<RepresentativeReg/>}/>
@@ -43,11 +51,13 @@ const AdminRouter = () => {
 
 
             <Route path='complaintview' element={<ComplaintView/>}/>
-            <Route path='complaintreplay' element={<ComplaintReplay/>}/>
+            <Route path="/ComplaintReplay/:id" element={<ComplaintReplay />} />
+            <Route path='/equiComplaintView' element={<EquipmentComplaintView/>}/>
+            <Route path='/equiComplaintReplay/:id' element={<EquiComplaintReplay/>}/>
 
         </Routes>
     </div>
   )
 }
 
-export default AdminRouter
+export default AdminRouter 

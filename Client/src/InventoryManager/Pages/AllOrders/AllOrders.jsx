@@ -6,6 +6,7 @@ import axios from 'axios'
 const AllOrders = () => {
 
   const [allOrders, setAllOrders] = useState([]);
+  const [filterDate, setFilterDate] = useState("");
   
 
   useEffect(() => {
@@ -18,13 +19,43 @@ const AllOrders = () => {
       .catch(err => console.log(err));
   }, []);
 
+    const today = new Date().toDateString();
+
+    const sortedOrders = [...allOrders].sort((a, b) => {
+    const aDate = new Date(a.bookingDate).toDateString();
+    const bDate = new Date(b.bookingDate).toDateString();
+
+    if (aDate === today && bDate !== today) return -1;
+    if (aDate !== today && bDate === today) return 1;
+
+    return new Date(b.bookingDate) - new Date(a.bookingDate);
+    });
+
+    const filteredOrders = filterDate
+  ? sortedOrders.filter(order =>
+      new Date(order.bookingDate).toISOString().slice(0, 10) === filterDate
+    )
+  : sortedOrders;
+
   return (
     <div className={style.OrdersPage}>
+              <div className={style.FilterSection}>
+
+          <label>Filter by Date:</label>
+
+          <input
+            type="date"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            className={style.DateFilter}
+          />
+
+        </div>
 
       <h2 className={style.PageTitle}>All Orders</h2>
 
       <div className={style.OrderList}>
-{allOrders.map(order => (
+{filteredOrders.map(order => (
 
   <div className={style.OrderCard} key={order._id}>
 
