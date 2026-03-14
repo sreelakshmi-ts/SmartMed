@@ -6,7 +6,7 @@ import { useParams } from 'react-router';
 import style from './AddEquiStock.module.css'
 
 const AddEquiStock = () => {
-    const[equipment,setEquipment]=useState(null);
+    const[equipment,setEquipment]=useState(null); 
     const { id } = useParams();
     const[mnfdate,setMnfdate]=useState('');
     const[expdate,setExpdate]=useState('');

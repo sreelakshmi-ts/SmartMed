@@ -131,14 +131,14 @@ app.post("/District", async (req, res) => {
         res.status(500).send("Server error");
     }
 });
-//District Get
+//---------------------------District Get-----------------------------------
 app.get("/District", async (req, res) => {
     try {
         const district = await District.find();
         if (district.length === 0) {
             return res.send({ message: "Districts not found", district: [] });
         } else {
-            res.send({ district }).status(200);
+            res.status(200).json({ district });
         }
     } catch (err) {
         console.error("Error finiding district:", err);
@@ -706,6 +706,7 @@ const Customer = mongoose.model("customerCollection", customerSchemaStructure);
 app.post("/Customer", upload.single("DrugLicence"), async (req, res) => {
     try {
 
+
         const { customerStoreName, customerStoreRegNo, ownerName, customerAddress, placeId,
             customerContact, customerEmail, customerUsername, customerPassword } = req.body;
         const DrugLicence = req.file ? `/uploads/${req.file.filename}` : "";
@@ -721,27 +722,49 @@ app.post("/Customer", upload.single("DrugLicence"), async (req, res) => {
     }
 
 });
-//GET Customer
-// app.get("/Customer", async (req, res) => {
-//     try {
+//----------Get customer email check-------------------
+app.post("/MedCustomerCheckEmail", async (req, res) => {
+  try {
+    const {customerEmail} = req.body;
 
-//         const customer = await Customer.find().populate({
-//             path: "placeId",
-//             populate: { path: "districtId" }
-//         })
-//             ;
-//         if (customer.length === 0) {
-//             return res.send({ message: "Customer not found", customer: [] });
-//         } else {
-//             res.send({ customer }).status(200);
-//         }
+    if (!customerEmail) {
+      return res.status(400).json({ message: "Email required" });
+    }
 
-//     } catch (err) {
-//         console.error("Error finiding Customer:", err);
-//         res.status(500).json({ message: "Internal server error" });
-//     }
+    
+    const admin = await Admin.findOne({ adminEmail: customerEmail });
+    const representative = await Representative.findOne({ representativeEmail: customerEmail });
+    const inventory = await InManager.findOne({ inventoryEmail:customerEmail});
+    const delivery = await Delivery.findOne({ deliveryEmail: customerEmail });
+    const equipmentCustomer = await EquipmentCustomer.findOne({ customerEmail: customerEmail });
+    const medicineCustomer = await Customer.findOne({ customerEmail: customerEmail });
 
-// })
+    if (
+      admin ||
+      representative ||
+      inventory ||
+      delivery ||
+      equipmentCustomer ||
+      medicineCustomer
+    ) {
+      return res.json({
+        exists: true,
+        message: "Email already registered"
+      });
+    }
+
+    res.json({
+      exists: false,
+      message: "Email available"
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+//------------------------GET Customer----------------------------------
+
 app.get("/Customer", async (req, res) => {
   try {
 
@@ -838,29 +861,10 @@ app.get("/Customer/:id", async (req, res) => {
 app.put("/Customer/:id", async (req, res) => {
         const {ownerName,customerEmail,customerContact,customerAddress} =req.body;
             await Customer.findByIdAndUpdate(req.params.id, { ownerName, customerEmail, customerContact, customerAddress});
-            res.json({ message: "Updated Equipment Profile Succesfully" });
+            res.json({ message: "Updated Medicine Customer Profile Succesfully" });
 });
 
 //--------------------Put status-------------------------------------
-// app.put("/Customer/:id", async (req, res) => {
-//     try {
-//         const { customerStatus } = req.body;
-
-//         const updatedCustomer = await Customer.findByIdAndUpdate(
-//             req.params.id,
-//             { customerStatus },
-//             { new: true }
-//         );
-
-//         if (!updatedCustomer) {
-//             return res.status(404).json({ message: "Customer not found" });
-//         }
-
-//         res.json({ message: `Customer ${customerStatus} successfully` });
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
 
 app.put("/CustomerStatus/:id", async (req, res) => {
   try {
@@ -1076,7 +1080,7 @@ app.get("/EquipmentCustomer/:id", async (req, res) => {
 app.put("/EquipmentCustomer/:id", async (req, res) => {
         const {ownerName,customerEmail,customerContact,customerAddress} =req.body;
             await EquipmentCustomer.findByIdAndUpdate(req.params.id, { ownerName, customerEmail, customerContact, customerAddress});
-            res.json({ message: "Updated Equipment Profile Succesfully" });
+            res.json({ message: "Updated Equipment Customer Profile Succesfully" });
 });
 
 
@@ -4272,4 +4276,218 @@ app.put("/EquipmentComplaintReply/:id", async (req, res) => {
         console.error(err);
         res.status(500).json({ success: false, error: err.message });
     }
+});
+
+//-------------All medicine order for Admin-------------------------------
+app.get("/adminAllMedicineOrders", async (req, res) => {
+  try {
+
+    const bookings = await Booking.aggregate([
+
+      {
+        $match: { bookStatus: { $in: [2, 3, 4, 5] } }
+      },
+
+      // CUSTOMER DETAILS
+      {
+        $lookup: {
+          from: "customercollections",
+          localField: "customerId",
+          foreignField: "_id",
+          as: "customer"
+        }
+      },
+      { $unwind: "$customer" },
+
+      // CART ITEMS
+      {
+        $lookup: {
+          from: "cartcollections",
+          localField: "_id",
+          foreignField: "bookingId",
+          as: "cartItems"
+        }
+      },
+      { $unwind: "$cartItems" },
+
+      // ONLY MEDICINES
+      {
+        $match: {
+          "cartItems.medicineId": { $ne: null }
+        }
+      },
+
+      // MEDICINE DETAILS
+      {
+        $lookup: {
+          from: "medicinecollections",
+          localField: "cartItems.medicineId",
+          foreignField: "_id",
+          as: "medicine"
+        }
+      },
+      { $unwind: "$medicine" },
+
+      // GROUP ORDER
+      {
+        $group: {
+          _id: "$_id",
+
+          bookingDate: { $first: "$bookDate" },
+          bookStatus: { $first: "$bookStatus" },
+          totalAmount: { $first: "$bookAmount" },
+
+          customerStoreName: {
+            $first: "$customer.customerStoreName"
+          },
+
+          medicines: {
+            $push: {
+              medicineName: "$medicine.medicineName",
+              medicinePhoto: "$medicine.medicinePhoto",
+              quantity: "$cartItems.cartQuantity"
+            }
+          }
+        }
+      },
+
+      // SORT NEWEST FIRST
+      {
+        $sort: { bookingDate: -1 }
+      }
+
+    ]);
+
+    res.json({ success: true, bookings });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+
+//-----------------------------View All Equipment Order To Admin-------------------------
+app.get("/adminAllequipmentOrders", async (req, res) => {
+  try {
+
+    const bookings = await Booking.aggregate([
+
+      {
+        $match: { bookStatus: { $gte: 2 } }
+      },
+
+      {
+        $lookup: {
+          from: "equipmentcustomercollections",
+          localField: "equipmentCustomerId",
+          foreignField: "_id",
+          as: "customer"
+        }
+      },
+      {
+        $unwind: {
+          path: "$customer",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+
+      {
+        $lookup: {
+          from: "cartcollections",
+          localField: "_id",
+          foreignField: "bookingId",
+          as: "cartItems"
+        }
+      },
+      { $unwind: "$cartItems" },
+
+      // equipment carts only
+      {
+        $match: {
+          "cartItems.equipmentId": { $ne: null }
+        }
+      },
+
+      {
+        $lookup: {
+          from: "equipmentcollections",
+          localField: "cartItems.equipmentId",
+          foreignField: "_id",
+          as: "equipment"
+        }
+      },
+      { $unwind: "$equipment" },
+
+      {
+        $group: {
+          _id: "$_id",
+          bookingDate: { $first: "$bookDate" },
+          bookStatus: { $first: "$bookStatus" },
+          customerStoreName: { $first: "$customer.customerStoreName" },
+
+          equipment: {
+            $push: {
+              name: "$equipment.equipmentName",
+              photo: "$equipment.equipmentPhoto",
+              quantity: "$cartItems.cartQuantity"
+            }
+          }
+        }
+      },
+
+      // newest first
+      { $sort: { bookingDate: -1 } }
+
+    ]);
+
+    res.json({ success: true, bookings });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+
+//----------------------------List of All Medicine to Rep------------------------
+
+app.get("/representativeMedicinesList", async (req, res) => {
+  try {
+
+    const medicines = await Medicine.find()
+      .populate("categoryId", "categoryName")
+      .populate("typeId", "typeName")
+      .populate("brandId", "brandName")
+      .sort({ medicineName: 1 }); // alphabetical
+
+    res.json({
+      success: true,
+      medicines
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
+//------------------Medicine Customer Change Password--------------------
+app.put("/MedCustomerPassword/:id", async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    const customer = await Customer.findOne({ _id: req.params.id, customerPassword: oldPassword });
+    if (!customer)
+        return res.json({ message: "Old password is incorrect" });
+
+    customer.customerPassword = newPassword;
+    await customer.save();
+    res.json({ message: "Password changed successfully" });
+});
+//-------Equipment Customer Change Password---------------------------------
+app.put("/EquiCustomerPassword/:id", async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    const Equicustomer = await EquipmentCustomer.findOne({ _id: req.params.id, customerPassword: oldPassword });
+    if (!Equicustomer)
+        return res.json({ message: "Old password is incorrect" });
+
+    Equicustomer.customerPassword = newPassword;
+    await Equicustomer.save();
+    res.json({ message: "Password changed successfully" });
 });

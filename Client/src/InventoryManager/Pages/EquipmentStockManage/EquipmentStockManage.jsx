@@ -15,7 +15,7 @@ const [equipment, setEquipment] = useState([]);
     }
 
     useEffect(() =>{
-      getEquipment();
+      getEquipment(); 
     }
     ,[])
 

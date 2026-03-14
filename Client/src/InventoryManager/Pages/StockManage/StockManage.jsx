@@ -10,7 +10,7 @@ const StockManage = () => {
    const getMedicine=() =>{
         axios.get(`http://localhost:5000/Medicine`)
         .then(res => setMedicine(res.data.medicine))
-        .catch(console.error);
+        .catch(console.error); 
     };
     useEffect(() =>{
       getMedicine();

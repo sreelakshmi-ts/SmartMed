@@ -3,6 +3,7 @@ import style from "./Dashboard.module.css";
 
 
 
+
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -21,6 +22,8 @@ const badges = [
 ];
 
 import medicalsupply from "../../../assets/Landingpage/Langingpageimg1.png";
+import { useNavigate } from 'react-router';
+
 
 
 
@@ -102,8 +105,11 @@ const stats = [
 
 
 
-
 const Dashboard = () => {
+    const navigate=useNavigate();
+  const handleshopnow = async () => {
+    navigate('/guest/login');
+  }
   return (
     <>
   
@@ -129,7 +135,7 @@ const Dashboard = () => {
           </p>
 
           <div className={style.buttons}>
-            <button className={style.primaryBtn}>
+            <button className={style.primaryBtn} onClick={handleshopnow}>
               Shop Now <ArrowForwardIcon fontSize="small" />
             </button>
           </div>
@@ -149,7 +155,7 @@ const Dashboard = () => {
 
         <div className={style.right}>
           <div className={style.imageWrapper}>
-            {/* ✅ add real image instead of '#' */}
+            {/* add real image instead of '#' */}
             <img src={medicalsupply} alt="Medical Supply" />
           </div>
         </div>

@@ -29,8 +29,10 @@ const CustNavbar = () => {
 
     <div className={sty.profileMenu}>
       <Link to='/customer/cmyprofile'>My Profile</Link>
+      <Link to='/customer/cchangepwsd'>Change Password</Link>
       <Link to='/customer/cmycart'>My Cart</Link>
       <Link to='/customer/myorders'>My Orders</Link>
+      
       <hr />
       <Link to="/guest/login" className={sty.logout}>Logout</Link>
     </div>

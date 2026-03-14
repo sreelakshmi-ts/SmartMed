@@ -10,6 +10,7 @@ import BookingConfirm from '../Customers/Pages/BookingConfirm/BookingConfirm'
 import Payment from '../Customers/Pages/Payment/Payment'
 import MyOrder from '../Customers/Pages/MyOrder/MyOrder'
 import CEditProfile from '../Customers/Pages/CEditProfile/CEditProfile'
+import CChangePassword from '../Customers/Pages/CChangePassword/CChangePassword'
 
 
 const CustomerRouter = () => {
@@ -21,6 +22,7 @@ const CustomerRouter = () => {
           <Route path='cproductsView/:id' element={<MedicineView/>}  />
           <Route path='cmyprofile' element={<CMyprofile/>}/>
           <Route path='cEditprofile' element={<CEditProfile/>}/>
+          <Route path='cchangepwsd' element={<CChangePassword/>}/>
           <Route path='ccomplaints' element={<CComplaints/>} />
           <Route path='cmycart' element={<MyCart/>} />
           <Route path='bookingconfirm/:id' element={<BookingConfirm/>} />

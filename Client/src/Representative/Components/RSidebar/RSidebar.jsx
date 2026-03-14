@@ -28,8 +28,8 @@ const RSidebar = () => {
           Customers
         </Link>
 
-        <Link className={style.item} to="/rep/messages">
-          Messages
+        <Link className={style.item} to="/reps/allmedicinesList">
+          Medicine List
         </Link>
 
         <Link className={style.item} to="/reps/repmyprofile">

@@ -28,6 +28,7 @@ const EquicustNavbar = () => {
 
     <div className={sty.profileMenu}>
       <Link to='/equipmentCustomer/eMyprofile'>My Profile</Link>
+      <Link to='/equipmentCustomer/eChangePswd'>Change Passsword</Link>
       <Link to='/equipmentCustomer/myCart'>My Cart</Link>
       <Link to='/equipmentCustomer/myorders'>My Orders</Link>
       <hr />

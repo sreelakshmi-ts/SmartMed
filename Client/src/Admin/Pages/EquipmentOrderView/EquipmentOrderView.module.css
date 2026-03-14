@@ -1,0 +1,57 @@
+.page {
+  padding: 30px;
+}
+
+.filterBox {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.clearBtn{
+  padding:5px 10px;
+  background:#ef4444;
+  border:none;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.orderList {
+  display: grid;
+  gap: 20px;
+}
+
+.orderCard {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+.status {
+  background: #e0f2fe;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.itemRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.info {
+  margin-top: 12px;
+  color: #555;
+}

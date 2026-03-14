@@ -66,8 +66,19 @@ const InManagerReg = () => {
         fd.append('inManagerEmail',email);
         fd.append('InManagerPassword',pswd);
         axios.post("http://localhost:5000/InvetoryManager",fd)
-        .then(res => alert(res.data.message))
-        .catch(console.error)
+        .then((res) => {
+            setMname("");
+            setEmpId();
+            setContact("");
+            setWname("");
+            setPlaceId("");
+            setPhoto("");
+            setEmail("");
+            setPswd("")
+
+            alert(res.data.message)
+            console.log(res.data.message);
+        });
         }
 
 

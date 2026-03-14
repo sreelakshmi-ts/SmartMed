@@ -73,6 +73,7 @@ const EquipmentShop = () => {
             setPlaceId("");
             setAddress("");
             setContact("");
+            
 
 
 

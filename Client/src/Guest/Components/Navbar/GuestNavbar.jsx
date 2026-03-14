@@ -11,9 +11,9 @@ const GuestNavbar = () => {
   </div>
 
   <ul className={sty.navlinks}>
-    <li>Home</li>
-    <li>About</li>
-    <li>Services</li>
+    <li><Link className={sty.Link} to='/guest'>Home</Link></li>
+    <li><Link className={sty.Link} to='/guest/about'>About</Link></li>
+    <li><Link className={sty.Link} to='/guest/services'>Services</Link></li>
     <li>Contact</li>
   </ul>
 

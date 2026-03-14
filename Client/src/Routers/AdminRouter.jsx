@@ -22,6 +22,8 @@ import EquiComplaintReplay from '../Admin/Pages/EquiComplaintReplay/EquiComplain
 import InventoryManagerList from '../Admin/Pages/InventoryManagerList/InventoryManagerList'
 import RepresentativeList from '../Admin/Pages/RepresentativeList/RepresentativeList'
 import DeliveryTeamList from '../Admin/Pages/DeliveryTeamList/DeliveryTeamList'
+import MedicineOrderView from '../Admin/Pages/MedicineOrderView/MedicineOrderView'
+import EquipmentOrderView from '../Admin/Pages/EquipmentOrderView/EquipmentOrderView'
 
 
 const AdminRouter = () => {
@@ -54,6 +56,8 @@ const AdminRouter = () => {
             <Route path="/ComplaintReplay/:id" element={<ComplaintReplay />} />
             <Route path='/equiComplaintView' element={<EquipmentComplaintView/>}/>
             <Route path='/equiComplaintReplay/:id' element={<EquiComplaintReplay/>}/>
+            <Route path='/medicineOrdersView' element={<MedicineOrderView/>}/>
+            <Route path='/equipmentOrderView' element={<EquipmentOrderView/>}/>
 
         </Routes>
     </div>

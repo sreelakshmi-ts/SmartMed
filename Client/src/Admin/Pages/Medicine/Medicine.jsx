@@ -41,8 +41,18 @@ const Medicine = () => {
              fd.append('brandId',brandId);
              if(photo) fd.append('medicinePhoto',photo);
              axios.post("http://localhost:5000/Medicine",fd)
-             .then(res => alert(res.data.message))
-             .catch(console.error)
+             .then((res) => {
+            setMname("");
+            setPrice();
+            setDisciption("");
+            setCategoryId("");
+            setBrandId("");
+            setTypeId("");
+            setPhoto("");
+
+            alert(res.data.message)
+            console.log(res.data.message);
+        });
         }
 
     useEffect(() =>{

@@ -25,7 +25,7 @@ const District = () => {
     });
     }
     else{
-     axios.put(`http://localhost:5000/District/${districtEditId}`, data)
+     axios.put(`http://localhost:5000/District/${districtEditId}`,data)
       .then((res) => {
       setDistrict("");
       setDistrictEditId(null);
@@ -36,15 +36,13 @@ const District = () => {
 
     }
   }
-  //get    
-  const getDistrict = () => {
-    axios.get("http://localhost:5000/District").then((res) => {
-      setDistrictData(res.data.district)
-      alert(res.data.message);
-      getDistrict();
-
+  //-----get----------------
+const getDistrict = () => {
+  axios.get("http://localhost:5000/District")
+    .then((res) => {
+      setDistrictData(res.data.district);
     });
-  }
+};
   
   useEffect(() => {
     getDistrict();
@@ -141,3 +139,4 @@ const District = () => {
 }
 
 export default District
+

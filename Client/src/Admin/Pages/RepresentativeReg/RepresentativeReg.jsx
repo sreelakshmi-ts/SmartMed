@@ -42,8 +42,20 @@ const RepresentativeReg = () => {
              fd.append('repPassword',password);
 
              axios.post("http://localhost:5000/Representative",fd)
-             .then(res => alert(res.data.message))
-             .catch(console.error)
+             .then((res) => {
+            setName("");
+            setEmpId();
+            setIdproof("");
+            setContact("");
+            setEmail("");
+            setAddress("");
+            setPlaceId("");
+            setPhoto("");
+            setPassword("");
+
+            alert(res.data.message)
+            console.log(res.data.message);
+        });
 
 
     }

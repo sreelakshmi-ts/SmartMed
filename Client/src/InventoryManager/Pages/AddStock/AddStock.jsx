@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 
 const AddStock = () => {
-    const[medicine,setMedicine]=useState(null);
+    const[medicine,setMedicine]=useState(null); 
     const { id } = useParams();
     const[mnfdate,setMnfdate]=useState('');
     const[expdate,setExpdate]=useState('');

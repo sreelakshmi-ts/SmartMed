@@ -16,6 +16,7 @@ const Registration = () => {
     const[place,setPlace]=useState([]);
     const[district,setDistrict]=useState([]);
     const[districtId,setDistrictId]=useState('');
+    const [emailError, setEmailError] = useState("");
     
 
     const getPlace=()=>{
@@ -51,34 +52,71 @@ const Registration = () => {
 
 }, [districtId]);
 
+      const checkEmailAvailability = async () => {
+        try {
+          const res = await axios.post(
+            "http://localhost:5000/MedCustomerCheckEmail",
+            { customerEmail: email }
+          );
+
+          if (res.data.exists) {
+            setEmailError("Email already registered");
+            return false;
+          } else {
+            setEmailError("");
+            return true;
+          }
+
+        } catch (err) {
+          console.error(err);
+          return false;
+        }
+      };
 
 
+  const handleSubmit = (e) => {
+  e.preventDefault();
 
-  const handleSubmit=(e) =>{
-    e.preventDefault();
-    const fd=new FormData();
-    fd.append('customerStoreName',sName);
-    fd.append('customerStoreRegNo',regNo);
-    if(drugLic) fd.append('DrugLicence',drugLic);
-    fd.append('ownerName',oName);
-    fd.append('placeId',placeId);
-    fd.append('customerAddress',address);
-    fd.append('customerContact',contact);
-    fd.append('customerEmail',email);
-    fd.append('customerUsername',username);
-    fd.append('customerPassword',pswd);
-    
-    axios.post("http://localhost:5000/Customer",fd)
-    .then(res => {
-      setSname("");
-      alert(res.data.message)
-   }
-  )
-  
-    
-    .catch(console.error)
-}
+  checkEmailAvailability().then((available) => {
 
+    if (!available) {
+      alert("Email already exists!");
+      return;
+    }
+
+    // continue registration
+    const fd = new FormData();
+    fd.append('customerStoreName', sName);
+    fd.append('customerStoreRegNo', regNo);
+    if (drugLic) fd.append('DrugLicence', drugLic);
+    fd.append('ownerName', oName);
+    fd.append('placeId', placeId);
+    fd.append('customerAddress', address);
+    fd.append('customerContact', contact);
+    fd.append('customerEmail', email);
+    fd.append('customerUsername', username);
+    fd.append('customerPassword', pswd);
+
+    axios.post("http://localhost:5000/Customer", fd)
+      .then(res => {
+        setSname("");
+        setRegNo("");
+        setDrugLic(null);
+        setOname("");
+        setDistrictId("")
+        setPlaceId("");
+        setAddress("");
+        setContact("");
+        setEmail("");
+        setUsername("");
+        setPswd("");
+
+        alert(res.data.message);
+      })
+      .catch(console.error);
+
+  });
+};
   
 
   return (
@@ -105,6 +143,7 @@ const Registration = () => {
         <input
           type="text"
           placeholder="Enter registration number"
+          value={regNo}
            onChange={e=>setRegNo(e.target.value)}
           required
         />
@@ -115,6 +154,7 @@ const Registration = () => {
         <input
           type="file"
           accept=".jpg,.png,.jpeg"
+          value={drugLic}
           onChange={e=>setDrugLic(e.target.files[0])}
           required
         />
@@ -126,6 +166,7 @@ const Registration = () => {
         <input
           type="text"
           placeholder="Enter owner name"
+          value={oName}
           onChange={e=>setOname(e.target.value)}
           required
         />
@@ -144,7 +185,7 @@ const Registration = () => {
    
       <div>
         <label>Place</label>
-        <select required onChange={e=>setPlaceId(e.target.value)} disabled={!districtId}>
+        <select required value={placeId} onChange={e=>setPlaceId(e.target.value)} disabled={!districtId}>
           <option value="">--- Select Place ---</option>
                 {place.map((row)=>(
                  <option key={row._id} value={row._id}>{row.placeName}</option>
@@ -157,6 +198,7 @@ const Registration = () => {
         <label>Address</label>
         <textarea
           placeholder="Enter full address"
+          value={address}
           onChange={e=>setAddress(e.target.value)}
           required
         ></textarea>
@@ -168,6 +210,7 @@ const Registration = () => {
         <input
           type="tel"
           placeholder="Enter contact number"
+          value={contact}
           onChange={e=>setContact(e.target.value)}
           required
         />
@@ -179,9 +222,14 @@ const Registration = () => {
         <input
           type="email"
           placeholder="Enter email"
+          value={email}
           onChange={e=>setEmail(e.target.value)}
           required
         />
+          {emailError && (
+          <small style={{ color: "red" }}>{emailError}</small>
+        )}
+ 
       </div>
 
     
@@ -190,6 +238,7 @@ const Registration = () => {
         <input
           type="text"
           placeholder="Create username"
+          value={username}
           onChange={e=>setUsername(e.target.value)}
           required
         />
@@ -201,6 +250,7 @@ const Registration = () => {
         <input
           type="password"
           placeholder="Create password"
+          value={pswd}
           onChange={e=>setPswd(e.target.value)}
           required
         />

@@ -137,11 +137,11 @@ const Sidebar = () => {
 
         {orderOpen && (
           <div className={style.dropdownMenu}>
-            <Link to="/admin/medicineOrders" className={style.subLink}>
+            <Link to="/admin/medicineOrdersView" className={style.subLink}>
               <Medication /> Medicine Orders
             </Link>
 
-            <Link to="/admin/equipmentOrders" className={style.subLink}>
+            <Link to="/admin/equipmentOrderView" className={style.subLink}>
               <Masks /> Equipment Orders
             </Link>
           </div>
