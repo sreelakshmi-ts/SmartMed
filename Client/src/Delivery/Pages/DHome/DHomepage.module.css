@@ -1,58 +1,40 @@
-
-.navbar {
-  height: 70px;
-  width: 100%;          /* ✅ FIX */
-  background: #ffffff;
+/* ── Outer wrapper — full viewport flex row ──────────────────────────── */
+.dhomediv {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
+  min-height: 100vh;
+  background: #f0f4f8;
+}
+
+/* ── Sidebar placeholder — reserves 240px so content doesn't go under ── */
+/* The actual DSidebar is position:fixed internally, so we need this     */
+/* spacer div to push dhomeitem to the right                             */
+.dsidbar {
+  width: 240px;
+  min-width: 240px;
+  flex-shrink: 0;
+}
+
+/* ── Right panel — navbar + page content ─────────────────────────────── */
+/* NO margin-left here — the dsidbar spacer above handles the offset     */
+.dhomeitem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Sticky navbar inside right panel ───────────────────────────────── */
+.dnavbar {
   position: sticky;
   top: 0;
   z-index: 90;
+  width: 100%;
 }
 
-/* Left */
-.left h3 {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-/* Right */
-.right {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-/* Profile wrapper */
-.profileWrapper {
-  position: relative;
-}
-
-@media (max-width: 900px) {
-  .dsidbar {
-    width: 200px;
-  }
-
-  .dhomeitem {
-    margin-left: 200px;
-    width: calc(100% - 200px);
-  }
-}
-
-@media (max-width: 768px) {
-  .dsidbar {
-    position: relative;
-    width: 100%;
-  }
-
-  .dhomeitem {
-    margin-left: 0;
-    width: 100%;
-  }
-
-  .dnavbar {
-    position: relative;
-  }
+/* ── Router outlet — page content fills below navbar ─────────────────── */
+.droute {
+  flex: 1;
+  overflow-y: auto;
 }

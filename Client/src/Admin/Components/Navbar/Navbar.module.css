@@ -47,7 +47,27 @@
   font-weight: 600;
   color: #334155;
 }
+.dropdown {
+  position: absolute;
+  right: 20px;
+  top: 60px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 10px;
+}
 
+.logout {
+  cursor: pointer;
+  padding: 8px 14px;
+  color: red;
+  font-weight: 500;
+}
+
+.logout:hover {
+  background: #f5f5f5;
+  border-radius: 6px;
+}
 /* Avatar */
 .avatar {
   width: 36px;

@@ -981,6 +981,48 @@ app.post("/EquipmentCustomer", upload.single("SalesLicense"), async (req, res) =
 
 });
 
+//----------Get customer email check-------------------
+app.post("/EquiCustomerCheckEmail", async (req, res) => {
+  try {
+    const {customerEmail} = req.body;
+
+    if (!customerEmail) {
+      return res.status(400).json({ message: "Email required" });
+    }
+
+    
+    const admin = await Admin.findOne({ adminEmail: customerEmail });
+    const representative = await Representative.findOne({ repEmail: customerEmail });
+    const inventory = await InManager.findOne({ inManagerEmail:customerEmail});
+    const delivery = await Delivery.findOne({ deliverEmail: customerEmail });
+    const equipmentCustomer = await EquipmentCustomer.findOne({ customerEmail: customerEmail });
+    const medicineCustomer = await Customer.findOne({ customerEmail: customerEmail });
+
+    if (
+      admin ||
+      representative ||
+      inventory ||
+      delivery ||
+      equipmentCustomer ||
+      medicineCustomer
+    ) {
+      return res.json({
+        exists: true,
+        message: "Email already registered"
+      });
+    }
+
+    res.json({
+      exists: false,
+      message: "Email available"
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 //------------------------GET Equipment Customer--------------------------------
 
@@ -1377,7 +1419,7 @@ const RepresentativeSchemaStructure = new mongoose.Schema({
 
     repPhoto: {
         type: String,
-        required: true,
+        default:"",
     },
 
     repPassword: {
@@ -1431,7 +1473,6 @@ app.post(
                 placeId,
                 repPhoto,
                 repPassword,
-                repStatus: "Pending"
             });
 
             res.json({ message: "Representative registered successfully" });
@@ -2182,7 +2223,7 @@ app.get("/bookingWithCart/:userId", async (req, res) => {
 
         const result = await Booking.aggregate([
 
-            // 1️⃣ Match active booking
+            //  Match active booking
             {
                 $match: {
                     customerId: new mongoose.Types.ObjectId(userId),
@@ -2190,7 +2231,7 @@ app.get("/bookingWithCart/:userId", async (req, res) => {
                 }
             },
 
-            // 2️⃣ Cart items
+            //  Cart items
             {
                 $lookup: {
                     from: "cartcollections",
@@ -2202,7 +2243,7 @@ app.get("/bookingWithCart/:userId", async (req, res) => {
 
             { $unwind: "$cartItems" },
 
-            // 3️⃣ Medicine
+            //  Medicine
             {
                 $lookup: {
                     from: "medicinecollections",
@@ -2214,7 +2255,7 @@ app.get("/bookingWithCart/:userId", async (req, res) => {
 
             { $unwind: "$medicine" },
 
-            // 4️⃣ Brand
+            //  Brand
             {
                 $lookup: {
                     from: "brandcollections",
@@ -2224,7 +2265,7 @@ app.get("/bookingWithCart/:userId", async (req, res) => {
                 }
             },
 
-            // 5️⃣ Category
+            //  Category
             {
                 $lookup: {
                     from: "categorycollections",
@@ -2234,7 +2275,7 @@ app.get("/bookingWithCart/:userId", async (req, res) => {
                 }
             },
 
-            // 6️⃣ Type
+            //  Type
             {
                 $lookup: {
                     from: "typecollections",
@@ -2244,7 +2285,7 @@ app.get("/bookingWithCart/:userId", async (req, res) => {
                 }
             },
 
-            // 7️⃣ Stock
+            //  Stock
             {
                 $lookup: {
                     from: "stockcollections",
@@ -2253,8 +2294,21 @@ app.get("/bookingWithCart/:userId", async (req, res) => {
                     as: "stock"
                 }
             },
+            {
+                $addFields: {
+                    totalStock: {
+                    $sum: {
+                        $map: {
+                        input: "$stock",
+                        as: "s",
+                        in: { $toInt: "$$s.stockQuantity" }
+                        }
+                    }
+                    }
+                }
+            },
 
-            // 8️⃣ Group final output
+            //  Group final output
             {
                 $group: {
                     _id: "$_id",
@@ -2476,12 +2530,65 @@ app.put("/BookingPutRep/:id", async (req, res) => {
 });
 
 //-------------Payment--------------------------------
-app.put("/Paymentcomplete/:id", async (req, res) => {
 
+app.put("/Paymentcomplete/:id", async (req, res) => {
   try {
 
     const bookingId = req.params.id;
 
+    //  Get booking
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    //  Prevent double payment
+    if (booking.bookStatus === 2) {
+      return res.json({ message: "Already processed" });
+    }
+
+    //  GET CART ITEMS (YOU MISSED THIS)
+    const cartItems = await Cart.find({ bookingId });
+
+    if (!cartItems.length) {
+      return res.status(404).json({ message: "Cart empty" });
+    }
+
+    // Reduce stock
+    for (const item of cartItems) {
+
+      let qtyNeeded = parseInt(item.cartQuantity);
+
+      const stocks = await Stock.find({
+        medicineId: item.medicineId
+      }).sort({ medicineExpireDate: 1 }); // FIFO
+
+      for (const batch of stocks) {
+
+        if (qtyNeeded <= 0) break;
+
+        let batchQty = parseInt(batch.stockQuantity);
+
+        if (batchQty >= qtyNeeded) {
+          batch.stockQuantity = batchQty - qtyNeeded;
+          await batch.save();
+          qtyNeeded = 0;
+        } else {
+          qtyNeeded -= batchQty;
+          batch.stockQuantity = 0;
+          await batch.save();
+        }
+      }
+
+      if (qtyNeeded > 0) {
+        return res.status(400).json({
+          message: "Insufficient stock"
+        });
+      }
+    }
+
+    //  Update booking
     const updatedBooking = await Booking.findByIdAndUpdate(
       bookingId,
       {
@@ -2491,21 +2598,17 @@ app.put("/Paymentcomplete/:id", async (req, res) => {
       { new: true }
     );
 
-    if (!updatedBooking) {
-      return res.status(404).json({ message: "Booking not found" });
-    }
-
     res.json({
       success: true,
+      message: "Payment completed & stock updated",
       data: updatedBooking
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Payment Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
-
 //----------------------Get My Orders--------------------
 
 
@@ -2522,6 +2625,11 @@ app.get('/booking-details/:cid', async (req, res) => {
           bookStatus: { $in: [2, 3, 4, 5] }
         }
       },
+
+                {
+                    $sort: { bookDate: -1 }
+                },
+
 
 
       //  Cart lookup
@@ -2979,21 +3087,33 @@ app.get("/RepAssignedOrders/:repId", async (req, res) => {
                 }
             },
             { $unwind: "$medicine" },
-            { 
-                $project: {
-                    bookingId: "$_id",
-                    bookingDate: "$bookDate",
-                    bookStatus: "$bookStatus",
-                    bookAmount: "$bookAmount",
-                    customerStoreName: "$customer.customerStoreName",
-                    customerAddress: "$customer.customerAddress",
-                    customerPhone: "$customer.customerContact",
-                    medicineName: "$medicine.medicineName",
-                    medicinePhoto: "$medicine.medicinePhoto",
-                    quantity: "$cartItems.cartQuantity",
-                    itemAmount: { $multiply: ["$cartItems.cartQuantity", { $toDouble: "$medicine.medicinePrice" }] }
+            {
+            $project: {
+                bookingId:         "$_id",
+                bookingDate:       "$bookDate",
+                bookStatus:        "$bookStatus",
+                bookAmount:        "$bookAmount",
+                customerStoreName: "$customer.customerStoreName",
+                customerAddress:   "$customer.customerAddress",
+                customerPhone:     "$customer.customerContact",
+                medicineName:      "$medicine.medicineName",
+                medicinePhoto:     "$medicine.medicinePhoto",
+                quantity:          "$cartItems.cartQuantity",
+                itemAmount: {
+                    $multiply: [
+                        { $toDouble: "$cartItems.cartQuantity" },
+                        {
+                            $toDouble: {
+                                $ifNull: [
+                                    { $trim: { input: "$medicine.medicinePrice" } },
+                                    "0"
+                                ]
+                            }
+                        }
+                    ]
                 }
             }
+        }
         ]);
         res.status(200).json({ success: true, assignedOrders });
       } catch (err) {
@@ -3374,28 +3494,109 @@ app.get("/EquipmentCartDetails/:bookId", async (req, res) => {
 });
 
 //-----------------------------Equipment Payment--------------------------------------------------------
+// app.put("/EquipmentPaymentcomplete/:id", async (req, res) => {
+//     try {
+//         const bookingId = req.params.id;
+//         const updatedBooking = await Booking.findByIdAndUpdate(
+//             bookingId,
+//             {
+//                 bookStatus: 2,
+//                 bookDate: new Date()
+//             },
+//             { new: true }
+//         );
+//         if (!updatedBooking) {
+//             return res.status(404).json({ message: "Booking not found" });
+//         }
+//         res.json({
+//             success: true,
+//             data: updatedBooking
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
 app.put("/EquipmentPaymentcomplete/:id", async (req, res) => {
-    try {
-        const bookingId = req.params.id;
-        const updatedBooking = await Booking.findByIdAndUpdate(
-            bookingId,
-            {
-                bookStatus: 2,
-                bookDate: new Date()
-            },
-            { new: true }
-        );
-        if (!updatedBooking) {
-            return res.status(404).json({ message: "Booking not found" });
-        }
-        res.json({
-            success: true,
-            data: updatedBooking
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Server error" });
+  try {
+
+    const bookingId = req.params.id;
+
+    // ✅ Get booking
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
     }
+
+    // ✅ Prevent duplicate payment
+    if (booking.bookStatus === 2) {
+      return res.json({ message: "Already processed" });
+    }
+
+    // ✅ Get equipment cart items
+    const cartItems = await Cart.find({ bookingId });
+
+    if (!cartItems.length) {
+      return res.status(404).json({ message: "Cart empty" });
+    }
+
+    // ✅ Reduce equipment stock
+    for (const item of cartItems) {
+
+      let qtyNeeded = parseInt(item.cartQuantity);
+
+      // FIFO stock deduction
+      const stocks = await Stock.find({
+        equipmentId: item.equipmentId
+      }).sort({ medicineExpireDate: 1 });
+
+      for (const batch of stocks) {
+
+        if (qtyNeeded <= 0) break;
+
+        let batchQty = parseInt(batch.stockQuantity);
+
+        if (batchQty >= qtyNeeded) {
+          batch.stockQuantity = batchQty - qtyNeeded;
+          await batch.save();
+          qtyNeeded = 0;
+        } else {
+          qtyNeeded -= batchQty;
+          batch.stockQuantity = 0;
+          await batch.save();
+        }
+      }
+
+      // ❌ Not enough stock
+      if (qtyNeeded > 0) {
+        return res.status(400).json({
+          message: "Insufficient equipment stock"
+        });
+      }
+    }
+
+    // ✅ Update booking status
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      bookingId,
+      {
+        bookStatus: 2,
+        bookDate: new Date()
+      },
+      { new: true }
+    );
+
+    res.json({
+      success: true,
+      message: "Equipment payment completed & stock updated",
+      data: updatedBooking
+    });
+
+  } catch (err) {
+    console.error("Equipment Payment Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 
@@ -3411,6 +3612,10 @@ app.get('/equipment-booking-details/:ecid', async (req, res) => {
                 bookStatus: { $in: [2, 3, 4, 5] }
                 }
             },
+                  {
+                    $sort: { bookDate: -1 }
+                },
+
 
             {
                 $lookup: {
@@ -4327,6 +4532,17 @@ app.get("/adminAllMedicineOrders", async (req, res) => {
         }
       },
       { $unwind: "$medicine" },
+      {
+        $addFields: {
+            itemAmount: {
+            $multiply: [
+                "$cartItems.cartQuantity",
+                { $toDouble: "$medicine.medicinePrice" }
+            ]
+            }
+        }
+        },
+
 
       // GROUP ORDER
       {
@@ -4335,7 +4551,7 @@ app.get("/adminAllMedicineOrders", async (req, res) => {
 
           bookingDate: { $first: "$bookDate" },
           bookStatus: { $first: "$bookStatus" },
-          totalAmount: { $first: "$bookAmount" },
+          totalAmount: { $sum: "$itemAmount" },
 
           customerStoreName: {
             $first: "$customer.customerStoreName"
@@ -4345,7 +4561,9 @@ app.get("/adminAllMedicineOrders", async (req, res) => {
             $push: {
               medicineName: "$medicine.medicineName",
               medicinePhoto: "$medicine.medicinePhoto",
-              quantity: "$cartItems.cartQuantity"
+              quantity: "$cartItems.cartQuantity",
+                  price: "$equipment.equipmentPrice",
+                itemAmount: "$itemAmount"
             }
           }
         }
@@ -4417,21 +4635,34 @@ app.get("/adminAllequipmentOrders", async (req, res) => {
         }
       },
       { $unwind: "$equipment" },
+      {
+        $addFields: {
+            itemAmount: {
+            $multiply: [
+                "$cartItems.cartQuantity",
+                { $toDouble: "$equipment.equipmentPrice" }
+            ]
+            }
+        }
+        },
 
       {
         $group: {
           _id: "$_id",
           bookingDate: { $first: "$bookDate" },
           bookStatus: { $first: "$bookStatus" },
+          totalAmount: { $sum: "$itemAmount" },
           customerStoreName: { $first: "$customer.customerStoreName" },
 
-          equipment: {
+            equipment: {
             $push: {
-              name: "$equipment.equipmentName",
-              photo: "$equipment.equipmentPhoto",
-              quantity: "$cartItems.cartQuantity"
+                name: "$equipment.equipmentName",
+                photo: "$equipment.equipmentPhoto",
+                quantity: "$cartItems.cartQuantity",
+                price: { $toDouble: "$equipment.equipmentPrice" },
+                itemAmount: "$itemAmount"
             }
-          }
+            }
         }
       },
 
@@ -4490,4 +4721,353 @@ app.put("/EquiCustomerPassword/:id", async (req, res) => {
     Equicustomer.customerPassword = newPassword;
     await Equicustomer.save();
     res.json({ message: "Password changed successfully" });
+});
+
+
+
+
+
+
+
+
+
+//--------------------------------Inventory Medicine Stock Manage----------------------------------
+app.get("/inventoryMedicinesManage", async (req, res) => {
+  try {
+
+    const medicines = await Medicine.aggregate([
+
+      {
+        $lookup: {
+          from: "stockcollections",
+          localField: "_id",
+          foreignField: "medicineId",
+          as: "stock"
+        }
+      },
+
+      {
+        $addFields: {
+          totalStock: {
+            $sum: {
+              $map: {
+                input: "$stock",
+                as: "s",
+                in: { $toInt: "$$s.stockQuantity" }
+              }
+            }
+          }
+        }
+      },
+
+      {
+        $lookup: {
+          from: "brandcollections",
+          localField: "brandId",
+          foreignField: "_id",
+          as: "brand"
+        }
+      },
+      { $unwind: { path: "$brand", preserveNullAndEmptyArrays: true } },
+
+      {
+        $lookup: {
+          from: "categorycollections",
+          localField: "categoryId",
+          foreignField: "_id",
+          as: "category"
+        }
+      },
+      { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
+
+      {
+        $lookup: {
+          from: "typecollections",
+          localField: "typeId",
+          foreignField: "_id",
+          as: "type"
+        }
+      },
+      { $unwind: { path: "$type", preserveNullAndEmptyArrays: true } },
+
+      {
+        $project: {
+          _id: 1,
+          medicineName: 1,
+          medicinePrice: 1,
+          medicinePhoto: 1,
+
+          brandName: "$brand.brandName",
+          categoryName: "$category.categoryName",
+          typeName: "$type.typeName",
+
+          totalStock: 1
+        }
+      }
+
+    ]);
+
+    res.json({ success: true, medicine: medicines });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+//----------------Customer Medicine View----------------------------------
+app.get("/customerMedicinesView", async (req, res) => {
+  try {
+
+    const medicines = await Medicine.aggregate([
+
+      // ---------- STOCK LOOKUP ----------
+      {
+        $lookup: {
+          from: "stockcollections",
+          localField: "_id",
+          foreignField: "medicineId",
+          as: "stock"
+        }
+      },
+
+      // ---------- TOTAL STOCK ----------
+      {
+        $addFields: {
+          totalStock: {
+            $sum: {
+              $map: {
+                input: "$stock",
+                as: "s",
+                in: { $toInt: "$$s.stockQuantity" }
+              }
+            }
+          }
+        }
+      },
+
+      // ---------- STOCK STATUS ----------
+      {
+        $addFields: {
+          stockStatus: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$totalStock", 0] }, then: "OUT_OF_STOCK" },
+                { case: { $lte: ["$totalStock", 10] }, then: "LIMITED" }
+              ],
+              default: "AVAILABLE"
+            }
+          }
+        }
+      },
+
+      // ---------- BRAND ----------
+      {
+        $lookup: {
+          from: "brandcollections",
+          localField: "brandId",
+          foreignField: "_id",
+          as: "brand"
+        }
+      },
+      { $unwind: { path: "$brand", preserveNullAndEmptyArrays: true } },
+
+      // ---------- CATEGORY ----------
+      {
+        $lookup: {
+          from: "categorycollections",
+          localField: "categoryId",
+          foreignField: "_id",
+          as: "category"
+        }
+      },
+      { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
+
+      // ---------- TYPE ----------
+      {
+        $lookup: {
+          from: "typecollections",
+          localField: "typeId",
+          foreignField: "_id",
+          as: "type"
+        }
+      },
+      { $unwind: { path: "$type", preserveNullAndEmptyArrays: true } },
+
+      // ---------- FINAL OUTPUT ----------
+      {
+        $project: {
+          _id: 1,
+          medicineName: 1,
+          medicinePrice: 1,
+          medicinePhoto: 1,
+          medicineDistription: 1,
+
+          brandName: "$brand.brandName",
+          categoryName: "$category.categoryName",
+          typeName: "$type.typeName",
+
+          totalStock: 1,
+          stockStatus: 1
+        }
+      }
+
+    ]);
+
+    res.json({ medicine: medicines });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+//------------------------------Inventory equipment managment page-----------------------------
+app.get("/inventoryEquipmentManage", async (req, res) => {
+  try {
+
+    const equipments = await Equipment.aggregate([
+
+      {
+        $lookup: {
+          from: "stockcollections",
+          localField: "_id",
+          foreignField: "equipmentId",
+          as: "stock"
+        }
+      },
+
+      {
+        $addFields: {
+          totalStock: {
+            $sum: {
+              $map: {
+                input: "$stock",
+                as: "s",
+                in: { $toInt: "$$s.stockQuantity" }
+              }
+            }
+          }
+        }
+      },
+
+      {
+        $lookup: {
+          from: "brandcollections",
+          localField: "brandId",
+          foreignField: "_id",
+          as: "brandId"
+        }
+      },
+      { $unwind: "$brandId" },
+
+      {
+        $lookup: {
+          from: "equipmentcategorycollections",
+          localField: "equcategoryId",
+          foreignField: "_id",
+          as: "equcategoryId"
+        }
+      },
+      { $unwind: "$equcategoryId" },
+
+      {
+        $project: {
+          equipmentName: 1,
+          equipmentPhoto: 1,
+          equipmentPrice: 1,
+          totalStock: 1,
+          "brandId.brandName": 1,
+          "equcategoryId.equcategoryName": 1
+        }
+      }
+
+    ]);
+
+    res.json({ success: true, equipment: equipments });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+//-------------------Equipment customer View----------------------------
+app.get("/customerEquipmentView", async (req, res) => {
+  try {
+
+    const equipments = await Equipment.aggregate([
+
+      {
+        $lookup: {
+          from: "stockcollections",
+          localField: "_id",
+          foreignField: "equipmentId",
+          as: "stock"
+        }
+      },
+
+      {
+        $addFields: {
+          totalStock: {
+            $sum: {
+              $map: {
+                input: "$stock",
+                as: "s",
+                in: { $toInt: "$$s.stockQuantity" }
+              }
+            }
+          }
+        }
+      },
+
+      {
+        $addFields: {
+          stockStatus: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$totalStock", 0] }, then: "OUT_OF_STOCK" },
+                { case: { $lte: ["$totalStock", 5] }, then: "LIMITED" }
+              ],
+              default: "AVAILABLE"
+            }
+          }
+        }
+      },
+
+      {
+        $lookup: {
+          from: "brandcollections",
+          localField: "brandId",
+          foreignField: "_id",
+          as: "brandId"
+        }
+      },
+      { $unwind: "$brandId" },
+
+      {
+        $lookup: {
+          from: "equipmentcategorycollections",
+          localField: "equcategoryId",
+          foreignField: "_id",
+          as: "equcategoryId"
+        }
+      },
+      { $unwind: "$equcategoryId" },
+
+      {
+        $project: {
+          equipmentName: 1,
+          equipmentPhoto: 1,
+          equipmentPrice: 1,
+          totalStock: 1,
+          stockStatus: 1,
+          "brandId.brandName": 1,
+          "equcategoryId.equcategoryName": 1
+        }
+      }
+
+    ]);
+
+    res.json({ success: true, equipment: equipments });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });

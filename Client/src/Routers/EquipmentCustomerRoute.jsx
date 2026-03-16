@@ -10,7 +10,8 @@ import EquipmentMyOrder from '../EquipmentCustomer/Pages/EquipmentMyOrder/Equipm
 import EComplaint from '../EquipmentCustomer/Pages/EComplaint/EComplaint'
 import EMyProfile from '../EquipmentCustomer/Pages/EMyProfile/EMyProfile'
 import EEditeProfile from '../EquipmentCustomer/Pages/EEditProfile/EEditeProfile'
-import EChangePassword from '../EquipmentCustomer/EChangePassword/EChangePassword'
+import EChangePassword from '../EquipmentCustomer/Pages/EChangePassword/EChangePassword'
+
 
 const EquipmentCustomerRoute = () => {
   return (
@@ -19,7 +20,7 @@ const EquipmentCustomerRoute = () => {
             <Route  path='/' element={<EquiDashboard/>} />
             <Route path='/eMyprofile' element={<EMyProfile/>}/>
             <Route path='/eEditeprofile' element={<EEditeProfile/>}/>
-            <Route path='/eChangePswd' element={<EChangePassword/>}/>
+            <Route path='/eChangePswd'  element={<EChangePassword/>}/>
             <Route  path='/viewEquipments' element={<ViewEquipments/>} />
             <Route  path='/equipmentDetailView/:id' element={<EquipmentDetailView/>} />
             <Route  path='/myCart' element={<MyCart/>} />

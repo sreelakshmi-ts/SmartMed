@@ -3,9 +3,30 @@ import React from 'react'
 import { useState } from 'react';
 import { Link } from 'react-router'
 import style from './DNavbar.module.css'
+import { Button } from '@mui/material';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+
 
 const DNavbar = () => {
   const [open, setOpen] = useState(false);
+    const [username, setUsername] = useState('');
+      const [avatar, setAvatar] = useState('');
+   const navigate = useNavigate();
+    
+      useEffect(() => {
+        const name = sessionStorage.getItem('deliverName');
+        if (name) {
+          setUsername(name);
+          setAvatar(name.charAt(0).toUpperCase()); // first letter
+        }
+      }, []);
+
+    const logout = () =>{
+    sessionStorage.removeItem('did');
+    navigate('/guest/login')
+  }
+  
   return (
      <nav className={style.navbar}>
       {/* Left */}
@@ -22,8 +43,8 @@ const DNavbar = () => {
             className={style.profile}
             onClick={() => setOpen(!open)}
           >
-            <AccountCircleOutlined className={style.avatar} />
-            <span>Delivery Team</span>
+            <div className={style.avatar}>{avatar}</div>
+            <span>{username}</span>
           </div>
 
           {open && (
@@ -31,9 +52,8 @@ const DNavbar = () => {
               <Link to="/deliveryteam/dmyprofile">
                 <PersonOutlineOutlined /> My Profile
               </Link>
-              <Link to="/logout" className={style.logout}>
-                <LogoutOutlined /> Logout
-              </Link>
+
+              <Button  className={style.logout} onClick={logout}><LogoutOutlined />LogOut</Button>
             </div>
           )}
         </div>

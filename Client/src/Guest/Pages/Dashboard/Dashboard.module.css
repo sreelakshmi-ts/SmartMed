@@ -145,8 +145,8 @@
 /* IMAGE */
 .imageWrapper img {
   width: 100%;
-  height: auto;              /* ✅ keep original ratio */
-  object-fit: contain;       /* ✅ no cropping */
+  height: auto;              
+  object-fit: contain;      
   border-radius: 20px;
   display: block;
 }

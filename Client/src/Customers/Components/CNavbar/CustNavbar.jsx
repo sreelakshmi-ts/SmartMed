@@ -1,8 +1,29 @@
 import React from 'react'
 import sty from './CustNavbar.module.css'
 import { Link } from 'react-router'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 const CustNavbar = () => {
+     const [username, setUsername] = useState('');
+    const [avatar, setAvatar] = useState('');
+     const navigate = useNavigate();
+  
+    useEffect(() => {
+      const name = sessionStorage.getItem('customerStoreName');
+      if (name) {
+        setUsername(name);
+        setAvatar(name.charAt(0).toUpperCase()); // first letter
+      }
+    }, []);
+
+    
+    const logout = () =>{
+    sessionStorage.removeItem('cid');
+    navigate('/guest/login')
+  }
   return (
     <div>
       <nav className={sty.custnavbar}>
@@ -23,8 +44,8 @@ const CustNavbar = () => {
   {/* Profile Section */}
   <div className={sty.profileWrapper}>
     <div className={sty.profileBtn}>
-      <div className={sty.avatar}>S</div>
-      <span className={sty.username}>My Account</span>
+            <div className={sty.avatar}>{avatar}</div>
+            <span className={sty.username}>{username}</span>
     </div>
 
     <div className={sty.profileMenu}>
@@ -34,7 +55,8 @@ const CustNavbar = () => {
       <Link to='/customer/myorders'>My Orders</Link>
       
       <hr />
-      <Link to="/guest/login" className={sty.logout}>Logout</Link>
+      {/* <Link to="/guest/login" className={sty.logout}>Logout</Link> */}
+      <Button  className={sty.logout} onClick={logout} >Logout</Button>
     </div>
   </div>
 

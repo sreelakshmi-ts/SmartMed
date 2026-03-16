@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import style from './Medicine.module.css'
 import axios from 'axios';
+import { useRef } from 'react';
 
 const Medicine = () => {
     const[Mname,setMname]=useState('');
@@ -13,6 +14,7 @@ const Medicine = () => {
     const[type,setType]=useState([]);
     const[brand,setBrand]=useState([]);
     const[photo,setPhoto]=useState(null);
+    const fileRef = useRef(null);
     const getCategory =() =>{
         axios.get("http://localhost:5000/Category").then((res)=>{
             setCategory(res.data.category)
@@ -48,7 +50,10 @@ const Medicine = () => {
             setCategoryId("");
             setBrandId("");
             setTypeId("");
-            setPhoto("");
+            setPhoto(null);
+            if(fileRef.current){
+              fileRef.current.value = "";
+            }
 
             alert(res.data.message)
             console.log(res.data.message);
@@ -124,7 +129,7 @@ const Medicine = () => {
 
         <div className={style.field}>
           <label>Medicine Image</label>
-          <input type="file"  onChange={e=>setPhoto(e.target.files[0])} required/>
+          <input type="file" ref={fileRef}  onChange={e=>setPhoto(e.target.files[0])} required/>
         </div>
       </div>
 

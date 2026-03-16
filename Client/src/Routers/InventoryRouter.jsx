@@ -11,11 +11,13 @@ import EquipmentStockManage from '../InventoryManager/Pages/EquipmentStockManage
 import AddEquiStock from '../InventoryManager/Pages/AddEquipmentStock/AddEquiStock'
 import AllEquipmemntOrders from '../InventoryManager/Pages/AllEquipmentOrders/AllEquipmemntOrders'
 import EquipmentOrderDetail from '../InventoryManager/Pages/EquipmentOrdersDetail/EquipmentOrderDetail'
+import InDashboard from '../InventoryManager/Pages/InDashboard/InDashboard'
 
 const InventoryRouter = () => {
   return (
     <div>
         <Routes>
+          <Route path='/' element={<InDashboard/>}/>
           <Route path='imyprofile' element={<IMyprofile/>} />
           <Route path='addproduct' element={<ProductAdd/>}/>
           <Route path='stockmanage' element={<StockManage/>}/>

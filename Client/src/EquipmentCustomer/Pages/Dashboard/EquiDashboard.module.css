@@ -114,23 +114,61 @@
 
 /* RIGHT IMAGE — NEW CLEAN STYLE */
 
+/* RIGHT SIDE IMAGE */
+
 .right {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
+/* IMAGE CARD */
 .imageWrapper {
   background: white;
-  padding: 12px;
-  border-radius: 26px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  padding: 14px;
+  border-radius: 28px;
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+  max-width: 480px;
+  width: 100%;
+
+  /* animation */
+  animation: floatImage 4s ease-in-out infinite;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
+/* hover effect */
+.imageWrapper:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 35px 70px rgba(37, 99, 235, 0.25);
+}
+
+/* IMAGE */
 .imageWrapper img {
-  width: 420px;
-  height: 460px;
-  object-fit: cover;
-  border-radius: 18px;
+  width: 100%;
+  height: auto;              
+  object-fit: contain;      
+  border-radius: 20px;
+  display: block;
+}
+
+/* FLOATING ANIMATION */
+@keyframes floatImage {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .imageWrapper {
+    max-width: 360px;
+  }
 }
 
 /* RESPONSIVE */

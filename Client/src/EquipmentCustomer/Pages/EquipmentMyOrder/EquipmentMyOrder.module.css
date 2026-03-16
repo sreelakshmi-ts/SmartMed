@@ -3,6 +3,9 @@
   min-height:100vh;
   padding:30px;
   font-family:Segoe UI;
+
+  /* isolate rendering layer */
+  transform: translateZ(0);
 }
 
 .PageTitle {
@@ -30,11 +33,15 @@
 }
 
 /* IMAGE */
+.ImageBox {
+  flex-shrink:0;
+}
 
 .ImageBox img {
-  width:120px;
-  height:120px;
+  width:100px;
+  height:auto;
   object-fit:contain;
+  display:block;
 }
 
 /* DETAILS */
@@ -45,6 +52,9 @@
 
 .OrderDetails h4 {
   margin-bottom:6px;
+  font-weight:600;
+  color:#0f172a;
+  letter-spacing:0.2px;
 }
 
 .Brand {
@@ -55,6 +65,7 @@
 .Price {
   font-weight:700;
   margin-top:8px;
+  color:#16be46 ;
 }
 /* multiple items inside one order */
 
@@ -76,6 +87,7 @@
 .Total {
   margin-top: 10px;
   font-weight: 700;
+  color: #16a34a;
 }
 
 /* STATUS */

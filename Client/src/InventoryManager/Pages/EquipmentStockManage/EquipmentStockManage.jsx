@@ -9,7 +9,7 @@ const EquipmentStockManage = () => {
 const [equipment, setEquipment] = useState([]);
 
    const getEquipment=() =>{
-        axios.get(`http://localhost:5000/ViewEquipment`)
+        axios.get(`http://localhost:5000/inventoryEquipmentManage`)
         .then(res => setEquipment(res.data.equipment))
         .catch(console.error);
     }
@@ -49,7 +49,7 @@ const [equipment, setEquipment] = useState([]);
               <span>Price:</span> {data.equipmentPrice}
             </div>
             <div className={styles.stock}>
-              Stock Available: <strong>120</strong>
+               Stock Available: <strong>{data.totalStock || 0}</strong>
             </div>
 
 

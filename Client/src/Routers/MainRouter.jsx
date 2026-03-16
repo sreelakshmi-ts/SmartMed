@@ -7,7 +7,6 @@ import GuestHomepage from '../Guest/Pages/Home/GuestHomepage'
 import CustomerHome from '../Customers/Pages/Home/CustomerHome'
 import IMHomepage from '../InventoryManager/Pages/Home/IMHomepage'
 import RHomepage from '../Representative/Pages/Home/RHomepage'
-import MHomepage from '../Manufacturer/Pages/MHome/MHomepage'
 import DHomepage from '../Delivery/Pages/DHome/DHomepage'
 import EquiCustHome from '../EquipmentCustomer/Pages/Home/EquiCustHome'
 
@@ -21,7 +20,6 @@ const MainRouter = () => {
            <Route path='customer/*' element={<CustomerHome/>}/>
            <Route path='inventory/*' element={<IMHomepage/>}/>
            <Route path='reps/*' element={<RHomepage/>} />
-           <Route path='manufactures/*' element={<MHomepage/>} />
            <Route path='deliveryteam/*' element={<DHomepage/>}/>
            <Route path='equipmentCustomer/*' element={<EquiCustHome/>}/>
         </Routes>

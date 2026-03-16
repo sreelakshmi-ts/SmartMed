@@ -91,10 +91,17 @@ const EquipmentOrderView = () => {
                   alt=""
                 />
 
-                <div>
-                  <h4>{eq.name}</h4>
-                  <p>Qty : {eq.quantity}</p>
+              <div className={style.itemDetails}>
+                <h4>{eq.name}</h4>
+
+                <div className={style.itemMeta}>
+                  <span>Qty : {eq.quantity}</span>
+                  <span>Price : ₹{eq.price}</span>
+                  <span className={style.total}>
+                    Total : ₹{eq.itemAmount}
+                  </span>
                 </div>
+              </div>
 
               </div>
 
@@ -104,10 +111,15 @@ const EquipmentOrderView = () => {
               <p>
                 Date :
                 {new Date(order.bookingDate).toDateString()}
+
               </p>
 
+
               <p>Shop : {order.customerStoreName}</p>
+              
+              <p>Total Order Amount : ₹{order.totalAmount}</p>
             </div>
+
 
           </div>
 

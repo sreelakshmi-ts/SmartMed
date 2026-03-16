@@ -11,7 +11,7 @@ const Dsidebar = () => {
 
       {/* Menu */}
       <nav className={style.menu}>
-        <Link to="/delivery" className={style.link}>
+        <Link to="/deliveryteam" className={style.link}>
           <DashboardOutlined /> Dashboard
         </Link>
 

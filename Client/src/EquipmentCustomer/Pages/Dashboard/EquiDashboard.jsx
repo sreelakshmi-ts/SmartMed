@@ -17,6 +17,7 @@ const badges = [
   { icon: AccessTimeIcon, title: "24/7 Support", sub: "Always available" },
 ];
 
+import medicalsupply from "../../../assets/Landingpage/Langingpageimg1.png";
 
 const categories = [
   {
@@ -141,8 +142,8 @@ const EquiDashboard = () => {
 
         <div className={style.right}>
           <div className={style.imageWrapper}>
-            {/* ✅ add real image instead of '#' */}
-            <img src='#' alt="Medical Supply" />
+            {/*  add real image instead of '#' */}
+            <img src={medicalsupply} alt="Medical Supply" />
           </div>
         </div>
 

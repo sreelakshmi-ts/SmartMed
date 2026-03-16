@@ -1,77 +1,78 @@
-/* Navbar container */
 .repnavbar {
-  height: 70px;
+  height: 72px;
   width: 100%;
-  background: #ffffff;
+  background: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 0 32px;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* Left */
-.left .title {
+/* LEFT */
+.title {
   font-size: 20px;
   font-weight: 700;
   color: #0f172a;
 }
 
-/* Right */
+/* RIGHT */
 .right {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
 }
 
-/* Welcome text */
+/* WELCOME */
 .welcome {
   font-size: 14px;
   color: #475569;
 }
 
-/* Profile */
+/* PROFILE */
 .profile {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
 }
 
-/* Avatar */
+/* AVATAR */
 .avatar {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  border: 2px solid #22c55e; /* green for rep role */
+  object-fit: cover;
+  border: 2px solid #22c55e;
 }
 
-/* Name */
+/* NAME */
 .name {
   font-size: 14px;
   font-weight: 600;
   color: #0f172a;
 }
 
-/* Dropdown */
+/* DROPDOWN */
 .dropdown {
   position: absolute;
-  top: 48px;
+  top: 52px;
   right: 0;
-  background: #ffffff;
-  width: 170px;
-  border-radius: 10px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  width: 180px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  z-index: 200;
+  z-index: 100;
 }
 
-/* Dropdown buttons */
+/* DROPDOWN BUTTONS */
 .dropdown button {
-  padding: 10px 14px;
+  padding: 12px 16px;
   border: none;
   background: none;
   text-align: left;
@@ -80,24 +81,29 @@
   color: #334155;
 }
 
-/* Hover */
 .dropdown button:hover {
-  background-color: #f1f5f9;
+  background: #f1f5f9;
 }
 
-/* Logout */
+/* LOGOUT */
 .logout {
   color: #dc2626;
   font-weight: 600;
 }
 
 .logout:hover {
-  background-color: #fee2e2;
+  background: #fee2e2;
 }
 
-/* Responsive */
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  .welcome {
-    display: none;
+
+  .welcome{
+    display:none;
   }
+
+  .name{
+    display:none;
+  }
+
 }

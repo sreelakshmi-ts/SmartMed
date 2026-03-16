@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import style from './RepresentativeReg.module.css'
 import axios from 'axios';
+import { useRef } from 'react';
 
 const RepresentativeReg = () => {
   const[name,setName]=useState('');
@@ -15,6 +16,7 @@ const RepresentativeReg = () => {
   const[place,setPlace]=useState([]);
   const[district,setDistrict]=useState([]);
   const[districtId,setDistrictId]=useState('');
+       const fileRef = useRef(null);
 
     const getPlace=()=>{
         axios.get("http://localhost:5000/Place").then((res)=>{
@@ -45,12 +47,19 @@ const RepresentativeReg = () => {
              .then((res) => {
             setName("");
             setEmpId();
-            setIdproof("");
+            setIdproof(null);
+          if(fileRef.current){
+            fileRef.current.value = "";
+            }
             setContact("");
             setEmail("");
             setAddress("");
+            setDistrictId("")
             setPlaceId("");
-            setPhoto("");
+            setPhoto(null);
+          if(fileRef.current){
+              fileRef.current.value = "";
+            }
             setPassword("");
 
             alert(res.data.message)
@@ -66,30 +75,6 @@ const RepresentativeReg = () => {
         getDistrict();
     },[]);
 
-  //   useEffect(() => {
-  //     if (!districtId) { setPlace([]); setPlaceId(''); return; }
-  //     axios.get(`http://localhost:5000/Place`).then(r => {
-  //         setPlace(r.data.place.filter(p => p.districtId === districtId));
-          
-  //     });
-  // }, [districtId]);
-//   useEffect(() => {
-//   if (!districtId) {
-//     setPlace([]);
-//     setPlaceId('');
-//     return;
-//   }
-
-//   axios.get("http://localhost:5000/Place")
-//     .then(res => {
-//       const filteredPlaces = res.data.place.filter(
-//         p => String(p.districtId) === String(districtId)
-//       );
-//       setPlace(filteredPlaces);
-//     })
-//     .catch(console.error);
-
-// }, [districtId]);
 
 
 useEffect(() => {
@@ -133,7 +118,7 @@ useEffect(() => {
 
       <div className={style.field}>
         <label>ID Proof (Upload)</label>
-        <input type="file" accept=".pdf,.jpg,.jpeg,.png"   onChange={e=>setIdproof(e.target.files[0])}  required />
+        <input type="file" accept=".pdf,.jpg,.jpeg,.png" ref={fileRef}  onChange={e=>setIdproof(e.target.files[0])}  required />
         <small className={style.hint}>
           Upload Aadhaar / PAN / Voter ID
         </small>
@@ -166,7 +151,7 @@ useEffect(() => {
 
       <div className={style.field}>
         <label>Place</label>
-        <select required    onChange={e=>setPlaceId(e.target.value)} disabled={!districtId}>
+        <select required value={placeId}    onChange={e=>setPlaceId(e.target.value)} disabled={!districtId}>
           <option value="">Select Place</option>
             {place.map((row)=>(
               <option key={row._id} value={row._id}>{row.placeName}</option>
@@ -176,7 +161,7 @@ useEffect(() => {
 
       <div className={style.field}>
         <label>Profile Photo</label>
-        <input type="file"  required   onChange={e=>setPhoto(e.target.files[0])}/>
+        <input type="file"  required  ref={fileRef} onChange={e=>setPhoto(e.target.files[0])}/>
       </div>
 
 

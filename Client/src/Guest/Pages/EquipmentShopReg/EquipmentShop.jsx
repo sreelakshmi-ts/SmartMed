@@ -3,6 +3,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import style from './EquipmentShop.module.css'
+import { useRef } from 'react';
 
 const EquipmentShop = () => {
     const[sName,setSname]=useState('');
@@ -18,6 +19,8 @@ const EquipmentShop = () => {
     const[place,setPlace]=useState([]);
     const[district,setDistrict]=useState([]);
     const[districtId,setDistrictId]=useState('');
+    const [emailError, setEmailError] = useState("");
+     const fileRef = useRef(null);
 
      const getPlace=()=>{
       axios.get("http://localhost:5000/Place").then((res)=>{
@@ -50,8 +53,36 @@ const EquipmentShop = () => {
     .catch(console.error);
     }, [districtId]);
 
+          const checkEmailAvailability = async () => {
+        try {
+          const res = await axios.post(
+            "http://localhost:5000/EquiCustomerCheckEmail",
+            { customerEmail: email }
+          );
+
+          if (res.data.exists) {
+            setEmailError("Email already registered");
+            return false;
+          } else {
+            setEmailError("");
+            return true;
+          }
+
+        } catch (err) {
+          console.error(err);
+          return false;
+        }
+      };
+
     const handleSubmit=(e) =>{
         e.preventDefault();
+
+        checkEmailAvailability().then((available) => {
+
+          if (!available) {
+            alert("Email already exists!");
+            return;
+          }
         const fd=new FormData();
         fd.append('customerStoreName',sName);
         fd.append('customerStoreRegNo',regNo);
@@ -68,19 +99,22 @@ const EquipmentShop = () => {
             .then(res => {
             setSname("");
             setRegNo("");
-            setSalesLic("");
+            setSalesLic(null);
+            if(fileRef.current){
+              fileRef.current.value = "";
+            }
             setOname("");
             setPlaceId("");
             setAddress("");
             setContact("");
-            
-
-
-
+            setEmail("");
+            setUsername("");
+            setPswd("");
             alert(res.data.message)
             }
         ).catch(console.error)
-    }
+    });
+  }
 
 
   return (
@@ -107,6 +141,7 @@ const EquipmentShop = () => {
          <input
            type="text"
            placeholder="Enter registration number"
+           value={regNo}
             onChange={e=>setRegNo(e.target.value)}
            required
          />
@@ -117,6 +152,7 @@ const EquipmentShop = () => {
          <input
            type="file"
            accept=".jpg,.png,.jpeg"
+            ref={fileRef}
            onChange={e=>setSalesLic(e.target.files[0])}
            required
          />
@@ -128,6 +164,7 @@ const EquipmentShop = () => {
          <input
            type="text"
            placeholder="Enter owner name"
+           value={oName}
            onChange={e=>setOname(e.target.value)}
            required
          />
@@ -146,7 +183,7 @@ const EquipmentShop = () => {
     
        <div>
          <label>Place</label>
-         <select required onChange={e=>setPlaceId(e.target.value)} disabled={!districtId}>
+         <select required value={placeId} onChange={e=>setPlaceId(e.target.value)} disabled={!districtId}>
            <option value="">--- Select Place ---</option>
                  {place.map((row)=>(
                   <option key={row._id} value={row._id}>{row.placeName}</option>
@@ -159,6 +196,7 @@ const EquipmentShop = () => {
          <label>Address</label>
          <textarea
            placeholder="Enter full address"
+           value={address}
            onChange={e=>setAddress(e.target.value)}
            required
          ></textarea>
@@ -170,6 +208,7 @@ const EquipmentShop = () => {
          <input
            type="tel"
            placeholder="Enter contact number"
+           value={contact}
            onChange={e=>setContact(e.target.value)}
            required
          />
@@ -181,9 +220,13 @@ const EquipmentShop = () => {
          <input
            type="email"
            placeholder="Enter email"
+           value={email}
            onChange={e=>setEmail(e.target.value)}
            required
          />
+            {emailError && (
+            <small style={{ color: "red" }}>{emailError}</small>
+          )}
        </div>
  
      
@@ -192,6 +235,7 @@ const EquipmentShop = () => {
          <input
            type="text"
            placeholder="Create username"
+           value={username}
            onChange={e=>setUsername(e.target.value)}
            required
          />
@@ -203,6 +247,7 @@ const EquipmentShop = () => {
          <input
            type="password"
            placeholder="Create password"
+           value={pswd}
            onChange={e=>setPswd(e.target.value)}
            required
          />

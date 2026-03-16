@@ -144,7 +144,7 @@ const CustDashboard = () => {
 
         <div className={style.right}>
           <div className={style.imageWrapper}>
-            {/* ✅ add real image instead of '#' */}
+            {/* add real image instead of '#' */}
             <img src={medicalsupply} alt="Medical Supply" />
           </div>
         </div>

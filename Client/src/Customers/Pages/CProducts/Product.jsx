@@ -12,7 +12,7 @@ const Product = () => {
   const [medicine, setMedicine] = useState([]);
 
   const getMedicine = () => {
-    axios.get(`http://localhost:5000/Medicine`)
+    axios.get(`http://localhost:5000/customerMedicinesView`)
       .then(res => setMedicine(res.data.medicine))
       .catch(err => console.log(err));
   };
@@ -77,7 +77,21 @@ const Product = () => {
                   />
 
                   <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                            {data.stockStatus !== "AVAILABLE" && (
+                        <Typography
+                          sx={{
+                            color:
+                              data.stockStatus === "OUT_OF_STOCK" ? "red" : "orange",
+                            fontWeight: "bold",
+                            mt: 1
+                          }}
+                        >
+                          {data.stockStatus === "OUT_OF_STOCK"
+                            ? "Out of Stock"
+                            : "Limited Stock"}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="text.secondary">
                       Price:
                       <Box
                         component="span"

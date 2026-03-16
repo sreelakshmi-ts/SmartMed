@@ -1,14 +1,33 @@
 import React from 'react'
 import { Link } from 'react-router';
 import sty from './EquicustNavbar.module.css'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { Button } from '@mui/material';
 
 const EquicustNavbar = () => {
+   const [username, setUsername] = useState('');
+  const [avatar, setAvatar] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const name = sessionStorage.getItem('customerStoreName');
+    if (name) {
+      setUsername(name);
+      setAvatar(name.charAt(0).toUpperCase()); // first letter
+    }
+  }, []);
+      const logout = () =>{
+    sessionStorage.removeItem('ecid');
+    navigate('/guest/login')
+  }
   return (
      <div>
       <nav className={sty.custnavbar}>
   <div className={sty.logo}>
     <span className={sty.brand}>Smart</span>Med
-    <small className={sty.tagline}>Pharmacy & Stockist Portal</small>
+    <small className={sty.tagline}>Medical Equipment Portal</small>
   </div>
 
   <ul className={sty.navlinks}>
@@ -22,8 +41,8 @@ const EquicustNavbar = () => {
   {/* Profile Section */}
   <div className={sty.profileWrapper}>
     <div className={sty.profileBtn}>
-      <div className={sty.avatar}>S</div>
-      <span className={sty.username}>My Account</span>
+            <div className={sty.avatar}>{avatar}</div>
+            <span className={sty.username}>{username}</span>
     </div>
 
     <div className={sty.profileMenu}>
@@ -32,7 +51,7 @@ const EquicustNavbar = () => {
       <Link to='/equipmentCustomer/myCart'>My Cart</Link>
       <Link to='/equipmentCustomer/myorders'>My Orders</Link>
       <hr />
-      <Link to="/guest/login" className={sty.logout}>Logout</Link>
+       <Button  className={sty.logout} onClick={logout} >Logout</Button>
     </div>
   </div>
 

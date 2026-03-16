@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import style from './Registration.module.css'
 import axios from 'axios';
+import { useRef } from 'react';
 
 const Registration = () => {
     const[sName,setSname]=useState('');
@@ -17,6 +18,7 @@ const Registration = () => {
     const[district,setDistrict]=useState([]);
     const[districtId,setDistrictId]=useState('');
     const [emailError, setEmailError] = useState("");
+    const fileRef = useRef(null);
     
 
     const getPlace=()=>{
@@ -102,6 +104,9 @@ const Registration = () => {
         setSname("");
         setRegNo("");
         setDrugLic(null);
+          if(fileRef.current){
+          fileRef.current.value = "";
+        }
         setOname("");
         setDistrictId("")
         setPlaceId("");
@@ -153,8 +158,8 @@ const Registration = () => {
         <label>Drug Licence</label>
         <input
           type="file"
+          ref={fileRef}
           accept=".jpg,.png,.jpeg"
-          value={drugLic}
           onChange={e=>setDrugLic(e.target.files[0])}
           required
         />
@@ -208,7 +213,7 @@ const Registration = () => {
       <div>
         <label>Contact Number</label>
         <input
-          type="tel"
+          type="number"
           placeholder="Enter contact number"
           value={contact}
           onChange={e=>setContact(e.target.value)}

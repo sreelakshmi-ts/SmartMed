@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import style from './AddEquipments.module.css'
 import axios from 'axios';
+import { useRef } from 'react';
 
 const AddEquipments = () => {
     const[Ename,setEname]=useState('');
@@ -11,6 +12,7 @@ const AddEquipments = () => {
     const[eqcategory,setEquipmentCategory]=useState([]);
     const[brand,setBrand]=useState([]);
     const[photo,setPhoto]=useState(null);
+     const fileRef = useRef(null);
 
         const handleSubmit=(e) =>{
                 e.preventDefault();
@@ -30,6 +32,9 @@ const AddEquipments = () => {
                     setEqucategoryId('');
                     setBrandId('');
                     setPhoto(null);
+                    if(fileRef.current){
+                      fileRef.current.value = "";
+                    }
                     console.log(res.data.message);
                 })
                 
@@ -110,7 +115,7 @@ const AddEquipments = () => {
 
         <div className={style.field}>
           <label>Equipment Image</label>
-          <input type="file" onChange={e => setPhoto(e.target.files[0])}/>
+          <input type="file" ref={fileRef} onChange={e => setPhoto(e.target.files[0])}/>
         </div>
 
       </div>

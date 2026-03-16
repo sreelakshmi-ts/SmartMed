@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import style from './InManagerReg.module.css'
 import axios from 'axios';
+import { useRef } from 'react';
 
 const InManagerReg = () => {
       const[place,setPlace]=useState([]);
@@ -14,6 +15,7 @@ const InManagerReg = () => {
       const[pswd,setPswd]=useState('');
       const[district,setDistrict]=useState([]);
       const[districtId,setDistrictId]=useState('');
+      const fileRef = useRef(null);
 
       const getPlace=()=>{
         axios.get("http://localhost:5000/Place").then((res)=>{
@@ -49,9 +51,7 @@ const InManagerReg = () => {
   }, [districtId]);
 
 
-  // useEffect(() =>{
-  //     getPlace();
-  // },[]);
+
 
 
       const handleSubmit=(e) =>{
@@ -72,7 +72,10 @@ const InManagerReg = () => {
             setContact("");
             setWname("");
             setPlaceId("");
-            setPhoto("");
+            setPhoto(null);
+            if(fileRef.current){
+              fileRef.current.value = "";
+            }
             setEmail("");
             setPswd("")
 
@@ -143,6 +146,7 @@ const InManagerReg = () => {
         <label>Profile Photo</label>
         <input type="file" 
          accept=".jpg,.png,.jpeg"
+         ref={fileRef}
          onChange={e=>setPhoto(e.target.files[0])}
         />
       </div>

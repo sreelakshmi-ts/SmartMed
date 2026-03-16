@@ -1,47 +1,91 @@
+/* SIDEBAR CONTAINER */
 .sidecontainer {
-  width: 220px;
+  width: 240px;
   height: 100vh;
-  background-color: #fff;
-  border-right: 1px solid #ddd;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
+  padding-top: 20px;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.04);
 }
 
+/* HEADER AREA */
+.header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* BRAND */
 .brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-  color: #1d4ed8;
-  margin-bottom: 0.3rem;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.5px;
 }
 
+.brand span {
+  color: #22c55e; /* SmartMed green */
+}
+
+/* ROLE TEXT */
 .role {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 1.5rem;
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
 }
 
+/* MENU */
 .sidemenu {
   display: flex;
   flex-direction: column;
+  gap: 6px;
+  padding: 0 10px;
 }
 
+/* MENU ITEM */
 .item {
-  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
   text-decoration: none;
   color: #1f2937;
-  transition: background 0.2s;
-  font-size: 1rem;
+  font-size: 15px;
+  border-radius: 10px;
+  transition: all 0.25s ease;
 }
 
+/* ICON STYLE */
+.icon {
+  font-size: 20px !important;
+  color: #64748b;
+}
+
+/* HOVER EFFECT */
 .item:hover {
-  background-color: #e6f0ff;
-  color: #1d4ed8;
+  background: #f0fdf4;
+  color: #16a34a;
+  transform: translateX(4px);
 }
 
+.item:hover .icon {
+  color: #16a34a;
+}
+
+/* ACTIVE LINK */
 .item.active {
-  background-color: #cce0ff;
-  font-weight: bold;
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 600;
+}
+
+/* SCROLL SAFE */
+.sidecontainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidecontainer::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 10px;
 }

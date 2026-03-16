@@ -8,7 +8,7 @@ const StockManage = () => {
   const[medicine,setMedicine]=useState([]);
 
    const getMedicine=() =>{
-        axios.get(`http://localhost:5000/Medicine`)
+        axios.get(`http://localhost:5000/inventoryMedicinesManage`)
         .then(res => setMedicine(res.data.medicine))
         .catch(console.error); 
     };
@@ -49,7 +49,7 @@ const StockManage = () => {
               <span>Price:</span> {data.medicinePrice}
             </div>
             <div className={styles.stock}>
-              Stock Available: <strong>120</strong>
+              Stock Available: <strong>{data.totalStock || 0}</strong>
             </div>
 
             {/* <button className={styles.addStockBtn}>
