@@ -103,56 +103,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
-// app.get("/test", (req, res) => {
-//     console.log(req.body);
-//     res.send({ message: "hi" });
-// });
-//   app.post("/sum", (req, res) => {
-//     const { n1, n2 } = req.body;
-//     sum = n1 + n2;
-//     res.send({ result: sum })
-// });
-
-// app.post("/sub", (req,res) => {
-//     const { a1, a2 }=req.body;
-//     sub=a1-a2;
-//     res.send({ result: sub })
-// });
-
-// app.post("/squ", (req,res) => {
-//     const {s}=req.body;
-//     squ=s*s;
-//     res.send({ result:squ })
-// });
-
-// app.post("/cube" , (req,res) =>{
-
-//     const {c}=req.body;
-//     cub=c*c*c
-//     res.send({ result:cub })
-
-// });
-
-// app.post("/prime" , (req,res)=>{
-//     const {p}=req.body;
-//     if (p<=1){
-//         return res.send({result:"Is not prime"})
-
-//     }
-//     let isPrime=true;
-//     for(let i=2 ; i<= p/2 ;i++){
-//         if (p % i === 0)
-//         {
-//             isPrime=false;
-//             break;
-
-//         }
-//     }
-//     res.send({number:p, result: isPrime ? "Prime" : "Not Prime" })
-
-
-// }) 
-
 
 
 const districtSchemaStructure = new mongoose.Schema({
@@ -162,10 +112,6 @@ const districtSchemaStructure = new mongoose.Schema({
     }
 });
 const District = mongoose.model("districtCollection", districtSchemaStructure);
-
-
-
-
 
 app.post("/District", async (req, res) => {
     try {
@@ -354,6 +300,9 @@ app.post("/Category", async (req, res) => {
     try {
         const { categoryName } = req.body;
         let category = await Category.findOne({ categoryName })
+        if (category) {
+            return res.status(400).json({ message: "Category already exists" });
+        }
         category = new Category({
             categoryName
         });
@@ -437,11 +386,14 @@ const equipmentcategorySchemaStructure = new mongoose.Schema({
 });
 const Equipmentcate = mongoose.model("equipmentcategoryCollection", equipmentcategorySchemaStructure);
 
-//POST Equipment
+//---------------------POST Equipment------------------------------------------
 app.post("/Equipmentcate", async (req, res) => {
     try {
         const { equcategoryName } = req.body;
         let equcategory = await Category.findOne({ equcategoryName })
+        if (equcategory) {
+            return res.status(400).json({ message: "Equipment Category already exists" });
+        }
         equcategory = new Equipmentcate({
             equcategoryName
         });
@@ -529,6 +481,9 @@ app.post("/Brand", async (req, res) => {
     try {
         const { brandName } = req.body;
         let brand = await Brand.findOne({ brandName })
+        if (brand) {
+            return res.status(400).json({ message: "Brand already exists" });
+        }
         brand = new Brand({
             brandName
         });
@@ -569,6 +524,7 @@ app.delete("/Brand/:id", async (req, res) => {
     try {
         const brandId = req.params.id;
         const deletedBrand = await Brand.findByIdAndDelete(brandId);
+
 
         if (!deletedBrand) {
             return res.json({ message: "Brand not found" });
@@ -617,6 +573,9 @@ app.post("/Type", async (req, res) => {
     try {
         const { typeName } = req.body;
         let type = await Type.findOne({ typeName })
+        if (type) {
+        return res.status(400).json({ message: "Type already exists" });
+        }
         type = new Type({
             typeName
         });
@@ -1295,11 +1254,6 @@ app.post("/Medicine", upload.single("medicinePhoto"), async (req, res) => {
 });
 
 
-
-
-
-
-
 //---------------------------Inventory Manager-----------------------------
 
 const InventoryManagerSchemaStructure = new mongoose.Schema({
@@ -1966,7 +1920,7 @@ app.get("/Medicine", async (req, res) => {
     }
 
 });
-
+//-------------Medicine details------------------------------------
 app.get("/Medicine/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -2276,11 +2230,7 @@ const Complaint = mongoose.model("ComplaintCollection", ComplaintSchemaStructure
 
 
 
-
-
-
 //--------------------------------Login--------------------------------
-
 
 app.post("/login", async (req, res) => {
     try {

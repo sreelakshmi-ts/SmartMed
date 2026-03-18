@@ -83,6 +83,7 @@ const RepresentativeReg = () => {
         setName("");
         setEmpId("");
         setIdproof(null);
+        if (fileRef.current) fileRef.current.value = "";
         setContact("");
         setEmail("");
         setAddress("");

@@ -21,6 +21,14 @@ const Brand = () => {
       setBrand("");
       alert(res.data.message);
       getBrand();
+    }).catch((err) => {
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data.message);
+        setBrand("");
+      } else {
+        alert("Something went wrong. Please try again.");
+        console.error(err);
+      }
     });
   }
   else{

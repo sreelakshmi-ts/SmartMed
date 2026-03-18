@@ -21,75 +21,48 @@ const InManagerReg = () => {
 
   const fileRef = useRef(null);
 
-  
-
+  // ------------------- Updated Validation -------------------
   const validateForm = () => {
-    let newErrors = {};
+    const newErrors = {};
 
-   
-    if (!mName.trim()) {
-      newErrors.mName = "Manager name required";
-    } else if (!/^[A-Za-z\s]+$/.test(mName)) {
-      newErrors.mName = "Only letters allowed";
-    }
+    // Manager Name
+    if (!mName.trim()) newErrors.mName = "Manager name required";
+    else if (!/^[A-Za-z\s]+$/.test(mName)) newErrors.mName = "Only letters allowed";
 
-    
-    if (!empId.trim()) {
-      newErrors.empId = "Employee ID required";
-    } else if (!/^[A-Za-z0-9]+$/.test(empId)) {
-      newErrors.empId = "Invalid Employee ID";
-    }
+    // Employee ID
+    if (!empId.trim()) newErrors.empId = "Employee ID required";
+    else if (!/^[A-Za-z0-9]+$/.test(empId)) newErrors.empId = "Invalid Employee ID";
 
-   
-    if (!contact) {
-      newErrors.contact = "Contact number required";
-    } else if (!/^\d{10}$/.test(contact)) {
-      newErrors.contact = "Must be 10 digits";
-    }
+    // Contact Number (as text for proper validation)
+    if (!contact.trim()) newErrors.contact = "Contact number required";
+    else if (!/^\d{10}$/.test(contact)) newErrors.contact = "Must be exactly 10 digits";
 
-    
-    if (!wName.trim()) {
-      newErrors.wName = "Warehouse name required";
-    }
+    // Warehouse Name
+    if (!wName.trim()) newErrors.wName = "Warehouse name required";
 
-  
-    if (!districtId) {
-      newErrors.districtId = "Select district";
-    }
+    // District & Place
+    if (!districtId) newErrors.districtId = "Select district";
+    if (!placeId) newErrors.placeId = "Select place";
 
-    
-    if (!placeId) {
-      newErrors.placeId = "Select place";
-    }
-
-
+    // Email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email) {
-      newErrors.email = "Email required";
-    } else if (!emailRegex.test(email)) {
-      newErrors.email = "Invalid email format";
-    }
+    if (!email.trim()) newErrors.email = "Email required";
+    else if (!emailRegex.test(email)) newErrors.email = "Invalid email format";
 
-  
-    if (!pswd) {
-      newErrors.pswd = "Password required";
-    } else if (pswd.length < 6) {
-      newErrors.pswd = "Minimum 6 characters required";
-    }
+    // Password
+    if (!pswd) newErrors.pswd = "Password required";
+    else if (pswd.length < 6) newErrors.pswd = "Minimum 6 characters required";
 
-   
+    // Photo
     if (photo) {
-      const allowed = ["image/jpeg", "image/png", "image/jpg"];
-      if (!allowed.includes(photo.type)) {
-        newErrors.photo = "Only JPG, JPEG, PNG allowed";
-      }
+      const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (!allowedTypes.includes(photo.type)) newErrors.photo = "Only JPG, JPEG, PNG allowed";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-
+  // ------------------------------------------------------------
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -108,7 +81,6 @@ const InManagerReg = () => {
 
     axios.post("http://localhost:5000/InvetoryManager", fd)
       .then((res) => {
-
         alert(res.data.message);
 
         setMname("");
@@ -123,10 +95,12 @@ const InManagerReg = () => {
         setErrors({});
 
         if (fileRef.current) fileRef.current.value = "";
-      });
+      })
+      // .catch(err => {
+      //   console.error(err.response?.data || err.message);
+      //   alert("Server Error: " + (err.response?.data?.message || err.message));
+      // });
   };
-
-
 
   const getDistrict = () => {
     axios.get("http://localhost:5000/District")
@@ -177,7 +151,7 @@ const InManagerReg = () => {
 
           <div className={style.field}>
             <label>Contact Number</label>
-            <input type="tel" value={contact} onChange={e=>setContact(e.target.value)} />
+            <input type="text" value={contact} onChange={e=>setContact(e.target.value)} />
             {errors.contact && <small className={style.error}>{errors.contact}</small>}
           </div>
 
@@ -244,4 +218,4 @@ const InManagerReg = () => {
   )
 }
 
-export default InManagerReg;
+export default InManagerReg

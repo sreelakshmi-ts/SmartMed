@@ -138,7 +138,15 @@
   background: #2563eb;
   color: #ffffff;
 }
-
+.outOfStock {
+  background-color: #ccc;
+  color: #891a1a;
+  cursor: not-allowed;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+}
 .BuyNow {
   flex: 1;
   padding: 16px 0;

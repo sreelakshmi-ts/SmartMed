@@ -24,7 +24,7 @@ const Product = () => {
   // Filter medicines based on search
   const filteredMedicines = medicine.filter((item) =>
     item.medicineName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.brandId?.brandName.toLowerCase().includes(searchTerm.toLowerCase())
+    (item.brandName || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -66,7 +66,7 @@ const Product = () => {
 
                   <CardHeader
                     title={data.medicineName}
-                    subheader={data.brandId?.brandName || "Unknown"}
+                    subheader={data.brandName || "Unknown"}
                   />
 
                   <CardMedia

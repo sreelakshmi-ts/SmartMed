@@ -69,9 +69,9 @@ const MedicineView = () => {
       <h2 className={style.ProductName}>{medicine.medicineName}</h2>
 
       <div className={style.Meta}>
-        <span className={style.Brand}>{medicine.brandId ?.brandName || "Unknown"}</span>
-        <span className={style.Category}>{medicine.categoryId ?.categoryName || "Unknown"}</span>
-        <span className={style.Category}>{medicine.typeId ?.typeName || "Unknown"}</span>
+        <span className={style.Brand}>{medicine.brand ?.brandName || "Unknown"}</span>
+        <span className={style.Category}>{medicine.category ?.categoryName || "Unknown"}</span>
+        <span className={style.Category}>{medicine.type ?.typeName || "Unknown"}</span>
       </div>
      <div className={style.Price}>
        {medicine.medicinePrice} <span>/ strip</span>
@@ -90,9 +90,29 @@ const MedicineView = () => {
       </p>
       </div>
 
-        <div className={style.Actions}>
-        <button className={style.AddToCart} onClick={addToCart}>Add to Cart</button>
-      </div>
+<div className={style.Actions}>
+
+  {medicine?.stockQuantity > 0 ? (
+
+    <button
+      className={style.AddToCart}
+      onClick={addToCart}
+    >
+      Add to Cart
+    </button>
+
+  ) : (
+
+    <button
+      className={style.outOfStock}
+      disabled
+    >
+      Out of Stock
+    </button>
+
+  )}
+
+</div>
     </div>
 
   </div>

@@ -20,6 +20,14 @@ const Category = () => {
             setCategory("");
             alert(res.data.message);
             getCategory();
+            }).catch((err) => {
+              if (err.response && err.response.status === 400) {
+                alert(err.response.data.message);
+                setCategory("");
+              } else {
+                alert("Something went wrong. Please try again.");
+                console.error(err);
+              }
             });
           }
           else{

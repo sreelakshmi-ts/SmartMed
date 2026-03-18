@@ -21,6 +21,14 @@ const EquipmentCate = () => {
             setEquiCategory("");
             alert(res.data.message);
             getEquiCategory();
+            }).catch((err) => {
+              if (err.response && err.response.status === 400) {
+                alert(err.response.data.message);
+                setEquiCategory("");
+              } else {
+                alert("Something went wrong. Please try again.");
+                console.error(err);
+              }
             });
           }
           else{

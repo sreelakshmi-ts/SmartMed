@@ -37,7 +37,7 @@ const Sidebar = () => {
   return (
     <div className={style.sidecontainer}>
 
-      <h3 className={style.side}>SmartMed Admin</h3>
+      <h3 className={style.side}>SmartMed <span className={style.admin}>Admin</span></h3>
 
       {/* DASHBOARD */}
       <div className={style.itm1}>

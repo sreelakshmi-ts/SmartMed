@@ -48,13 +48,13 @@ const StockManage = () => {
             <h3 className={styles.name}>{data.medicineName}</h3>
 
             <div className={styles.meta}>
-              <span>Category:</span> {data.categoryId ?.categoryName || "Unknown"}
+              <span>Category:</span> {data.categoryName || "Unknown"}
             </div>
             <div className={styles.meta}>
-              <span>Medicine Type:</span> {data.typeId ?.typeName || "Unknown"}
+              <span>Medicine Type:</span> {data.typeName || "Unknown"}
             </div>
             <div className={styles.meta}>
-              <span>Manufacturer:</span> {data.brandId ?.brandName || "Unknown"}
+              <span>Manufacturer:</span> {data. brandName || "Unknown"}
             </div>
             <div className={styles.meta}>
               <span>Price:</span> {data.medicinePrice}
