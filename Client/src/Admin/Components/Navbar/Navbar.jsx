@@ -39,7 +39,7 @@ const Navbar = () => {
           className={style.admininfo}
           onClick={() => setOpen(!open)}
         >
-          <span className={style.adminname}>{username}</span>
+          <span className={style.adminname}>Hi,{username}</span>
           <div className={style.avatar}>{avatar}</div>
         </div>
 

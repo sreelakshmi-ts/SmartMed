@@ -41,7 +41,7 @@ const EquiCustomerDetails = () => {
           <div className={style.card}>
             <h2>Customer Details</h2>
             <p className={style.subtitle}>
-              View Customer Details
+              View Equipment Customer Details
             </p>
             <div className={style.tableWrapper}>
     

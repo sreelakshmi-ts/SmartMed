@@ -31,10 +31,9 @@ const EquicustNavbar = () => {
   </div>
 
   <ul className={sty.navlinks}>
-    <Link className={sty.li} to='#'>Home</Link>
+    <Link className={sty.li} to='/equipmentCustomer'>Home</Link>
     <Link className={sty.li} to='/equipmentCustomer/viewEquipments'>Products</Link>
-    <Link className={sty.li} to='#'>Suppliers</Link>
-    <Link className={sty.li} to='#'>Orders</Link>
+    <Link className={sty.li} to='/equipmentCustomer/myorders'>Orders</Link>
     <Link className={sty.li} to='/equipmentCustomer/ecomplaints'>Support</Link>
   </ul>
 

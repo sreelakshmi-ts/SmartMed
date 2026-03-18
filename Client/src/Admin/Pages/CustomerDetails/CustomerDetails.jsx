@@ -44,7 +44,7 @@ const handleReject = (id) => {
           <div className={style.card}>
             <h2>Customer Details</h2>
             <p className={style.subtitle}>
-              View Customer Details
+              View Medicine Customer Details
             </p>
             <div className={style.tableWrapper}>
     

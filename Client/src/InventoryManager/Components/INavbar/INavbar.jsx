@@ -52,8 +52,6 @@ const INavbar = () => {
           {open && (
             <div className={style.dropdown}>
               <Link to='/inventory/imyprofile' className={style.button}>My Profile</Link>
-              <Link className={style.button}>Edit Profile</Link>
-              {/* <Link className={style.logout}>Logout</Link> */}
               <Button className={style.logout} onClick={logout} >Log Out</Button>
             </div>
           )}

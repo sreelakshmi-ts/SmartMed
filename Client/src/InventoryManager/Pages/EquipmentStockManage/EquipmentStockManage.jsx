@@ -19,7 +19,16 @@ const [equipment, setEquipment] = useState([]);
     }
     ,[])
 
+    const isExpiringSoon = (expiryDate) => {
+      if (!expiryDate) return false;
 
+      const today = new Date();
+      const expiry = new Date(expiryDate);
+
+      const diffDays = (expiry - today) / (1000 * 60 * 60 * 24);
+
+      return diffDays <= 30; // within 30 days
+    };
 
   return (
      <div className={styles.page}>
@@ -50,6 +59,20 @@ const [equipment, setEquipment] = useState([]);
             </div>
             <div className={styles.stock}>
                Stock Available: <strong>{data.totalStock || 0}</strong>
+            </div>
+
+            <div className={styles.meta}>
+              <span>Manufacture Date:</span>{" "}
+              {data.manufactureDate
+                ? new Date(data.manufactureDate).toLocaleDateString()
+                : "N/A"}
+            </div>
+
+            <div className={`${styles.meta} ${isExpiringSoon(data.expiryDate) ? styles.expiryWarning : ""}`}>
+              <span>Expiry Date:</span>{" "}
+              {data.expiryDate
+                ? new Date(data.expiryDate).toLocaleDateString()
+                : "N/A"}
             </div>
 
 

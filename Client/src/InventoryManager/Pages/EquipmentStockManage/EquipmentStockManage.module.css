@@ -101,6 +101,10 @@
   border-radius: 8px;
   width: fit-content;
 }
+.expiryWarning {
+  color: red;
+  font-weight: bold;
+}
 
 /* Button */
 .addStockBtn {

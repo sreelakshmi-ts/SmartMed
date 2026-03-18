@@ -26,6 +26,12 @@
   color: #64748b;
   margin-bottom: 28px;
 }
+.error{
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
 
 /* Grid */
 .grid {

@@ -20,7 +20,12 @@
   color: #0f172a;
   margin-bottom: 6px;
 }
-
+.error{
+  color:red;
+  font-size:12px;
+  margin-top:4px;
+  display:block;
+}
 .subtitle {
   font-size: 14px;
   color: #64748b;

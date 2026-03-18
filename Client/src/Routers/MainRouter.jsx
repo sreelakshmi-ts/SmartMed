@@ -14,6 +14,7 @@ const MainRouter = () => {
   return (
     <div>
         <Routes>
+           <Route path='/' element={<GuestHomepage/>} />
            <Route path='admin/*' element={<Homepages/>} />
            <Route path='basics/*' element={<BasicsRouter/>}/>
            <Route path='guest/*' element={<GuestHomepage/>} />

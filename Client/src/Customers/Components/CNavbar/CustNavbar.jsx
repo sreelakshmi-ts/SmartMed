@@ -33,11 +33,9 @@ const CustNavbar = () => {
   </div>
 
   <ul className={sty.navlinks}>
-    <Link className={sty.li} to='#'>Home</Link>
+    <Link className={sty.li} to='/customer/home'>Home</Link>
     <Link className={sty.li} to='/customer/cproducts'>Products</Link>
-    {/* <Link className={sty.li} to='/customer/cproductsView'>Products</Link> */}
-    <Link className={sty.li} to='#'>Suppliers</Link>
-    <Link className={sty.li} to='#'>Orders</Link>
+    <Link className={sty.li} to='/customer/myorders'>Orders</Link>
     <Link className={sty.li} to='/customer/ccomplaints'>Support</Link>
   </ul>
 

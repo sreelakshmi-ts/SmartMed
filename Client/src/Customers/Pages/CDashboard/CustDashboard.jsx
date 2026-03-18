@@ -19,8 +19,12 @@ const badges = [
 ];
 
 import medicalsupply from "../../../assets/Landingpage/Langingpageimg1.png";
+import { useNavigate } from 'react-router';
 
 
+import catMed from "../../../assets/LandingPage/catMed1.jpeg"
+import assist1 from "../../../assets/Landingpage/wheelchairassist.jpg"
+import surgimg from "../../../assets/Landingpage/surgicalequi.avif"
 
 const categories = [
   {
@@ -30,7 +34,7 @@ const categories = [
     description:
       "Prescription medicines, OTC drugs, vitamins and pharmacy essentials supplied from certified distributors.",
     count: "50,000+ Products",
-    image: "/images/medicine.jpg",
+    image: [catMed],
     color: "#2563eb",
   },
   {
@@ -40,7 +44,7 @@ const categories = [
     description:
       "Wheelchairs, walkers, hospital beds and rehabilitation equipment.",
     count: "8,000+ Products",
-    image: "/images/assist.jpg",
+    image: [assist1],
     color: "#0891b2",
   },
   {
@@ -50,13 +54,17 @@ const categories = [
     description:
       "Sterile surgical tools and operation theatre equipment.",
     count: "12,000+ Products",
-    image: "/images/surgical.jpg",
+    image: [surgimg],
     color: "#059669",
   },
 ];
 
+//------------------Exclusive offere-----------------------
+import essimed from "../../../assets/Landingpage/essentialmed.jpeg"
+import surg from "../../../assets/Landingpage/surgical1.avif"
+import assist2 from "../../../assets/Landingpage/assist2.jpg"
+
 // ------------------WHY Section------------------
-// import teamImg from "../../assets/team.jpg";
 
 const features = [
   {
@@ -90,6 +98,7 @@ const features = [
     desc: "Our support team is always available to assist you.",
   },
 ];
+import smartMedTeam from "../../../assets/Landingpage/exicutiveteam.webp"
 
 const stats = [
   { value: "200K+", label: "Customers" },
@@ -99,9 +108,15 @@ const stats = [
 ];
 
 
+
 const CustDashboard = () => {
+    const navigate=useNavigate();
+  const handleshopnow = async () => {
+    navigate('/guest/login');
+  }
   return (
-  <>
+    <>
+  
     {/* ---------- HERO SECTION ---------- */}
     <section className={style.hero}>
       <div className={style.container}>
@@ -124,7 +139,7 @@ const CustDashboard = () => {
           </p>
 
           <div className={style.buttons}>
-            <button className={style.primaryBtn}>
+            <button className={style.primaryBtn} onClick={handleshopnow}>
               Shop Now <ArrowForwardIcon fontSize="small" />
             </button>
           </div>
@@ -201,6 +216,7 @@ const CustDashboard = () => {
                 <button
                   className={style.browseBtn}
                   style={{ background: cat.color }}
+                  onClick={handleshopnow}
                 >
                   Browse {cat.title}
                   <ArrowForwardIcon fontSize="small" />
@@ -245,7 +261,7 @@ const CustDashboard = () => {
     {/* MEDICINE OFFER */}
     <div
       className={style.offerCard}
-      style={{ backgroundImage: `` }}
+      style={{ backgroundImage: `url(${essimed})` }}
     >
       <div className={style.overlayMedicine}></div>
 
@@ -270,7 +286,7 @@ const CustDashboard = () => {
     {/* SURGICAL EQUIPMENT */}
     <div
       className={style.offerCard}
-      style={{ backgroundImage: `` }}
+      style={{ backgroundImage: `url(${surg})` }}
     >
       <div className={style.overlayBlue}></div>
 
@@ -295,7 +311,7 @@ const CustDashboard = () => {
     {/* ASSISTING EQUIPMENT */}
     <div
       className={style.offerCard}
-      style={{ backgroundImage: `` }}
+      style={{ backgroundImage: `url(${assist2})` }}
     >
       <div className={style.overlayGreen}></div>
 
@@ -352,7 +368,7 @@ const CustDashboard = () => {
 
           {/* IMAGE */}
           <div className={style.whyImageBox}>
-            <img src='#' alt="SmartMed Team" />
+            <img src={smartMedTeam} alt="SmartMed Team" />
           </div>
 
         </div>
@@ -370,8 +386,7 @@ const CustDashboard = () => {
       </div>
     </section>
   </>
-)
-            
+  )
 }
 
 export default CustDashboard

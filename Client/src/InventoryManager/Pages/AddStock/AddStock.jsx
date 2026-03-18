@@ -55,17 +55,17 @@ const AddStock = () => {
 
           <div>
             <label>Brand Name</label>
-            <input type="text" value={medicine.brandId ?.brandName || "Unknown"} disabled />
+            <input type="text" value={medicine.brand?.brandName || "Unknown"} disabled />
           </div>
 
           <div>
             <label>Medicine Type</label>
-            <input type="text" value={medicine.typeId?.typeName || "Unknown"} disabled />
+            <input type="text" value={medicine.type ?.typeName || "Unknown"} disabled />
           </div>
 
           <div>
             <label>Category</label>
-            <input type="text" value={medicine.categoryId?.categoryName || "Unknown"} disabled />
+            <input type="text" value={medicine.category ?.categoryName || "Unknown"} disabled />
           </div>
         </div>
 

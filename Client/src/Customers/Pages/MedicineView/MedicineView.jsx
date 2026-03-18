@@ -6,37 +6,50 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 const MedicineView = () => {
-        const[medicine,setMedicine]=useState(null);
-        // const [quantity, setQuantity] = useState(1);
-         const { id } = useParams();
-        const getMedicine =()=>{
-            axios.get(`http://localhost:5000/Medicine/${id}`)
-            .then(res => setMedicine(res.data.medicine))
-            .catch(console.error);
-        };
+  const[medicine,setMedicine]=useState(null);
+      
+  const { id } = useParams();
+
+    const getMedicine =()=>{
+        axios.get(`http://localhost:5000/Medicine/${id}`)
+        .then(res => setMedicine(res.data.medicine))
+        .catch(console.error);
+    };
      useEffect(() =>{
        getMedicine();
      },[id]);
+
      if (!medicine) return <p>Loading...</p>;
-            const addToCart = () => {
+      const addToCart = () => {
 
-            const customerId = sessionStorage.getItem("cid");
+      const customerId = sessionStorage.getItem("cid");
 
-            if (!customerId) {
-              alert("Please login first");
-              return;
-            }
+      if (!customerId) {
+        alert("Please login first");
+        return;
+      }
 
-            axios.post("http://localhost:5000/AddToCart", {
-              customerId: customerId,
-              medicineId: medicine._id,
-              quantity: 1
-            })
-            .then(res => {
-              alert("Added to cart");
-            })
-            .catch(err => console.log(err));
-            };
+      axios.post("http://localhost:5000/AddToCart", {
+        customerId: customerId,
+        medicineId: medicine._id,
+        quantity: 1
+      })
+      .then(res => {
+        alert("Added to cart");
+      })
+      .catch(err => console.log(err));
+      };
+
+      const isExpiringSoon = () => {
+        if (!medicine.expiryDate) return false;
+
+        const today = new Date();
+        const expiry = new Date(medicine.expiryDate);
+
+        const diffDays = (expiry - today) / (1000 * 60 * 60 * 24);
+
+        return diffDays <= 30; // within 30 days
+      };
 
   return (
    <div className={style.ProductDetailPage}>
@@ -66,21 +79,19 @@ const MedicineView = () => {
       <p className={style.Description}>
             {medicine.medicineDistription}
       </p>
-                {/* <div className={style.QuantityBox}>
-          <button onClick={decreaseQty}>−</button>
-
-          <input
-            type="number"
-            value={quantity}
-            readOnly
-          />
-
-  <button onClick={increaseQty}>+</button>
-</div> */}
+      <div className={style.DateSection}>
+        <p>
+          <strong>Manufacture Date:</strong>{" "}
+          {medicine.manufactureDate || "Not Available"}
+        </p>
+        <p className={isExpiringSoon() ? style.expiryWarning : ""}>
+        <strong>Expiry Date:</strong>{" "}
+        {medicine.expiryDate || "Not Available"}
+      </p>
+      </div>
 
         <div className={style.Actions}>
         <button className={style.AddToCart} onClick={addToCart}>Add to Cart</button>
-        <button className={style.BuyNow}>Buy Now</button>
       </div>
     </div>
 

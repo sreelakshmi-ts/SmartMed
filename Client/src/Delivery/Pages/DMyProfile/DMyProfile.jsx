@@ -30,10 +30,10 @@ if (!profile) return <div>Loading...</div>;
       </div>
 
       {/* Edit Icon */}
-      <Link className={style.editIconBtn}>
+      {/* <Link className={style.editIconBtn}>
         <EditOutlined />
         <span>Edit</span>
-      </Link>
+      </Link> */}
     </div>
 
     {/* Profile Info */}

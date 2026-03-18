@@ -71,6 +71,12 @@
 .field textarea:focus {
   border-color: #2563eb;
 }
+.error{
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
 
 /* Actions */
 .actions {
@@ -97,6 +103,62 @@
   border: none;
   border-radius: 8px;
   font-weight: 600;
+  cursor: pointer;
+}
+
+/* Medicine List Card */
+.listCard {
+  width: 100%;
+  max-width: 1100px;
+  background: #ffffff;
+  margin-top: 40px;
+  padding: 28px;
+  border-radius: 14px;
+   justify-self: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* Table title */
+.tableTitle {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+   text-align: center;
+}
+
+.table th {
+  background: #2563eb;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Image */
+.medicineImg {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Delete button */
+.deleteBtn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
   cursor: pointer;
 }
 

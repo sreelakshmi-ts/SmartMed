@@ -14,7 +14,6 @@ const EquipmentShop = () => {
     const[address,setAddress]=useState('');
     const[contact,setContact]=useState('');
     const[email,setEmail]=useState('');
-    const[username,setUsername]=useState('');
     const[pswd,setPswd]=useState('');
     const[place,setPlace]=useState([]);
     const[district,setDistrict]=useState([]);
@@ -74,8 +73,84 @@ const EquipmentShop = () => {
         }
       };
 
+      const validateForm = () => {
+  let isValid = true;
+
+  // Store Name
+  if (!sName.trim()) {
+    alert("Store Name is required");
+    isValid = false;
+  }
+
+  // Registration Number
+  if (!regNo.trim()) {
+    alert("Registration Number is required");
+    isValid = false;
+  }
+
+  // Owner Name
+  if (!oName.trim()) {
+    alert("Owner Name is required");
+    isValid = false;
+  }
+
+  // District
+  if (!districtId) {
+    alert("Please select a district");
+    isValid = false;
+  }
+
+  // Place
+  if (!placeId) {
+    alert("Please select a place");
+    isValid = false;
+  }
+
+  // Address
+  if (!address.trim()) {
+    alert("Address is required");
+    isValid = false;
+  }
+
+  // Contact (Indian format)
+  const contactRegex = /^[6-9]\d{9}$/;
+  if (!contactRegex.test(contact)) {
+    alert("Enter valid 10-digit contact number");
+    isValid = false;
+  }
+
+  // Email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Enter valid email address");
+    isValid = false;
+  }
+
+  // Password (min 6 chars + number)
+  const passwordRegex = /^(?=.*\d).{6,}$/;
+  if (!passwordRegex.test(pswd)) {
+    alert("Password must be at least 6 characters and contain a number");
+    isValid = false;
+  }
+
+  // Sales License file
+  if (!salesLic) {
+    alert("Please upload Sales License");
+    isValid = false;
+  } else {
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!allowedTypes.includes(salesLic.type)) {
+      alert("Only JPG, JPEG, PNG files are allowed");
+      isValid = false;
+    }
+  }
+
+  return isValid;
+};
+
     const handleSubmit=(e) =>{
         e.preventDefault();
+        if (!validateForm()) return;
 
         checkEmailAvailability().then((available) => {
 
@@ -92,7 +167,7 @@ const EquipmentShop = () => {
         fd.append('customerAddress',address);
         fd.append('customerContact',contact);
         fd.append('customerEmail',email);
-        fd.append('customerUsername',username);
+        
         fd.append('customerPassword',pswd);
         
         axios.post("http://localhost:5000/EquipmentCustomer",fd)
@@ -108,7 +183,6 @@ const EquipmentShop = () => {
             setAddress("");
             setContact("");
             setEmail("");
-            setUsername("");
             setPswd("");
             alert(res.data.message)
             }
@@ -229,19 +303,6 @@ const EquipmentShop = () => {
           )}
        </div>
  
-     
-       <div>
-         <label>Username</label>
-         <input
-           type="text"
-           placeholder="Create username"
-           value={username}
-           onChange={e=>setUsername(e.target.value)}
-           required
-         />
-       </div>
- 
-      
        <div>
          <label>Password</label>
          <input

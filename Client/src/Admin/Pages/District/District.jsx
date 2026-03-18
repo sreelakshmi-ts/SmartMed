@@ -9,33 +9,55 @@ const District = () => {
   const [districtdata, setDistrictData] = useState([]);
   const [districtEditId, setDistrictEditId] = useState(null);
   
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      districtName: district
-    }
-    if(districtEditId === null){
-    axios.post("http://localhost:5000/District", data).then((res) => {
-    
-       setDistrict(""); 
-      alert(res.data.message);
-     console.log(res.data.message);
-     
-      getDistrict();
-    });
-    }
-    else{
-     axios.put(`http://localhost:5000/District/${districtEditId}`,data)
-      .then((res) => {
-      setDistrict("");
-      setDistrictEditId(null);
-      alert(res.data.message);
-      getDistrict();  
-  });
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-
-    }
+  // Basic validation
+  if (!district.trim()) {
+    alert("Please enter a district name");
+    return;
   }
+
+  const data = { districtName: district };
+
+  if (districtEditId === null) {
+    // Add new district
+    axios.post("http://localhost:5000/District", data)
+      .then((res) => {
+        setDistrict(""); 
+        alert(res.data.message);
+        getDistrict();
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 400) {
+          alert(err.response.data.message);
+          setDistrict("") 
+        } else {
+          alert("Something went wrong. Please try again.");
+          console.error(err);
+        }
+      });
+
+  } else {
+    
+    axios.put(`http://localhost:5000/District/${districtEditId}`, data)
+      .then((res) => {
+        setDistrict("");
+        setDistrictEditId(null);
+        alert(res.data.message);
+        getDistrict();
+      })
+      .catch((err) => {
+       
+        if (err.response && err.response.status === 400) {
+          alert(err.response.data.message);
+        } else {
+          alert("Something went wrong. Please try again.");
+          console.error(err);
+        }
+      });
+  }
+};
   //-----get----------------
 const getDistrict = () => {
   axios.get("http://localhost:5000/District")

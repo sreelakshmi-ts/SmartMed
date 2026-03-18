@@ -97,10 +97,10 @@ const MyCart = () => {
             <ShoppingCart /> My Cart
           </Typography>
 
-          <Chip
+          {/* <Chip
             icon={<CalendarToday />}
             label={new Date(bookingData.bookDate).toLocaleDateString()}
-          />
+          /> */}
         </CardContent>
       </Card>
 

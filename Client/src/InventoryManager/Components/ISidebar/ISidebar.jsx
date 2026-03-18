@@ -14,9 +14,6 @@ const ISidebar = () => {
       Dashboard
     </Link>
 
-    <Link className={style.item} to="/inventory/addproduct">
-      Add Medicines
-    </Link>
 
     <Link className={style.item} to="/inventory/stockmanage">
       Medicine Stock 
@@ -27,19 +24,13 @@ const ISidebar = () => {
     </Link>
 
     <Link className={style.item} to="/inventory/allorders">
-      Orders
+      Medicine Orders
     </Link>
     <Link className={style.item} to="/inventory/equipmentAllorders">
       Equipment AllOrders
     </Link>
 
-    <Link className={style.item} to="/inventory/suppliers">
-      Suppliers
-    </Link>
-
-    <Link className={style.item} to="/inventory/alerts">
-      Low Stock Alerts
-    </Link>
+ 
   </nav>
 </div>
 

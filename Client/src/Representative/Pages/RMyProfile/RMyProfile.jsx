@@ -31,10 +31,10 @@ if (!profile) return <div>Loading...</div>;
             <p className={style.role}>SmartMed Representative</p>
           </div>
 
-          <button className={style.editBtn}>
+          {/* <button className={style.editBtn}>
             <EditOutlined  fontSize="small" />
             Edit Profile
-          </button>
+          </button> */}
         </div>
 
         {/* Details */}

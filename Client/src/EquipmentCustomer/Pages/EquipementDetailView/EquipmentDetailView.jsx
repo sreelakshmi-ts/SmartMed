@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const EquipmentDetailView = () => {
     const[equipment,setEquipment]=useState(null);
-    // const [quantity, setQuantity] = useState(1);
+    
      const { id } = useParams();
      const getEquipment =()=>{
         axios.get(`http://localhost:5000/EquipmentDetails/${id}`)
@@ -38,6 +38,17 @@ const EquipmentDetailView = () => {
       });
     };
 
+    const isExpiringSoon = (expiryDate) => {
+      if (!expiryDate) return false;
+
+      const today = new Date();
+      const expiry = new Date(expiryDate);
+
+      const diffDays = (expiry - today) / (1000 * 60 * 60 * 24);
+
+      return diffDays <= 30;
+    };
+
   return (
     <div className={style.ProductDetailPage}>
      <div className={style.ProductCard}>
@@ -64,23 +75,26 @@ const EquipmentDetailView = () => {
           {equipment.equipmentPrice} <span>/ piece</span>
          </div>
          <p className={style.Description}>
-               {equipment.equipmentDistription}
+            {equipment.equipmentDistription}
          </p>
-                   {/* <div className={style.QuantityBox}>
-             <button onClick={decreaseQty}>−</button>
-   
-             <input
-               type="number"
-               value={quantity}
-               readOnly
-             />
-   
-     <button onClick={increaseQty}>+</button>
-   </div> */}
+         <div className={style.DateSection}>
+            <p>
+              <strong>Manufacture Date:</strong>{" "}
+              {equipment.manufactureDate
+                ? new Date(equipment.manufactureDate).toLocaleDateString()
+                : "N/A"}
+            </p>
+
+            <p className={isExpiringSoon(equipment.expiryDate) ? style.expiryWarning : ""}>
+              <strong>Expiry Date:</strong>{" "}
+              {equipment.expiryDate
+                ? new Date(equipment.expiryDate).toLocaleDateString()
+                : "N/A"}
+            </p>
+</div>
    
            <div className={style.Actions}>
            <button className={style.AddToCart} onClick={addtoCart} >Add to Cart</button>
-           <button className={style.BuyNow}>Buy Now</button>
          </div>
        </div>
    

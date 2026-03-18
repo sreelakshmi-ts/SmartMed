@@ -96,10 +96,17 @@
   max-width: 560px;
 }
 
-/* .QuantityBox {
-  display: flex;
-  align-items: center
-} */
+.DateSection {
+  margin-top: 10px;
+  background: #f8fafc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.expiryWarning {
+  color: red;
+  font-weight: bold;
+}
 
 /* ACTION BUTTONS */
 .Actions {

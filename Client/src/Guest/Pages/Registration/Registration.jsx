@@ -12,7 +12,6 @@ const Registration = () => {
     const[address,setAddress]=useState('');
     const[contact,setContact]=useState('');
     const[email,setEmail]=useState('');
-    const[username,setUsername]=useState('');
     const[pswd,setPswd]=useState('');
     const[place,setPlace]=useState([]);
     const[district,setDistrict]=useState([]);
@@ -75,9 +74,78 @@ const Registration = () => {
         }
       };
 
+  const validateForm = () => {
+  let isValid = true;
+
+  // Store Name
+  if (!sName.trim()) {
+    alert("Store Name is required");
+    isValid = false;
+  }
+
+  // Registration Number
+  if (!regNo.trim()) {
+    alert("Registration Number is required");
+    isValid = false;
+  }
+
+  // Owner Name
+  if (!oName.trim()) {
+    alert("Owner Name is required");
+    isValid = false;
+  }
+
+  // District & Place
+  if (!districtId) {
+    alert("Please select a district");
+    isValid = false;
+  }
+
+  if (!placeId) {
+    alert("Please select a place");
+    isValid = false;
+  }
+
+  // Address
+  if (!address.trim()) {
+    alert("Address is required");
+    isValid = false;
+  }
+
+  // Contact Validation (10 digits)
+  const contactRegex = /^[6-9]\d{9}$/;
+  if (!contactRegex.test(contact)) {
+    alert("Enter valid 10-digit contact number");
+    isValid = false;
+  }
+
+  // Email Validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Enter valid email address");
+    isValid = false;
+  }
+
+  // Password Validation (min 6 chars, 1 number)
+  const passwordRegex = /^(?=.*\d).{6,}$/;
+  if (!passwordRegex.test(pswd)) {
+    alert("Password must be at least 6 characters and contain a number");
+    isValid = false;
+  }
+
+  // File check
+  if (!drugLic) {
+    alert("Please upload Drug Licence");
+    isValid = false;
+  }
+
+  return isValid;
+};
+
 
   const handleSubmit = (e) => {
   e.preventDefault();
+  if (!validateForm()) return;
 
   checkEmailAvailability().then((available) => {
 
@@ -86,7 +154,7 @@ const Registration = () => {
       return;
     }
 
-    // continue registration
+  
     const fd = new FormData();
     fd.append('customerStoreName', sName);
     fd.append('customerStoreRegNo', regNo);
@@ -96,7 +164,6 @@ const Registration = () => {
     fd.append('customerAddress', address);
     fd.append('customerContact', contact);
     fd.append('customerEmail', email);
-    fd.append('customerUsername', username);
     fd.append('customerPassword', pswd);
 
     axios.post("http://localhost:5000/Customer", fd)
@@ -113,9 +180,7 @@ const Registration = () => {
         setAddress("");
         setContact("");
         setEmail("");
-        setUsername("");
         setPswd("");
-
         alert(res.data.message);
       })
       .catch(console.error);
@@ -237,17 +302,6 @@ const Registration = () => {
  
       </div>
 
-    
-      <div>
-        <label>Username</label>
-        <input
-          type="text"
-          placeholder="Create username"
-          value={username}
-          onChange={e=>setUsername(e.target.value)}
-          required
-        />
-      </div>
 
      
       <div>

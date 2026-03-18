@@ -35,10 +35,10 @@ const IMyprofile = () => {
             <p className={style.role}></p>
           </div>
 
-          <button className={style.editBtn}>
+          {/* <button className={style.editBtn}>
             <EditOutlined  fontSize="small" />
             Edit Profile
-          </button>
+          </button> */}
         </div>
 
         {/* Details */}

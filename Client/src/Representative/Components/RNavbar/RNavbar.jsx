@@ -65,9 +65,9 @@ const RNavbar = () => {
                 My Profile
               </button>
 
-              <button>
+              {/* <button>
                 Edit Profile
-              </button>
+              </button> */}
 
               <button
                 onClick={logout}

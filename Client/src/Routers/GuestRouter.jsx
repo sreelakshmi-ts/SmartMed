@@ -6,6 +6,8 @@ import Registration from '../Guest/Pages/Registration/Registration'
 import EquipmentShop from '../Guest/Pages/EquipmentShopReg/EquipmentShop'
 import About from '../Guest/Pages/AboutPage/About'
 import Services from '../Guest/Pages/ServicesPage/Service'
+import Contact from '../Guest/Pages/Contact/Contact'
+
 
 const GuestRouter = () => {
   return (
@@ -16,6 +18,7 @@ const GuestRouter = () => {
             <Route path='regs' element={<Registration/>} />
             <Route path='about' element={<About/>}/>
             <Route path='services' element={<Services/>}/>
+            <Route path='contact' element={<Contact/>}/>
             <Route path='EquipmentShopreg' element={<EquipmentShop/>}/>
         </Routes>
     </div>
